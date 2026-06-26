@@ -8,7 +8,7 @@
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap");
 :root{--bg:#0f1117;--surface:#181c27;--surface2:#1e2235;--border:#2a2f45;--accent:#4ade80;--accent2:#60a5fa;--accent3:#f59e0b;--accent4:#f472b6;--danger:#f87171;--text:#e2e8f0;--muted:#64748b;--muted2:#94a3b8;}
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:"IBM Plex Sans",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6;}
+body{font-family:"IBM Plex Sans",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6;-webkit-text-size-adjust:100%;}
 ::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 header{background:var(--surface);border-bottom:1px solid var(--border);padding:0;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.4);}
 .header-top{background:#07090f;border-bottom:1px solid #1a1f35;padding:8px 24px;display:flex;align-items:center;gap:12px;}
@@ -22,7 +22,13 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .logo{display:flex;align-items:center;gap:12px;}.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#b45309,#9333ea);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;box-shadow:0 0 14px rgba(147,51,234,.25);flex-shrink:0;}.logo-text{font-weight:700;font-size:17px;color:var(--text);}.logo-sub{font-size:11px;color:var(--muted);margin-top:1px;}
 .timer-bar{display:flex;align-items:center;gap:10px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 13px;font-family:"IBM Plex Mono",monospace;font-size:13px;}.timer-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 .progress-strip{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;gap:10px;align-items:center;}.prog-label{font-size:12px;color:var(--muted2);min-width:72px;}.prog-bar-wrap{flex:1;background:var(--surface2);border-radius:4px;height:5px;overflow:hidden;}.prog-bar{height:100%;background:linear-gradient(90deg,var(--accent3),var(--accent4));border-radius:4px;transition:width .5s;}.prog-pct{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--accent3);min-width:34px;text-align:right;}
-.tabs{background:var(--surface);border-bottom:1px solid var(--border);padding:0 20px;display:flex;overflow-x:auto;}.tab{padding:11px 16px;cursor:pointer;font-size:13px;font-weight:500;color:var(--muted2);border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;}.tab:hover{color:var(--text);}.tab.active{color:var(--accent3);border-bottom-color:var(--accent3);}
+.tabs-wrap{position:relative;background:var(--surface);border-bottom:1px solid var(--border);}
+.tabs{padding:0 20px;display:flex;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}.tabs::-webkit-scrollbar{display:none;}
+.tab{padding:11px 16px;cursor:pointer;font-size:13px;font-weight:500;color:var(--muted2);border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;flex-shrink:0;}.tab:hover{color:var(--text);}.tab.active{color:var(--accent3);border-bottom-color:var(--accent3);}
+/* fade bordi per indicare scroll */
+.tabs-wrap::before,.tabs-wrap::after{content:"";position:absolute;top:0;bottom:0;width:32px;pointer-events:none;z-index:2;transition:opacity .3s;}
+.tabs-wrap::before{left:0;background:linear-gradient(to right,var(--surface),transparent);}
+.tabs-wrap::after{right:0;background:linear-gradient(to left,var(--surface),transparent);}
 main{padding:20px 24px;max-width:1080px;margin:0 auto;width:100%;}
 .section{display:none;}.section.active{display:block;}
 .section-header{margin-bottom:20px;}.section-header h2{font-size:21px;font-weight:700;}.section-header p{color:var(--muted2);font-size:14px;margin-top:4px;}
@@ -59,51 +65,57 @@ table{width:100%;border-collapse:collapse;font-size:12px;}th{background:var(--su
 .fonte-acc{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden;}.fonte-header{padding:12px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s;border-left:4px solid var(--accent3);}.fonte-header:hover{background:var(--surface2);}.fonte-header.pdf-color{border-left-color:var(--danger);}.fonte-header.book-color{border-left-color:var(--accent2);}.fonte-header.web-color{border-left-color:var(--accent);}.fonte-title{font-size:13px;font-weight:600;flex:1;}.fonte-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;}.badge-pdf{background:rgba(248,113,113,.15);color:var(--danger);}.badge-libro{background:rgba(96,165,250,.15);color:var(--accent2);}.badge-web{background:rgba(74,222,128,.15);color:var(--accent);}.fonte-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}.fonte-acc.open .fonte-body{max-height:2000px;}.fonte-inner{padding:0 16px 14px;}
 /* ── RESPONSIVE ── */
 @media(max-width:768px){
-  /* Header */
-  header{box-shadow:0 1px 10px rgba(0,0,0,.5);}
-  .header-top{padding:6px 14px;gap:8px;}
-  .header-main{padding:9px 14px;}
+  /* Header: togli top bar Atrium, compatta il main */
+  .header-top{display:none;}
+  .header-main{padding:8px 12px;}
   .logo{gap:8px;}
-  .logo-icon{width:30px;height:30px;font-size:15px;border-radius:7px;}
-  .logo-text{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;}
+  .logo-icon{width:28px;height:28px;font-size:14px;border-radius:7px;}
+  .logo-text{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px;}
   .logo-sub{display:none;}
   #headerProgress{display:none!important;}
+  .warn-badge{font-size:10px;padding:3px 7px;}
   /* Tabs */
-  .tabs{padding:0 10px;gap:0;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
-  .tabs::-webkit-scrollbar{display:none;}
-  .tab{padding:10px 11px;font-size:12px;}
+  .tabs{padding:0 2px;}
+  .tab{padding:10px 12px;font-size:12px;letter-spacing:0;}
   /* Main */
-  main{padding:14px 12px;}
-  /* Cards */
+  main{padding:12px 10px;padding-bottom:80px;}
+  /* Stat grid: 2 colonne */
   .stat-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
-  .stat-num{font-size:24px;}
-  /* Flashcard */
-  .flashcard{max-width:100%;}
+  .stat-num{font-size:22px;}
+  .stat-label{font-size:10px;}
+  /* Percorsi: 1 colonna su phone */
+  .percorsi-grid{grid-template-columns:1fr;gap:10px;}
+  /* Flashcard / quiz / player full width */
+  .flashcard,.quiz-wrap,.player{max-width:100%;}
   .fc-question{font-size:15px;}
-  /* Quiz */
-  .quiz-wrap{max-width:100%;}
-  /* Player */
-  .player{max-width:100%;}
   .step-h{font-size:15px;}
-  /* Percorsi grid */
-  .percorsi-grid{grid-template-columns:1fr 1fr;gap:10px;}
-  /* Tables */
-  table{font-size:11px;display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
-  /* Chip e badge */
-  .chip{font-size:9px;}
+  .step-content{padding:16px;}
+  /* Tables scrollabili */
+  table,table thead,table tbody,table tr{display:block;}
+  table thead{display:none;}
+  table td{display:flex;justify-content:space-between;padding:7px 10px;border-bottom:1px solid var(--border);font-size:12px;}
+  table td:before{content:attr(data-label);color:var(--muted);font-weight:600;margin-right:8px;flex-shrink:0;}
+  .stbl{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .stbl thead,.stbl tbody,.stbl tr,.stbl th,.stbl td{display:revert;}
   /* Domande */
-  .domanda-item{font-size:12px;}
-  /* Timer bar */
+  .domanda-item{font-size:12px;padding:9px 11px;}
   .timer-bar{display:none;}
+  /* Footer dashboard su mobile: solo logo + copyright */
+  footer{padding:10px 14px!important;flex-wrap:wrap;gap:8px!important;}
+  footer .footer-center{display:none;}
+  footer .footer-right{display:none;}
+  /* Login footer su mobile: solo logo + copyright */
+  #loginFooter{padding:10px 14px!important;}
+  #lfCenter{display:none!important;}
+  #lfRight{display:none!important;}
 }
 
 @media(max-width:480px){
-  .logo-text{max-width:150px;font-size:13px;}
-  .tab{padding:9px 9px;font-size:11px;}
-  .percorsi-grid{grid-template-columns:1fr;}
-  .stat-grid{grid-template-columns:repeat(2,1fr);}
-  .player-header{gap:8px;}
-  .step-content{padding:16px;}
+  .logo-text{max-width:130px;}
+  .tab{padding:8px 8px;font-size:10px;}
+  .stat-grid{gap:6px;}
+  .player-header{gap:6px;flex-wrap:wrap;}
+  .section-header h2{font-size:18px;}
 }
 
 /* ── LOGIN OVERLAY ── */
@@ -127,13 +139,13 @@ table{width:100%;border-collapse:collapse;font-size:12px;}th{background:var(--su
 .login-right{width:420px;flex-shrink:0;background:#0e1019;border-left:1px solid #1a1f35;display:flex;align-items:center;justify-content:center;padding:40px 32px;}
 .login-form-card{width:100%;max-width:340px;}
 .login-form-icon{width:44px;height:44px;border-radius:12px;overflow:hidden;margin-bottom:24px;box-shadow:0 0 20px rgba(124,99,240,.4);}
-.login-form-card h2{font-size:22px;font-weight:700;color:#f1f3ff;margin-bottom:6px;}
-.login-form-sub{font-size:13px;color:#475569;margin-bottom:28px;}
+.login-form-card h2{font-size:24px;font-weight:800;color:#ffffff;margin-bottom:6px;}
+.login-form-sub{font-size:13px;color:#94a3b8;margin-bottom:28px;}
 .login-field{margin-bottom:16px;}
-.login-field label{display:block;font-size:12px;font-weight:600;color:#64748b;letter-spacing:.4px;text-transform:uppercase;margin-bottom:6px;}
-.login-field input{width:100%;background:#1a1e2e;border:1px solid #252d47;border-radius:9px;padding:12px 14px;font-size:14px;color:#e2e8f0;font-family:"IBM Plex Sans",sans-serif;outline:none;transition:border-color .2s;}
-.login-field input:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.12);}
-.login-field input::placeholder{color:#374151;}
+.login-field label{display:block;font-size:12px;font-weight:700;color:#94a3b8;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px;}
+.login-field input{width:100%;background:#1e2340;border:1px solid #2e3660;border-radius:9px;padding:12px 14px;font-size:15px;color:#ffffff;font-family:"IBM Plex Sans",sans-serif;outline:none;transition:border-color .2s;}
+.login-field input:focus{border-color:#818cf8;box-shadow:0 0 0 3px rgba(129,140,248,.15);}
+.login-field input::placeholder{color:#4b5680;}
 .login-error{display:none;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);border-radius:7px;padding:9px 12px;font-size:12px;color:#f87171;margin-bottom:14px;}
 .login-btn{width:100%;padding:13px;border-radius:9px;border:none;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:"IBM Plex Sans",sans-serif;letter-spacing:.2px;transition:opacity .2s,transform .15s;margin-bottom:20px;}
 .login-btn:hover{opacity:.9;transform:translateY(-1px);}
@@ -231,30 +243,34 @@ table{width:100%;border-collapse:collapse;font-size:12px;}th{background:var(--su
         <!-- small icon -->
         <!-- branding mobile (nascosto su desktop) -->
         <div class="login-mobile-brand">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" width="36" height="36" style="border-radius:9px;box-shadow:0 0 14px rgba(124,99,240,.4);flex-shrink:0;">
+          <!-- Logo Atrium Edu -->
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" width="40" height="40" style="border-radius:10px;box-shadow:0 0 16px rgba(124,99,240,.5);flex-shrink:0;">
               <defs>
-                <radialGradient id="lfibg" cx="0.5" cy="0" r="1.15">
+                <radialGradient id="mb-bg" cx="0.5" cy="0" r="1.15">
                   <stop offset="0" stop-color="#2b3149"/><stop offset="0.46" stop-color="#161924"/><stop offset="1" stop-color="#0a0b11"/>
                 </radialGradient>
-                <linearGradient id="lfiacc" x1="0" y1="0" x2="1" y2="1">
+                <linearGradient id="mb-acc" x1="0" y1="0" x2="1" y2="1">
                   <stop offset="0" stop-color="#bcafff"/><stop offset="1" stop-color="#7d6bf0"/>
                 </linearGradient>
               </defs>
-              <rect x="0" y="0" width="512" height="512" rx="116" fill="url(#lfibg)"/>
+              <rect x="0" y="0" width="512" height="512" rx="116" fill="url(#mb-bg)"/>
               <g transform="translate(155 88) scale(2.197)" fill="none">
                 <path d="M14 80 L46 14 L78 80" stroke="#f4f5fb" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
-                <rect x="30" y="55" width="22" height="9" rx="4.5" fill="url(#lfiacc)"/>
+                <rect x="30" y="55" width="22" height="9" rx="4.5" fill="url(#mb-acc)"/>
               </g>
             </svg>
             <div>
-              <div style="font-size:16px;font-weight:800;color:#e8eaf6;letter-spacing:.3px;">ATRIUM <span style="color:#9b8ff5;">EDU</span></div>
-              <div style="font-size:10px;color:#3d4f70;letter-spacing:.4px;margin-top:1px;">LEARNING PLATFORM</div>
+              <div style="font-size:18px;font-weight:800;color:#ffffff;letter-spacing:.3px;">ATRIUM <span style="color:#c4b5fd;">EDU</span></div>
+              <div style="font-size:11px;color:#94a3b8;letter-spacing:.5px;margin-top:2px;">LEARNING PLATFORM</div>
             </div>
           </div>
-          <div style="font-size:20px;font-weight:800;color:#f1f3ff;line-height:1.3;margin-bottom:6px;">Il tuo agente di studio<br><span style="background:linear-gradient(90deg,#bcafff,#7d6bf0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">sempre pronto.</span></div>
-          <div style="font-size:12px;color:#475569;margin-bottom:20px;line-height:1.5;">Storia dell'Architettura 1 &nbsp;·&nbsp; UniPi 2025-26<br>Prof.ssa Denise Ulivieri</div>
-          <hr style="border:none;border-top:1px solid #1a1f35;margin-bottom:20px;">
+          <!-- Headline -->
+          <div style="font-size:26px;font-weight:800;color:#ffffff;line-height:1.25;margin-bottom:10px;letter-spacing:-.3px;">Il tuo agente<br>di studio, <span style="background:linear-gradient(90deg,#c4b5fd,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">sempre pronto.</span></div>
+          <!-- Corso info -->
+          <div style="font-size:14px;color:#cbd5e1;margin-bottom:6px;line-height:1.6;"><strong style="color:#ffffff;">Storia dell'Architettura 1</strong> &nbsp;·&nbsp; UniPi 2025-26</div>
+          <div style="font-size:13px;color:#94a3b8;margin-bottom:24px;">Prof.ssa Denise Ulivieri</div>
+          <hr style="border:none;border-top:1px solid #1e2438;margin-bottom:24px;">
         </div>
 
         <h2>Accedi</h2>
@@ -276,36 +292,36 @@ table{width:100%;border-collapse:collapse;font-size:12px;}th{background:var(--su
     </div>
 
     </div>
-  <!-- footer nella login -->
-  <!-- footer identico a quello della dashboard -->
-  <div class="login-page-footer" style="position:absolute;bottom:0;left:0;right:0;z-index:10;background:#12161f;border-top:1px solid #2a3050;padding:11px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;box-shadow:0 -4px 20px rgba(0,0,0,.6);font-family:'IBM Plex Sans',sans-serif;">
-    <div style="display:flex;align-items:center;gap:10px;white-space:nowrap;flex-shrink:0;">
-      <div style="display:flex;align-items:center;gap:8px;background:#1a1e2e;border:1px solid #252d47;border-radius:7px;padding:5px 11px;">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" width="18" height="18" style="border-radius:4px;flex-shrink:0;">
-          <defs>
-            <radialGradient id="lfbg2" cx="0.5" cy="0" r="1.15"><stop offset="0" stop-color="#2b3149"/><stop offset="0.46" stop-color="#161924"/><stop offset="1" stop-color="#0a0b11"/></radialGradient>
-            <linearGradient id="lfacc2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#bcafff"/><stop offset="1" stop-color="#7d6bf0"/></linearGradient>
-          </defs>
-          <rect x="0" y="0" width="512" height="512" rx="116" fill="url(#lfbg2)"/>
-          <g transform="translate(155 88) scale(2.197)" fill="none">
-            <path d="M14 80 L46 14 L78 80" stroke="#f4f5fb" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
-            <rect x="30" y="55" width="22" height="9" rx="4.5" fill="url(#lfacc2)"/>
-          </g>
-        </svg>
-        <span style="font-size:12px;font-weight:800;color:#d4d8f0;letter-spacing:.3px;">ATRIUM</span><span style="font-size:11px;font-weight:700;color:#9b8ff5;margin-left:3px;">EDU</span>
-      </div>
-      <span style="color:#2a3050;">|</span>
-      <span style="font-size:12px;color:#94a3b8;">© 2026 Federico Orsini, Pisa</span>
-    </div>
-    <div class="lf-center" style="font-size:11px;color:#94a3b8;text-align:center;line-height:1.5;">
-      Elaborato personale a uso esclusivamente didattico e privato &nbsp;·&nbsp; Vietata la riproduzione o distribuzione senza consenso scritto dell'autore
-    </div>
-    <div class="lf-right" style="font-size:11px;color:#64748b;white-space:nowrap;">
-      Tutti i diritti riservati &nbsp;·&nbsp; Art. 70 L. 633/1941
-    </div>
-  </div>
 </div>
 <!-- /LOGIN OVERLAY -->
+
+<!-- Footer fisso identico a quello della dashboard, visibile durante il login -->
+<div id="loginFooter" style="position:fixed;bottom:0;left:0;right:0;z-index:10000;background:#12161f;border-top:1px solid #2a3050;padding:11px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px;box-shadow:0 -4px 20px rgba(0,0,0,.6);font-family:'IBM Plex Sans',sans-serif;">
+  <div style="display:flex;align-items:center;gap:12px;white-space:nowrap;flex-shrink:0;">
+    <div style="display:flex;align-items:center;gap:8px;background:#1a1e2e;border:1px solid #252d47;border-radius:7px;padding:5px 11px;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" width="18" height="18" style="border-radius:4px;flex-shrink:0;">
+        <defs>
+          <radialGradient id="lfbg2" cx="0.5" cy="0" r="1.15"><stop offset="0" stop-color="#2b3149"/><stop offset="0.46" stop-color="#161924"/><stop offset="1" stop-color="#0a0b11"/></radialGradient>
+          <linearGradient id="lfacc2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#bcafff"/><stop offset="1" stop-color="#7d6bf0"/></linearGradient>
+        </defs>
+        <rect x="0" y="0" width="512" height="512" rx="116" fill="url(#lfbg2)"/>
+        <g transform="translate(155 88) scale(2.197)" fill="none">
+          <path d="M14 80 L46 14 L78 80" stroke="#f4f5fb" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="30" y="55" width="22" height="9" rx="4.5" fill="url(#lfacc2)"/>
+        </g>
+      </svg>
+      <span style="font-size:12px;font-weight:800;color:#d4d8f0;letter-spacing:.3px;">ATRIUM</span><span style="font-size:11px;font-weight:700;color:#9b8ff5;margin-left:3px;">EDU</span>
+    </div>
+    <span style="color:#2a3050;">|</span>
+    <span style="font-size:12px;color:#94a3b8;">© 2026 Federico Orsini, Pisa</span>
+  </div>
+  <div id="lfCenter" style="font-size:11px;color:#94a3b8;text-align:center;line-height:1.5;">
+    Elaborato personale a uso esclusivamente didattico e privato &nbsp;·&nbsp; Vietata la riproduzione o distribuzione senza consenso scritto dell'autore
+  </div>
+  <div id="lfRight" style="font-size:11px;color:#64748b;white-space:nowrap;">
+    Tutti i diritti riservati &nbsp;·&nbsp; Art. 70 L. 633/1941
+  </div>
+</div>
 
 <header>
   <!-- top bar: Atrium Edu brand -->
@@ -374,19 +390,21 @@ table{width:100%;border-collapse:collapse;font-size:12px;}th{background:var(--su
   <div class="prog-bar-wrap"><div class="prog-bar" id="mainProgressBar" style="width:0%"></div></div>
   <div class="prog-pct" id="mainProgressPct">0%</div>
 </div>
-<div class="tabs">
-  <button class="tab active" onclick="showSection(this,'home')">🏠 Piano</button>
-  <button class="tab" onclick="showSection(this,'percorsi')">🎓 Percorsi</button>
-  <button class="tab" onclick="showSection(this,'argomenti')">📚 Argomenti</button>
-  <button class="tab" onclick="showSection(this,'classica')">🏛️ Età Classica</button>
-  <button class="tab" onclick="showSection(this,'tardoclassica')">🏺 Tardoclassica</button>
-  <button class="tab" onclick="showSection(this,'ellenismo')">🌍 Ellenismo</button>
-  <button class="tab" onclick="showSection(this,'ordini')">📐 Ordini e Tipologie</button>
-  <button class="tab" onclick="showSection(this,'flashcard')">🃏 Flashcard</button>
-  <button class="tab" onclick="showSection(this,'quiz')">🎯 Quiz</button>
-  <button class="tab" onclick="showSection(this,'domande')">❓ Domande Esame</button>
-  <button class="tab" onclick="showSection(this,'prof')">👩‍🏫 La Prof.</button>
-  <button class="tab" onclick="showSection(this,'fonti')">📚 Fonti</button>
+<div class="tabs-wrap">
+  <div class="tabs" id="tabsBar">
+    <button class="tab active" onclick="showSection(this,'home')">🏠 Piano</button>
+    <button class="tab" onclick="showSection(this,'percorsi')">🎓 Percorsi</button>
+    <button class="tab" onclick="showSection(this,'argomenti')">📚 Argomenti</button>
+    <button class="tab" onclick="showSection(this,'classica')">🏛️ Età Classica</button>
+    <button class="tab" onclick="showSection(this,'tardoclassica')">🏺 Tardoclassica</button>
+    <button class="tab" onclick="showSection(this,'ellenismo')">🌍 Ellenismo</button>
+    <button class="tab" onclick="showSection(this,'ordini')">📐 Ordini e Tipologie</button>
+    <button class="tab" onclick="showSection(this,'flashcard')">🃏 Flashcard</button>
+    <button class="tab" onclick="showSection(this,'quiz')">🎯 Quiz</button>
+    <button class="tab" onclick="showSection(this,'domande')">❓ Domande Esame</button>
+    <button class="tab" onclick="showSection(this,'prof')">👩‍🏫 La Prof.</button>
+    <button class="tab" onclick="showSection(this,'fonti')">📚 Fonti</button>
+  </div>
 </div>
 <main id="mainContent"></main>
 
@@ -1230,6 +1248,9 @@ DOMANDE.push(...DOMANDE_EXTRA);
 function showSection(btn, id){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
+  // scroll tab attivo al centro su mobile
+  const bar=document.getElementById('tabsBar');
+  if(bar){const btnLeft=btn.offsetLeft,btnW=btn.offsetWidth,barW=bar.offsetWidth;bar.scrollTo({left:btnLeft-barW/2+btnW/2,behavior:'smooth'});}
   const main=document.getElementById('mainContent');
   main.innerHTML=`<div class="section active" id="sec_${id}">${SH[id]||'<p>Sezione in costruzione.</p>'}</div>`;
   if(id==='home') renderHome();
@@ -1513,8 +1534,10 @@ function doLogin(){
   const match=USERS.find(x=>x.username===u&&x.password===p);
   if(match){
     const ov=document.getElementById('loginOverlay');
+    const lf=document.getElementById('loginFooter');
     ov.style.animation='loginFadeOut .3s ease forwards';
-    setTimeout(()=>{ov.style.display='none';},300);
+    if(lf) lf.style.animation='loginFadeOut .3s ease forwards';
+    setTimeout(()=>{ov.style.display='none';if(lf)lf.style.display='none';},300);
     sessionStorage.setItem('atrium_auth','1');
   }else{
     errEl.style.display='block';
@@ -1527,6 +1550,8 @@ function doLogin(){
 (function(){
   if(sessionStorage.getItem('atrium_auth')==='1'){
     document.getElementById('loginOverlay').style.display='none';
+    const lf=document.getElementById('loginFooter');
+    if(lf) lf.style.display='none';
   }
   ['loginUser','loginPass'].forEach(id=>{
     document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
@@ -1560,10 +1585,10 @@ function doLogin(){
     <span style="color:#2a3050;">|</span>
     <span style="font-size:12px;color:#94a3b8;">© 2026 Federico Orsini, Pisa</span>
   </div>
-  <div style="font-size:11px;color:#94a3b8;text-align:center;line-height:1.5;">
+  <div class="footer-center" style="font-size:11px;color:#94a3b8;text-align:center;line-height:1.5;">
     Elaborato personale a uso esclusivamente didattico e privato &nbsp;·&nbsp; Vietata la riproduzione o distribuzione senza consenso scritto dell'autore
   </div>
-  <div style="font-size:11px;color:#64748b;white-space:nowrap;">
+  <div class="footer-right" style="font-size:11px;color:#64748b;white-space:nowrap;">
     Tutti i diritti riservati &nbsp;·&nbsp; Art. 70 L. 633/1941
   </div>
 </footer>
