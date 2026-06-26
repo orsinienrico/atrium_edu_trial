@@ -1,0 +1,53 @@
+/*
+ * SOMA Agent UI — Design Tokens
+ * Version: 1.0 | 2026-06-05
+ *
+ * Solo le variabili CSS. Importa questo file se hai già i tuoi
+ * componenti e vuoi solo la palette, i font e le costanti di motion.
+ *
+ * Usage:
+ *   <link rel="stylesheet" href="design-system/tokens.css">
+ *   oppure @import "design-system/tokens.css";
+ */
+
+:root {
+  /* ── Backgrounds ── dal più scuro al più chiaro */
+  --bg-0: #06080D;   /* body, sidebar bg                    */
+  --bg-1: #0B0E16;   /* topbar, pannelli secondari           */
+  --bg-2: #12161F;   /* card, sezioni, input                 */
+  --bg-3: #1A1F2E;   /* hover su card, elementi elevati      */
+
+  /* ── Borders ── */
+  --br:   rgba(74,106,229,.08);  /* standard (sottile)        */
+  --br-2: rgba(74,106,229,.18);  /* medio (focus, emphasis)   */
+  --br-3: rgba(74,106,229,.30);  /* forte (active, selected)  */
+
+  /* ── Text ── */
+  --t-1: #E8ECF4;   /* primario                              */
+  --t-2: #A8B2C4;   /* secondario                            */
+  --t-3: #8494AC;   /* label, placeholder, hint              */
+  --t-4: #6A7A94;   /* disabilitato, note, codici nav        */
+
+  /* ── Accent ── */
+  --accent:   #4A6AE5;  /* blu primario: CTA, active, link   */
+  --accent-l: #6B9FFF;  /* blu chiaro: hover, testo su scuro */
+
+  /* ── Semantic ── */
+  --green: #3DBE8C;  /* successo, live, online               */
+  --amber: #F59E0B;  /* warning, medium priority             */
+  --red:   #EF4444;  /* errore, critical, offline            */
+  --teal:  #14B8A6;  /* log output, phase done               */
+  --gold:  #D4A853;  /* highlight speciale, domain labels    */
+
+  /* ── Typography ── */
+  --f-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --f-mono: "JetBrains Mono", monospace;
+
+  /* ── Motion ── */
+  --ease: cubic-bezier(.4,0,.2,1);
+
+  /* ── Radius ── */
+  --r-sm: 5px;
+  --r:    8px;
+  --r-lg: 12px;
+}

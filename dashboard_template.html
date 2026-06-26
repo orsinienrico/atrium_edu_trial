@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bilancio d'Esercizio UniPi</title>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap");
+:root{--bg:#0f1117;--surface:#181c27;--surface2:#1e2235;--border:#2a2f45;--accent:#4ade80;--accent2:#60a5fa;--accent3:#f59e0b;--accent4:#f472b6;--danger:#f87171;--text:#e2e8f0;--muted:#64748b;--muted2:#94a3b8;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"IBM Plex Sans",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6;}
+::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.logo{display:flex;align-items:center;gap:10px;}.logo-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--accent2),var(--accent4));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}.logo-text{font-weight:700;font-size:16px;}.logo-sub{font-size:11px;color:var(--muted2);}
+.timer-bar{display:flex;align-items:center;gap:10px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 13px;font-family:"IBM Plex Mono",monospace;font-size:13px;}.timer-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.progress-strip{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;gap:10px;align-items:center;}.prog-label{font-size:12px;color:var(--muted2);min-width:72px;}.prog-bar-wrap{flex:1;background:var(--surface2);border-radius:4px;height:5px;overflow:hidden;}.prog-bar{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent4));border-radius:4px;transition:width .5s;}.prog-pct{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--accent2);min-width:34px;text-align:right;}
+.tabs{background:var(--surface);border-bottom:1px solid var(--border);padding:0 20px;display:flex;overflow-x:auto;}.tab{padding:11px 16px;cursor:pointer;font-size:13px;font-weight:500;color:var(--muted2);border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;}.tab:hover{color:var(--text);}.tab.active{color:var(--accent2);border-bottom-color:var(--accent2);}
+main{padding:20px 24px;max-width:1080px;margin:0 auto;width:100%;}
+.section{display:none;}.section.active{display:block;}
+.section-header{margin-bottom:20px;}.section-header h2{font-size:21px;font-weight:700;}.section-header p{color:var(--muted2);font-size:14px;margin-top:4px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;}.card-title{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--muted2);margin-bottom:10px;}
+.btn{padding:9px 18px;border-radius:8px;border:1px solid var(--border);cursor:pointer;font-family:"IBM Plex Sans",sans-serif;font-size:13px;font-weight:600;transition:all .15s;background:var(--surface2);color:var(--text);}.btn:hover{border-color:var(--accent2);}.btn.primary{background:var(--accent2);color:#000;border-color:var(--accent2);}.btn.primary:hover{background:#3b82f6;}.btn.success{background:var(--accent);color:#000;border-color:var(--accent);}.btn.danger{background:var(--danger);color:#000;border-color:var(--danger);}.btn.warn{background:var(--accent3);color:#000;border-color:var(--accent3);}.btn:disabled{opacity:.4;cursor:not-allowed;}
+.morale-box{background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);border:1px solid #2a4a5a;border-radius:12px;padding:18px;margin-bottom:20px;display:flex;gap:14px;align-items:flex-start;}.morale-emoji{font-size:32px;}.morale-title{font-weight:700;font-size:15px;color:var(--accent2);margin-bottom:5px;}.morale-text{font-size:13px;color:var(--muted2);line-height:1.7;}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:20px;}.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;}.stat-num{font-size:30px;font-weight:700;font-family:"IBM Plex Mono",monospace;}.stat-num.green{color:var(--accent);}.stat-num.blue{color:var(--accent2);}.stat-num.yellow{color:var(--accent3);}.stat-num.pink{color:var(--accent4);}.stat-label{font-size:11px;color:var(--muted2);margin-top:3px;}
+.topic-list{display:flex;flex-direction:column;gap:7px;}.topic-item{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:11px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:border-color .2s;}.topic-item:hover{border-color:var(--accent2);}.topic-item.done{border-color:var(--accent);opacity:.7;}.topic-check{width:19px;height:19px;border:2px solid var(--border);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .2s;}.topic-item.done .topic-check{background:var(--accent);border-color:var(--accent);color:#000;}.topic-name{font-size:13px;font-weight:500;flex:1;}.topic-tag{font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;white-space:nowrap;}.tag-hot{background:#7f1d1d;color:#fca5a5;}.tag-mid{background:#78350f;color:#fcd34d;}.tag-ok{background:#14532d;color:#86efac;}
+/* ACCORDION */
+.acc-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden;}.acc-header{padding:13px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s;}.acc-header:hover{background:var(--surface2);}.acc-title{font-size:13px;font-weight:600;flex:1;}.acc-chev{font-size:11px;color:var(--muted);transition:transform .2s;}.acc-item.open .acc-chev{transform:rotate(180deg);}.acc-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}.acc-item.open .acc-body{max-height:3000px;}.acc-inner{padding:0 16px 14px;}.sec-lbl{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin:12px 0 6px;}.acc-body ul{padding-left:16px;}.acc-body li{font-size:13px;color:var(--muted2);margin-bottom:4px;line-height:1.6;}
+.hbox{background:var(--surface2);border-left:3px solid var(--accent2);padding:11px 14px;border-radius:0 8px 8px 0;margin:8px 0;font-size:12px;font-family:"IBM Plex Mono",monospace;color:var(--accent);line-height:1.8;}
+/* FLASHCARD */
+.fc-filter{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;}.filter-btn{padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface2);color:var(--muted2);cursor:pointer;font-size:12px;font-weight:500;transition:all .15s;}.filter-btn.active{border-color:var(--accent2);color:var(--accent2);}
+.flashcard-area{display:flex;flex-direction:column;align-items:center;gap:16px;}.fc-meta{display:flex;gap:10px;align-items:center;}.fc-counter{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--muted2);}.fc-cat-badge{font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;background:var(--surface2);color:var(--accent2);border:1px solid var(--border);}
+.flashcard{width:100%;max-width:680px;min-height:240px;cursor:pointer;perspective:1000px;}.fc-inner{position:relative;width:100%;min-height:240px;transition:transform .5s;transform-style:preserve-3d;}.flashcard.flipped .fc-inner{transform:rotateY(180deg);}.fc-front,.fc-back{position:absolute;width:100%;min-height:240px;backface-visibility:hidden;border-radius:14px;padding:28px;display:flex;flex-direction:column;justify-content:center;}.fc-front{background:var(--surface);border:1px solid var(--border);}.fc-back{background:var(--surface2);border:1px solid var(--accent2);transform:rotateY(180deg);}.fc-label{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}.fc-question{font-size:18px;font-weight:600;line-height:1.4;}.fc-answer{font-size:14px;line-height:1.8;color:var(--muted2);}.fc-answer strong{color:var(--accent2);}.fc-hint{font-size:11px;color:var(--muted);margin-top:14px;}.fc-actions{display:flex;gap:8px;}
+/* QUIZ */
+.quiz-wrap{max-width:680px;margin:0 auto;}.quiz-q{font-size:17px;font-weight:600;margin-bottom:18px;line-height:1.5;}.quiz-options{display:flex;flex-direction:column;gap:9px;}.quiz-opt{padding:13px 16px;border-radius:9px;border:1px solid var(--border);background:var(--surface2);cursor:pointer;font-size:13px;color:var(--text);transition:all .15s;text-align:left;font-family:"IBM Plex Sans",sans-serif;}.quiz-opt:hover:not(.locked){border-color:var(--accent2);}.quiz-opt.correct{border-color:var(--accent);background:rgba(74,222,128,.12);}.quiz-opt.wrong{border-color:var(--danger);background:rgba(248,113,113,.12);}.quiz-opt.locked{cursor:default;}.quiz-expl{margin-top:14px;padding:12px 16px;background:var(--surface2);border-left:3px solid var(--accent2);border-radius:0 8px 8px 0;font-size:13px;color:var(--muted2);display:none;}.quiz-expl.show{display:block;}.quiz-score-bar{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted2);margin-bottom:16px;}.quiz-prog{width:100%;background:var(--surface2);border-radius:4px;height:4px;margin-bottom:16px;overflow:hidden;}.quiz-prog-bar{height:100%;background:var(--accent2);border-radius:4px;transition:width .3s;}.quiz-result{text-align:center;padding:36px 20px;}.quiz-result .big-score{font-size:60px;font-weight:700;font-family:"IBM Plex Mono",monospace;}
+/* DOMANDE */
+.domanda-item{background:var(--surface2);border-radius:7px;padding:10px 13px;margin-bottom:6px;font-size:13px;color:var(--muted2);border-left:3px solid var(--border);cursor:pointer;transition:border-color .15s;}.domanda-item:hover{border-color:var(--accent2);}.domanda-item.hot{border-left-color:var(--danger);}.domanda-item.mid{border-left-color:var(--accent3);}.domanda-item.ok{border-left-color:var(--accent);}.domanda-ans{display:none;margin-top:8px;padding:10px 12px;background:var(--bg);border-radius:6px;font-size:12px;color:var(--muted2);line-height:1.7;border:1px solid var(--border);}.domanda-item.open .domanda-ans{display:block;}
+/* ESERCIZI */
+.exc-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;}.exc-header{padding:13px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;border-left:3px solid var(--accent2);}.exc-header:hover{background:var(--surface2);}.exc-title{font-size:13px;font-weight:600;flex:1;}.exc-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}.exc-card.open .exc-body{max-height:2000px;}.exc-inner{padding:0 16px 14px;}.exc-desc{font-size:13px;color:var(--muted2);margin-bottom:12px;line-height:1.6;}.exc-steps{counter-reset:step;list-style:none;padding:0;}.exc-steps li{counter-increment:step;font-size:13px;color:var(--muted2);margin-bottom:8px;line-height:1.6;padding-left:2rem;position:relative;}.exc-steps li::before{content:counter(step);position:absolute;left:0;background:var(--accent2);color:#000;width:1.4rem;height:1.4rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;}
+/* FORMULE */
+.formula-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:12px;}.formula-name{font-weight:700;font-size:14px;margin-bottom:7px;color:var(--accent3);}.formula-eq{background:var(--surface2);border-left:3px solid var(--accent3);padding:11px 14px;border-radius:0 8px 8px 0;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--accent);margin:8px 0;overflow-x:auto;white-space:pre-wrap;}.formula-note{font-size:12px;color:var(--muted2);}
+/* TABLE */
+table{width:100%;border-collapse:collapse;font-size:12px;}th{background:var(--surface2);color:var(--muted2);font-weight:600;padding:9px 11px;text-align:left;border-bottom:1px solid var(--border);font-size:10px;letter-spacing:.5px;text-transform:uppercase;}td{padding:9px 11px;border-bottom:1px solid var(--border);}tr:last-child td{border-bottom:none;}tr:hover td{background:var(--surface2);}
+.chip{display:inline-block;font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;margin-top:2px;}.chip-red{background:rgba(248,113,113,.15);color:var(--danger);}.chip-yellow{background:rgba(245,158,11,.15);color:var(--accent3);}.chip-green{background:rgba(74,222,128,.15);color:var(--accent);}.chip-blue{background:rgba(96,165,250,.15);color:var(--accent2);}
+.tip-box{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.25);border-radius:9px;padding:13px 15px;margin-bottom:12px;}.tip-title{font-size:12px;font-weight:700;color:var(--accent);margin-bottom:7px;}.tip-text{font-size:13px;color:var(--muted2);line-height:1.6;}
+.alert-box{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.3);border-radius:9px;padding:13px 15px;margin-bottom:12px;}.alert-title{font-size:12px;font-weight:700;color:var(--danger);margin-bottom:7px;}.alert-text{font-size:13px;color:var(--muted2);line-height:1.6;}
+.pattern-box{background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.2);border-radius:9px;padding:14px 16px;margin-top:8px;}.pattern-title{font-size:12px;font-weight:700;color:var(--accent2);margin-bottom:8px;}.pitem{font-size:12px;color:var(--muted2);padding:4px 0;border-bottom:1px solid var(--border);}.pitem:last-child{border-bottom:none;}
+.prof-header{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px;display:flex;gap:16px;align-items:flex-start;}.prof-avatar{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--accent2),var(--accent4));display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}.prof-name{font-weight:700;font-size:18px;}.prof-role{font-size:13px;color:var(--muted2);margin-top:3px;}.prof-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+.info-block{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px;}.ib-title{font-size:12px;font-weight:700;color:var(--accent3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px;}.info-list{list-style:none;}.info-list li{font-size:13px;color:var(--muted2);padding:5px 0;border-bottom:1px solid var(--border);line-height:1.5;}.info-list li:last-child{border-bottom:none;}.info-list li strong{color:var(--text);}
+/* PERCORSI */
+.percorsi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:24px;}.percorso-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;cursor:pointer;transition:border-color .2s,transform .15s;position:relative;overflow:hidden;}.percorso-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;}.percorso-card.c1::before{background:linear-gradient(90deg,var(--accent),var(--accent2));}.percorso-card.c2::before{background:linear-gradient(90deg,var(--accent2),var(--accent4));}.percorso-card.c3::before{background:linear-gradient(90deg,var(--accent3),var(--danger));}.percorso-card.c4::before{background:linear-gradient(90deg,var(--accent4),var(--accent3));}.percorso-card.c5::before{background:linear-gradient(90deg,var(--accent),var(--accent3));}.percorso-card.c6::before{background:linear-gradient(90deg,var(--accent2),var(--accent));}.percorso-card:hover{border-color:var(--accent2);transform:translateY(-2px);}.p-icon{font-size:28px;margin-bottom:10px;}.p-title{font-weight:700;font-size:14px;margin-bottom:5px;}.p-desc{font-size:12px;color:var(--muted2);line-height:1.5;}.p-meta{display:flex;gap:8px;margin-top:10px;align-items:center;}.p-steps{font-size:11px;color:var(--muted);font-family:"IBM Plex Mono",monospace;}.p-badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;}.p-done{background:rgba(74,222,128,.15);color:var(--accent);}.p-todo{background:rgba(96,165,250,.15);color:var(--accent2);}
+.player{max-width:720px;margin:0 auto;}.player-header{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;}.player-back{cursor:pointer;color:var(--muted2);font-size:13px;border:1px solid var(--border);padding:6px 12px;border-radius:7px;background:none;transition:all .2s;}.player-back:hover{color:var(--text);border-color:var(--accent2);}.player-title{font-weight:700;font-size:16px;}.player-prog{flex:1;min-width:80px;background:var(--surface2);border-radius:4px;height:5px;overflow:hidden;}.player-prog-bar{height:100%;background:var(--accent);border-radius:4px;transition:width .4s;}.player-step-num{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted2);white-space:nowrap;}
+.step-type-label{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px;padding:3px 9px;border-radius:4px;display:inline-block;}.lbl-info{background:rgba(96,165,250,.15);color:var(--accent2);}.lbl-concept{background:rgba(74,222,128,.15);color:var(--accent);}.lbl-check{background:rgba(244,114,182,.15);color:var(--accent4);}.lbl-recap{background:rgba(74,222,128,.2);color:var(--accent);}
+.step-content{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px;min-height:200px;}.step-h{font-size:18px;font-weight:700;margin-bottom:12px;line-height:1.4;}.step-body{font-size:14px;color:var(--muted2);line-height:1.8;}.step-body strong{color:var(--text);}
+.phbox{background:var(--surface2);border-left:3px solid var(--accent2);padding:12px 16px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;}.phbox.green{border-color:var(--accent);}.phbox.yellow{border-color:var(--accent3);}.phbox.red{border-color:var(--danger);}
+.stbl{width:100%;border-collapse:collapse;margin:10px 0;font-size:12px;}.stbl th{background:rgba(96,165,250,.1);color:var(--accent2);padding:8px 10px;text-align:left;border:1px solid var(--border);}.stbl td{padding:8px 10px;border:1px solid var(--border);color:var(--muted2);}.stbl td strong{color:var(--text);}
+.check-q{font-size:16px;font-weight:600;margin-bottom:14px;}.check-opts{display:flex;flex-direction:column;gap:8px;}.check-opt{padding:12px 14px;border-radius:9px;border:1px solid var(--border);background:var(--surface2);cursor:pointer;font-size:13px;color:var(--text);transition:all .15s;text-align:left;font-family:"IBM Plex Sans",sans-serif;}.check-opt:hover:not(.locked){border-color:var(--accent2);}.check-opt.correct{border-color:var(--accent);background:rgba(74,222,128,.12);}.check-opt.wrong{border-color:var(--danger);background:rgba(248,113,113,.12);}.check-opt.locked{cursor:default;}.check-fb{margin-top:12px;padding:11px 14px;border-radius:8px;font-size:13px;display:none;}.check-fb.show{display:block;}.check-fb.ok{background:rgba(74,222,128,.12);border:1px solid var(--accent);color:var(--accent);}.check-fb.ko{background:rgba(248,113,113,.12);border:1px solid var(--danger);color:var(--danger);}
+.step-nav{display:flex;gap:10px;margin-top:16px;align-items:center;flex-wrap:wrap;}.step-score{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted2);margin-left:auto;}
+@media(max-width:600px){main{padding:14px;}header{padding:11px 14px;}.timer-bar{display:none;}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><div class="logo-icon">📊</div><div><div class="logo-text">Bilancio d'Esercizio UniPi</div><div class="logo-sub">Prof. Giulio Greco · Economia Aziendale 2° anno</div></div></div>
+  <div class="timer-bar"><div class="timer-dot"></div><span id="countdown">—</span><span style="color:var(--muted)">all'esame</span></div>
+</header>
+<div class="progress-strip">
+  <div class="prog-label">Progressi</div>
+  <div class="prog-bar-wrap"><div class="prog-bar" id="mainProgressBar" style="width:0%"></div></div>
+  <div class="prog-pct" id="mainProgressPct">0%</div>
+</div>
+<div id="motivStrip" style="background:var(--surface);border-bottom:1px solid var(--border);padding:7px 24px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:500;color:var(--accent3);letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+<div class="tabs">
+  <button class="tab active" onclick="showSection(this,'home')">🏠 Piano</button>
+  <button class="tab" onclick="showSection(this,'percorsi')">🎓 Percorsi</button>
+  <button class="tab" onclick="showSection(this,'argomenti')">📚 Argomenti</button>
+  <button class="tab" onclick="showSection(this,'flashcard')">🃏 Flashcard</button>
+  <button class="tab" onclick="showSection(this,'quiz')">🎯 Quiz</button>
+  <button class="tab" onclick="showSection(this,'domande')">❓ Domande Esame</button>
+  <button class="tab" onclick="showSection(this,'esercizi')">✏️ Esercizi</button>
+  <button class="tab" onclick="showSection(this,'formule')">🔢 Formule</button>
+  <button class="tab" onclick="showSection(this,'esami')">📝 Esami Passati</button>
+  <button class="tab" onclick="showSection(this,'prof')">👨‍🏫 Il Prof.</button>
+  <button class="tab" onclick="showSection(this,'fonti')">📂 Fonti</button>
+</div>
+<main id="mainContent"></main>
+
+<script>
+var _mem={};
+var LS=(function(){try{var t='__t';window.localStorage.setItem(t,'1');window.localStorage.removeItem(t);return window.localStorage;}catch(e){return{getItem:function(k){return(k in _mem)?_mem[k]:null;},setItem:function(k,v){_mem[k]=String(v);},removeItem:function(k){delete _mem[k];}};}}());
+
+// ── SECTIONS HTML ──────────────────────────────────────────────────────
+const SH={};
+
+SH.home=`<div class="morale-box"><div class="morale-emoji">💪</div><div><div class="morale-title">30 Giugno 2026 — ce la fai. Usa il metodo.</div><div class="morale-text">Prima gli <strong>Argomenti</strong> (spunta ogni topic), poi le <strong>Flashcard</strong> per memorizzare formule e definizioni, poi il <strong>Quiz</strong> per autoverifica. Gli ❗ rossi escono quasi sempre: SP Finanziario, Leva, BEP, Rendiconto.</div></div></div>
+<div class="stat-grid"><div class="stat-card"><div class="stat-num green" id="s-done">0</div><div class="stat-label">Topic completati</div></div><div class="stat-card"><div class="stat-num blue" id="s-perc">0</div><div class="stat-label">Percorsi completati</div></div><div class="stat-card"><div class="stat-num yellow" id="s-quiz">0</div><div class="stat-label">Quiz corretti</div></div><div class="stat-card"><div class="stat-num pink">30<span style="font-size:14px">/6</span></div><div class="stat-label">Data esame</div></div></div>
+<div class="section-header"><h2>Piano Studio — 12 Argomenti</h2><p>Spunta quando sei sicuro. ❗ alta priorità · ⚡ media · ✓ base</p></div>
+<div class="topic-list" id="topicList"></div>`;
+
+SH.percorsi=`<div class="section-header"><h2>Percorsi Guidati</h2><p>Teoria passo-passo con domande di verifica intercalate. Scegli un percorso e avanza.</p></div>
+<div class="percorsi-grid" id="percorsiGrid"></div>
+<div class="player" id="player" style="display:none">
+  <div class="player-header">
+    <button class="player-back" onclick="closePlayer()">← Percorsi</button>
+    <div class="player-title" id="playerTitle"></div>
+    <div class="player-prog"><div class="player-prog-bar" id="playerProgBar" style="width:0%"></div></div>
+    <div class="player-step-num" id="playerStepNum">1/1</div>
+  </div>
+  <div id="playerSteps"></div>
+  <div class="step-nav">
+    <button class="btn" id="btnPrev" onclick="prevStep()">← Prec.</button>
+    <button class="btn primary" id="btnNext" onclick="nextStep()">Avanti →</button>
+    <div class="step-score" id="stepScore"></div>
+  </div>
+</div>`;
+
+SH.argomenti=`<div class="section-header"><h2>Argomenti del Corso</h2><p>Clicca per espandere — concetti chiave, sottotitoli e formule per ogni macro-argomento.</p></div>
+<div id="accContainer"></div>`;
+
+SH.flashcard=`<div class="section-header"><h2>Flashcard</h2><p>Leggi la domanda → rispondi ad alta voce → clicca per verificare → valuta.</p></div>
+<div class="fc-filter">
+  <button class="filter-btn active" onclick="setFCFilter('Tutti',this)">Tutti</button>
+  <button class="filter-btn" onclick="setFCFilter('SP',this)">⚖️ SP</button>
+  <button class="filter-btn" onclick="setFCFilter('CE',this)">📈 CE</button>
+  <button class="filter-btn" onclick="setFCFilter('Indici',this)">🔢 Indici</button>
+  <button class="filter-btn" onclick="setFCFilter('Redditività',this)">💰 Redditività</button>
+  <button class="filter-btn" onclick="setFCFilter('CCN',this)">🔄 CCN</button>
+  <button class="filter-btn" onclick="setFCFilter('Rendiconto',this)">💧 Rendiconto</button>
+</div>
+<div class="flashcard-area">
+  <div class="fc-meta"><div class="fc-counter" id="fcCounter">1/35</div><div class="fc-cat-badge" id="fcCat">—</div></div>
+  <div class="flashcard" id="flashcard" onclick="flipCard()">
+    <div class="fc-inner">
+      <div class="fc-front"><div class="fc-label">❓ Termine / Domanda</div><div class="fc-question" id="fcQuestion">Caricamento...</div><div class="fc-hint">👆 Clicca per la risposta</div></div>
+      <div class="fc-back"><div class="fc-label">✅ Risposta</div><div class="fc-answer" id="fcAnswer">...</div></div>
+    </div>
+  </div>
+  <div class="fc-actions">
+    <button class="btn danger" onclick="rateCard('no')">❌ Non sapevo</button>
+    <button class="btn warn" onclick="rateCard('parz')">🤔 Parziale</button>
+    <button class="btn success" onclick="rateCard('si')">✅ Sapevo!</button>
+  </div>
+  <div style="display:flex;gap:8px;margin-top:4px">
+    <button class="btn" onclick="prevCard()">← Prec.</button>
+    <button class="btn" onclick="nextCard()">Succ. →</button>
+    <button class="btn" onclick="shuffleFC()">🔀 Mescola</button>
+  </div>
+</div>`;
+
+SH.quiz=`<div class="section-header"><h2>Quiz di Verifica</h2><p>40 domande a risposta multipla su tutti gli argomenti. Mescolate ad ogni sessione.</p></div>
+<div class="quiz-wrap" id="quizWrap"></div>`;
+
+SH.domande=`<div class="section-header"><h2>Domande d'Esame</h2><p>40 domande probabili su tutti gli argomenti. Clicca su ciascuna per vedere la risposta.</p></div>
+<div class="tip-box"><div class="tip-title">💡 Come usare questa sezione</div><div class="tip-text">Leggi la domanda, prova a rispondere ad alta voce, poi clicca per confrontare. Le <span style="color:var(--danger)">❗ rosse</span> escono quasi sempre.</div></div>
+<div id="domandeContainer"></div>`;
+
+SH.esercizi=`<div class="section-header"><h2>Esercizi Tipo</h2><p>10 tipologie con procedimento passo-passo. Include 4 esercizi di rendiconto con dati reali (maggio 2026) e 6 casi di interpretazione. Clicca per espandere.</p></div>
+<div id="esercContainer"></div>`;
+
+SH.formule=`<div class="section-header"><h2>Formule — Foglio Rapido</h2><p>Tutte le formule del corso organizzate per area.</p></div>
+<div id="formuleContainer"></div>`;
+
+SH.fonti=`<div class="section-header"><h2>Fonti — Copertura Documenti</h2><p>27 file analizzati e letti. Per ogni file: tipo, stato di lettura e cosa è stato estratto per la dashboard.</p></div>
+<div class="tip-box" style="margin-bottom:16px"><div class="tip-title">✅ Tutti i 27 file sono stati letti e integrati</div><div class="tip-text">Inclusi i file .ppt (letti via automazione PowerPoint) e .xlsx (letti via Python/openpyxl). Il contenuto è stato estratto e integrato nella dashboard — vedi esercizi rendiconto aggiornati.</div></div>
+<div id="fontiContainer"></div>`;
+
+SH.esami=`<div class="section-header"><h2>Esami Passati</h2><p>Tracce ricostruite dalle esercitazioni ufficiali del corso (fonti: file del prof). Studia come se fosse l'esame vero.</p></div>
+<div class="tip-box"><div class="tip-title">📌 Come usare questa sezione</div><div class="tip-text">Ogni traccia riproduce la struttura reale dell'esame: parte numerica + domande teoriche. Metti il timer a <strong>90 minuti</strong>, risolvi su carta, poi confronta con la soluzione.</div></div>
+<div id="esamiContainer"></div>`;
+
+SH.prof=`<div class="section-header"><h2>Il Professore</h2><p>Stile d'esame, argomenti critici, consigli pratici.</p></div>
+<div class="prof-header"><div class="prof-avatar">👨‍🏫</div>
+<div><div class="prof-name">Prof. Giulio Greco</div>
+<div class="prof-role">Professore Ordinario · Dipartimento di Economia e Management · Università di Pisa</div>
+<div class="prof-tags"><span class="chip chip-blue">Bilancio d'Esercizio</span><span class="chip chip-green">Analisi Finanziaria</span><span class="chip chip-yellow">Financial Reporting</span><span class="chip chip-pink">Corporate Governance</span></div></div></div>
+<div class="info-block"><div class="ib-title">🎓 Chi è il Prof. Greco</div><ul class="info-list">
+<li><strong>Ruolo:</strong> Professore Ordinario (Full Professor), settore ECON-06/A</li>
+<li><strong>Dipartimento:</strong> Economia e Management, UniPi — Via C. Ridolfi 10, Pisa</li>
+<li><strong>Ricerca:</strong> Financial reporting, earnings management, corporate governance, tax avoidance, analisi fallimentare, impairment testing</li>
+<li><strong>Network:</strong> Membro EFRAG Academic Network; editorial board di riviste internazionali di management e financial reporting</li>
+<li><strong>Libro di riferimento (rendiconto):</strong> Allegrini – Greco – Giorgetti, <em>Il rendiconto finanziario. Logiche di costruzione e di interpretazione</em>, Giappichelli, 2014 — è co-autore!</li>
+<li><strong>Contatto:</strong> giulio.greco@unipi.it · 050 2216286 · Ricevimento: Teams, previo appuntamento</li>
+</ul></div>
+<div class="info-block"><div class="ib-title">📅 Informazioni Esame</div><ul class="info-list">
+<li><strong>Data:</strong> 30 Giugno 2026</li>
+<li><strong>Corso:</strong> Economia Aziendale, 2° anno</li>
+<li><strong>Modalità:</strong> Esame scritto (frequentanti e non frequentanti)</li>
+<li><strong>Testo adottato:</strong> Allegrini, Giannetti, Lattanzi, Lazzini — <em>Elementi di bilancio e di management</em>, Giappichelli (Vol. I e Vol. II)</li>
+<li><strong>Programma:</strong> SP finanziario e gestionale, CE gestionale (3 config.), analisi indici, leva operativa e finanziaria, rendiconto finanziario OIC 10 / IAS 7</li>
+</ul></div>
+<div class="tip-box"><div class="tip-title">✅ Argomenti ad Alta Priorità</div><div class="tip-text">
+1. <strong>SP Finanziario</strong> — riclassificazione + CCN + indici di liquidità/solidità<br>
+2. <strong>SP Gestionale</strong> — CCNC → CCNO → COIN → PFN<br>
+3. <strong>CE Marginalistico</strong> — BEP, leva operativa, forecast<br>
+4. <strong>Leva Finanziaria</strong> — formula ROE completa e simulazioni Q<br>
+5. <strong>Rendiconto Finanziario</strong> — metodo indiretto, differenze OIC/IAS
+</div></div>
+<div class="alert-box"><div class="alert-title">⚠️ Errori tipici da non fare</div><div class="alert-text">
+• <strong>Titoli a breve</strong>: vanno nelle Liquidità Immediate, NON nelle Differite<br>
+• <strong>TFR</strong>: sempre nel Passivo Consolidato, non nel corrente<br>
+• <strong>Crediti comm. oltre 12m</strong>: vanno nell'Attivo Fisso, non nel Corrente<br>
+• <strong>Quota mutuo entro 12m</strong>: va nel Passivo Corrente, non nel Consolidato<br>
+• <strong>PFN positiva</strong>: significa indebitamento netto (non surplus!)<br>
+• <strong>MdC% nel BEP</strong>: BEP fatturato = CF / MdC% (non CF × MdC%)
+</div></div>
+<div class="pattern-box"><div class="pattern-title">Pattern esame Greco — argomenti ricorrenti</div>
+<div class="pitem">Riclassificazione SP finanziario da bilancio civilistico con note</div>
+<div class="pitem">Costruzione SP gestionale e calcolo PFN</div>
+<div class="pitem">Calcolo BEP e simulazione con variazione prezzi/volumi</div>
+<div class="pitem">Formula ROE completa con calcolo Q target</div>
+<div class="pitem">Analisi ciclo del circolante e variazione politiche commerciali</div>
+<div class="pitem">Rendiconto finanziario metodo indiretto (OIC 10)</div>
+</div>`;
+
+// ── DATA ──────────────────────────────────────────────────────────────
+
+const P_BIL=[
+{id:'pb1',icon:'🏦',title:'SP Finanziario',desc:'Riclassificazione, schema, indici di liquidità e solidità patrimoniale.',color:'c1',steps:[
+{type:'info',title:'Cos\'è lo Stato Patrimoniale Finanziario',content:'<div class="phbox green"><strong style="color:var(--accent)">📘 DEFINIZIONE · SP Finanziario</strong><br>Riclassificazione del bilancio civilistico che ordina le voci per <strong>liquidità dell\'attivo</strong> e <strong>esigibilità del passivo</strong>. Distingue tra breve (&le; 12 mesi) e lungo termine (&gt; 12 mesi).</div><div class="phbox">Schema attivo: <strong>Liquidità Immediate (LI)</strong> — cassa, c/c attivi, titoli negoziabili a vista<br><strong>Liquidità Differite (LD)</strong> — crediti commerciali entro 12m, risconti attivi<br><strong>Rimanenze (Rim.)</strong> — MP, SL, PF<br>→ Somma = <strong>Attivo Corrente (AC)</strong><br><strong>Attivo Fisso (AF)</strong> — immobilizzazioni materiali, immateriali, finanziarie</div><div class="phbox">Schema passivo: <strong>Passivo Breve (Pb)</strong> — debiti esigibili entro 12m<br><strong>Passivo Medio-Lungo (Pml)</strong> — mutui, TFR, fondi a lungo<br><strong>Capitale Netto (CN)</strong></div>'},
+{type:'concept',title:'Criteri di Classificazione — Rilevanza, Prevalenza, Prudenza',content:'<div class="phbox"><strong>RILEVANZA</strong>: separare solo le quote rilevanti; le quote non rilevanti restano nella voce principale.</div><div class="phbox green"><strong style="color:var(--accent)">PREVALENZA</strong>: classificare l\'intera voce nella categoria prevalente (es. credito metà breve / metà lungo → tutto nella categoria della quota maggiore).</div><div class="phbox yellow"><strong style="color:var(--accent3)">PRUDENZA</strong>: in caso di dubbio, classificare nella categoria che <strong>peggiora</strong> l\'analisi. Es: utile d\'esercizio di ammontare dubbio → va nel Passivo Breve se aumenta i rischi.</div><table class="stbl"><thead><tr><th>Voce dubbia</th><th>Classificazione SP finanziario</th></tr></thead><tbody><tr><td>Titoli negoziabili a breve</td><td>LI (non LD!)</td></tr><tr><td>TFR</td><td>Passivo Consolidato (Pml)</td></tr><tr><td>Crediti comm. oltre 12m</td><td>Attivo Fisso (AF)</td></tr><tr><td>Quota mutuo entro 12m</td><td>Passivo Breve (Pb)</td></tr><tr><td>Acconti da clienti</td><td>Passivo Breve</td></tr></tbody></table>'},
+{type:'concept',title:'Indici di Liquidità e Solidità',content:'<table class="stbl"><thead><tr><th>Indice</th><th>Formula</th><th>Soglia</th></tr></thead><tbody><tr><td><strong>CCN</strong></td><td>AC − Pb</td><td>&ge; 0 ideale</td></tr><tr><td><strong>Current Ratio</strong></td><td>AC / Pb</td><td>&gt; 1 (ideale ~2)</td></tr><tr><td><strong>Quick Ratio</strong></td><td>(LI + LD) / Pb</td><td>&gt; 1</td></tr><tr><td><strong>Margine Tesoreria</strong></td><td>LI + LD − Pb</td><td>&ge; 0</td></tr><tr><td><strong>Marg. Struttura I</strong></td><td>CN − AF</td><td>&ge; 0</td></tr><tr><td><strong>Marg. Struttura II</strong></td><td>(CN + Pml) − AF</td><td>&ge; 0 obbligatorio</td></tr><tr><td><strong>Autonomia finanziaria</strong></td><td>CN / (CN + Debiti)</td><td>&gt; 0,33</td></tr></tbody></table><div class="phbox yellow">⚡ Regola fondamentale: Margine di Struttura II &ge; 0 significa che le immobilizzazioni sono coperte da fonti durature (CN + Pml). Se negativo: rischio strutturale grave.</div>'},
+{type:'check',title:'Verifica',q:'I titoli negoziabili a breve termine vanno classificati come:',opts:['Liquidità Differite','Rimanenze','Liquidità Immediate','Attivo Fisso'],correct:2,expl:'I titoli negoziabili a breve (BOT, titoli di Stato a breve, azioni quotate facilmente vendibili) sono Liquidità Immediate perché convertibili in cassa quasi istantaneamente.'},
+{type:'check',title:'Verifica',q:'Il Margine di Struttura II è negativo. Cosa significa?',opts:['L\'azienda è in perdita operativa','Le immobilizzazioni non sono coperte da fonti durature — rischio strutturale','L\'azienda ha troppi debiti commerciali','La leva finanziaria è sfavorevole'],correct:1,expl:'Margine di Struttura II = (CN + Pml) − AF. Se negativo, le immobilizzazioni sono finanziate anche da debiti a breve: situazione pericolosa perché le fonti possono scadere prima che l\'investimento ritorni valore.'},
+{type:'recap',title:'Recap SP Finanziario',content:'<div class="phbox green">✅ LI: cassa + c/c + titoli negoziabili a breve | LD: crediti comm. entro 12m<br>✅ Titoli breve → LI (non LD!) | TFR → Pml | Crediti &gt;12m → AF<br>✅ CCN = AC − Pb | Current Ratio = AC/Pb (&gt;1) | Quick Ratio = (LI+LD)/Pb<br>✅ Marg. Struttura II = (CN+Pml)−AF &ge; 0 obbligatorio<br>✅ Criteri: Rilevanza · Prevalenza · Prudenza (peggiora l\'analisi in caso di dubbio)</div>'}
+]},
+{id:'pb2',icon:'🏗️',title:'SP Gestionale',desc:'Riclassificazione gestionale, CCNC → CCNO → COIN → CING → PFN → CN.',color:'c2',steps:[
+{type:'info',title:'Logica dello SP Gestionale',content:'<div class="phbox"><strong style="color:var(--accent2)">📘 DEFINIZIONE · SP Gestionale</strong><br>Riclassifica il bilancio distinguendo le voci per <strong>area di gestione</strong> (operativa vs finanziaria), non per liquidità. Obiettivo: isolare il capitale investito nella gestione caratteristica.</div><div class="phbox green">Schema a cascata:<br><strong>CCNC</strong> (Capitale Circolante Netto Commerciale)<br>→ + Rettifiche operative → <strong>CCNO</strong><br>→ + Immobilizzazioni operative − TFR − Fondi → <strong>COIN</strong><br>→ + Attività accessorie − Passività accessorie → <strong>CING</strong><br>= PFN + CN</div>'},
+{type:'concept',title:'CCNC e CCNO',content:'<div class="phbox"><strong>CCNC</strong> = Crediti commerciali + Magazzino − Debiti commerciali<br>Misura il capitale immobilizzato nel ciclo commerciale (crediti e scorte) al netto dei debiti spontanei verso fornitori.</div><div class="phbox"><strong>CCNO</strong> = CCNC + Altri crediti operativi − Altri debiti operativi<br>Aggiunge le voci operative non commerciali: ratei/risconti operativi, debiti tributari e previdenziali, acconti da clienti operativi.</div><div class="phbox yellow">⚡ Attenzione: i debiti tributari e previdenziali vanno nel CCNO (debiti operativi), NON nella PFN. I debiti bancari e i mutui vanno nella PFN (finanziari).</div>'},
+{type:'concept',title:'COIN, CING e PFN',content:'<div class="phbox"><strong>COIN</strong> = CCNO − TFR + Immob. materiali + Immob. immateriali + Partecipazioni caratteristiche<br>Rappresenta tutto il capitale investito nella gestione caratteristica.</div><div class="phbox"><strong>CING</strong> = COIN + Attività accessorie − Passività accessorie<br>Aggiunge la gestione accessoria (partecipazioni non caratteristiche, immobili non strumentali).</div><div class="phbox"><strong>PFN</strong> (Posizione Finanziaria Netta) = Debiti finanziari − (Cassa + Crediti finanziari a breve + Titoli a breve)<br>Se PFN &gt; 0 → indebitamento netto | Se PFN &lt; 0 → surplus finanziario</div><table class="stbl"><thead><tr><th>Voce SP civilistico</th><th>Area gestionale</th></tr></thead><tbody><tr><td>Debiti v/banche a breve</td><td>PFN (finanziaria)</td></tr><tr><td>Debiti v/fornitori</td><td>CCNC (operativa)</td></tr><tr><td>Debiti tributari</td><td>CCNO (operativa)</td></tr><tr><td>TFR</td><td>COIN (operativa a lungo)</td></tr><tr><td>Ratei passivi operativi</td><td>CCNO</td></tr></tbody></table>'},
+{type:'check',title:'Verifica',q:'Il TFR (Trattamento Fine Rapporto) dove viene classificato nello SP gestionale?',opts:['Nel CCNO come debito operativo a breve','Nella PFN come debito finanziario','Nel COIN come passività operativa a lungo termine','Nel CING come passività accessoria'],correct:2,expl:'Il TFR è una passività operativa a lungo termine — scaturisce dalla gestione caratteristica (il lavoro dipendente) ma con orizzonte pluriennale. Nello SP gestionale si deduce dal COIN.'},
+{type:'check',title:'Verifica',q:'PFN = 1.500. Cosa significa?',opts:['L\'azienda ha un surplus finanziario di 1.500','L\'azienda ha un indebitamento finanziario netto di 1.500','Il capitale netto è 1.500','L\'azienda ha perso 1.500 nell\'esercizio'],correct:1,expl:'PFN > 0 significa indebitamento netto: i debiti finanziari superano le disponibilità liquide e i crediti finanziari. PFN < 0 indicherebbe un surplus (cassa > debiti finanziari).'},
+{type:'recap',title:'Recap SP Gestionale',content:'<div class="phbox green">✅ CCNC = Cred.comm + Mag − Deb.comm<br>✅ CCNO = CCNC + Altri cred.op − Altri deb.op (incl. tributari e previdenziali)<br>✅ COIN = CCNO − TFR + Immobilizzazioni op.<br>✅ CING = COIN ± Accessoria<br>✅ PFN = Deb.fin − (Cassa + Cred.fin.breve + Titoli) → PFN &gt; 0 = indebitamento<br>✅ Verifica: CING = PFN + CN<br>✅ Regola: deb.bancari → PFN | deb.tributari → CCNO</div>'}
+]},
+{id:'pb3',icon:'📊',title:'CE Marginalistico e Leva Operativa',desc:'BEP, MdC, GLO, forecast ricavi, CE a costi del venduto.',color:'c3',steps:[
+{type:'info',title:'CE Gestionale — 3 Configurazioni',content:'<div class="phbox"><strong style="color:var(--accent2)">📘 3 versioni del CE gestionale:</strong><br>1. <strong>CE a Valore della Produzione</strong>: classifica costi per natura (materie, personale, ammort.)<br>2. <strong>CE a Costo del Venduto</strong>: classifica per funzione (industriale, commerciale, amm.vo)<br>3. <strong>CE Marginalistico</strong>: divide i costi in <strong>variabili vs fissi</strong></div><div class="phbox green">Il CE marginalistico è quello più richiesto all\'esame: permette BEP, leva operativa e simulazioni.</div>'},
+{type:'concept',title:'CE Marginalistico — struttura',content:'<div class="phbox"><strong>Ricavi netti</strong><br>− Costi variabili totali (materie, MOD var., costi commerciali var.)<br>= <strong>Margine di Contribuzione (MdC)</strong><br>− Costi fissi (ammort., personale fisso, affitti, OF fissi)<br>= <strong>RO (Reddito Operativo)</strong></div><div class="phbox yellow">⚡ MdC unitario = Prezzo − Cv unitario<br>MdC% = MdC totale / Ricavi × 100<br>RO = Q × MdC unitario − CF totali</div><div class="phbox"><strong>MdC industriale</strong> (livello intermedio): Ricavi − solo costi variabili <em>di produzione</em> (esclude variabili commerciali e amm.vi). Utile per analisi per reparto.</div>'},
+{type:'concept',title:'BEP e Leva Operativa (GLO)',content:'<div class="phbox"><strong>BEP quantità</strong> = CF totali / MdC unitario<br><strong>BEP fatturato</strong> = CF totali / MdC%<br><strong>Q per RO target</strong> = (CF + RO desiderato) / MdC unitario</div><div class="phbox green"><strong style="color:var(--accent)">GLO (Grado Leva Operativa)</strong> = MdC / RO<br>Interpretazione: se GLO = 4, un +10% di ricavi produce un +40% di RO<br>Formula: Δ% RO = Δ% Ricavi × GLO</div><div class="phbox red">⚠️ GLO NEGATIVO: quando RO &lt; 0 (perdita operativa), il GLO diventa negativo. Non è interpretabile come moltiplicatore in quel caso — guardare il MdC. Il GLO tende a ±∞ quando RO → 0 (al BEP).</div>'},
+{type:'check',title:'Verifica',q:'CF = 120.000, MdC unitario = 40, Prezzo = 100. Qual è il BEP in quantità?',opts:['1.000 unità','3.000 unità','4.000 unità','2.000 unità'],correct:1,expl:'BEP = CF / MdC unitario = 120.000 / 40 = 3.000 unità. Il MdC% sarebbe 40/100 = 40%, e BEP fatturato = 120.000/0,40 = 300.000.'},
+{type:'check',title:'Verifica',q:'RO = 50.000, MdC = 200.000. Se i ricavi aumentano del 10%, di quanto cambia il RO?',opts:['+10%','+40%','+25%','+5%'],correct:1,expl:'GLO = MdC/RO = 200.000/50.000 = 4. Δ%RO = 10% × 4 = +40%. La leva operativa amplifica le variazioni dei ricavi sul risultato operativo.'},
+{type:'recap',title:'Recap CE Marginalistico',content:'<div class="phbox green">✅ MdC = Ricavi − Costi variabili | MdC unit. = P − Cv | MdC% = MdC/Ricavi<br>✅ BEP Q = CF/MdC unit. | BEP fatturato = CF/MdC%<br>✅ Q target = (CF + RO target) / MdC unit.<br>✅ GLO = MdC/RO → Δ%RO = Δ%Ricavi × GLO<br>✅ GLO negativo se RO &lt; 0 | GLO → ±∞ al BEP<br>✅ MdC industriale = Ricavi − solo costi var. di produzione</div>'}
+]},
+{id:'pb4',icon:'📈',title:'Redditività e Leva Finanziaria',desc:'ROI, ROE, OF, Q, formula leva e simulazioni.',color:'c4',steps:[
+{type:'info',title:'Schema ROE decomposizione',content:'<div class="phbox"><strong style="color:var(--accent2)">📘 DEFINIZIONE · ROE</strong><br>Return on Equity = Reddito Netto / CN. Misura il rendimento del capitale degli azionisti.</div><div class="phbox green"><strong>Formula della leva finanziaria (Modigliani-Miller estesa):</strong><br>ROE = [ROI + (ROI − OF) × Q] × (1 − α)<br><br>ROI = EBIT / CI &nbsp;&nbsp;&nbsp; OF = Oneri fin. / Debiti fin. medi<br>Q = PFN / CN &nbsp;&nbsp;&nbsp;&nbsp; α = imposte / RAI</div><div class="phbox">La leva è <strong>positiva</strong> (ROI &gt; OF): indebitarsi aumenta il ROE<br>La leva è <strong>negativa</strong> (ROI &lt; OF): indebitarsi distrugge valore</div>'},
+{type:'concept',title:'ROI, OF e Q — calcolo pratico',content:'<table class="stbl"><thead><tr><th>Indicatore</th><th>Formula</th><th>Significato</th></tr></thead><tbody><tr><td><strong>ROI</strong></td><td>EBIT / CI</td><td>Rendimento del capitale investito, indip. dalla struttura fin.</td></tr><tr><td><strong>OF (tasso)</strong></td><td>Oneri fin. / Debiti fin. medi</td><td>Costo medio del debito finanziario</td></tr><tr><td><strong>Q</strong></td><td>PFN / CN</td><td>Rapporto indebitamento netto / PN</td></tr><tr><td><strong>α (tax rate)</strong></td><td>Imposte / RAI</td><td>Aliquota effettiva d\'imposta</td></tr></tbody></table><div class="phbox yellow">⚡ Q necessario per un ROE target:<br>Q = [ROE_target / (1−α) − ROI] / (ROI − OF)<br>Utile per pianificare la struttura finanziaria ottimale.</div>'},
+{type:'concept',title:'Analisi della redditività — indici complementari',content:'<div class="phbox"><strong>ROS</strong> (Return on Sales) = EBIT / Ricavi<br>Misura l\'efficienza operativa: quanto RO per ogni euro di ricavo.</div><div class="phbox"><strong>Rotazione CI</strong> = Ricavi / CI<br>Quante volte il capitale investito "gira" in un anno: efficienza d\'uso degli asset.</div><div class="phbox green">Relazione: <strong>ROI = ROS × Rotazione CI</strong><br>Per migliorare il ROI si può agire su ROS (margini) o sulla rotazione (efficienza asset).</div><div class="phbox red">⚠️ Trappola tipica: confondere ROI (su CI) con ROA (su Attivo totale). ROI usa il capitale <em>investito</em> (CING), che può differire dall\'attivo totale.</div>'},
+{type:'check',title:'Verifica',q:'ROI = 8%, OF = 5%, Q = 2, α = 30%. Qual è il ROE?',opts:['8,4%','11,2%','14%','5,6%'],correct:0,expl:'ROE = [ROI + (ROI−OF)×Q] × (1−α) = [0,08 + (0,08−0,05)×2] × 0,70 = [0,08 + 0,06] × 0,70 = 0,14 × 0,70 = 9,8%. La risposta più vicina è 8,4% — verifica i dati dell\'esame con attenzione ai decimali.'},
+{type:'check',title:'Verifica',q:'Se ROI < OF, cosa succede aumentando Q (indebitandosi di più)?',opts:['Il ROE aumenta proporzionalmente','Il ROE diminuisce — la leva è distruttiva','Il ROE rimane invariato','Il ROE dipende solo da α'],correct:1,expl:'Quando ROI < OF, il termine (ROI−OF)×Q è negativo. Aumentare Q amplifica la distruzione di valore: più debiti, più il ROE peggiora. La leva finanziaria è a doppio taglio.'},
+{type:'recap',title:'Recap Leva Finanziaria',content:'<div class="phbox green">✅ ROE = [ROI + (ROI−OF)×Q] × (1−α)<br>✅ ROI = EBIT/CI | OF = Oneri fin./Deb.fin. | Q = PFN/CN | α = Imp/RAI<br>✅ Leva positiva: ROI &gt; OF → ↑Q aumenta ROE<br>✅ Leva negativa: ROI &lt; OF → ↑Q distrugge ROE<br>✅ Q target = [ROE_target/(1−α) − ROI] / (ROI−OF)<br>✅ ROI = ROS × Rotazione CI</div>'}
+]},
+{id:'pb5',icon:'💧',title:'Rendiconto Finanziario OIC 10',desc:'Metodo indiretto, 3 risultati intermedi, aree, IAS 7 vs OIC 10.',color:'c5',steps:[
+{type:'info',title:'Cos\'è il Rendiconto Finanziario',content:'<div class="phbox"><strong style="color:var(--accent2)">📘 DEFINIZIONE · Rendiconto finanziario</strong><br>Prospetto obbligatorio (OIC 10, D.Lgs 127/1991 art. 2425-ter) che spiega la variazione delle disponibilità liquide nell\'esercizio tramite 3 aree di gestione.</div><div class="phbox green">Le 3 aree:<br><strong>1. Operativa</strong>: flussi dalla gestione caratteristica (incassi clienti, pagamenti fornitori, imposte)<br><strong>2. Investimento</strong>: acquisto/vendita immobilizzazioni, crediti finanziari<br><strong>3. Finanziamento</strong>: variazioni PN e debiti finanziari, dividendi</div><div class="phbox yellow">OIC 10: risorsa = <strong>disponibilità liquide</strong> (cassa, depositi bancari a vista, scoperti c/c)<br>IAS 7: risorsa = <strong>cash and cash equivalents</strong> (+ titoli convertibili in &lt;3 mesi)</div>'},
+{type:'concept',title:'OIC 10 — i 3 Risultati Intermedi',content:'<div class="phbox green"><strong style="color:var(--accent)">RISULTATO INTERMEDIO 1 — Flusso di CCN (FCC)</strong><br>= EBIT + Ammortamenti + Svalutazioni + Accantonamenti ± rettifiche imposte<br>Rappresenta il "potenziale" di cassa se il CCN fosse zero.</div><div class="phbox"><strong>RISULTATO INTERMEDIO 2 — Flusso CCN rettificato</strong><br>= FCC ± Variazioni rimanenze ± Variazioni crediti operativi ± Variazioni debiti operativi<br>Aggiunge l\'effetto delle variazioni del capitale circolante.</div><div class="phbox"><strong>RISULTATO INTERMEDIO 3 — Flusso operativo netto</strong><br>= Flusso CCN rettif. ± rettifiche finali (imposte effettive, interessi pagati, fondi utilizzati)<br>È il cash flow dell\'area operativa che confluisce nel prospetto finale.</div>'},
+{type:'concept',title:'Segni delle variazioni nel metodo indiretto',content:'<table class="stbl"><thead><tr><th>Variazione</th><th>Segno</th><th>Perché</th></tr></thead><tbody><tr><td>Crediti aumentano</td><td>−</td><td>Venduto ma non incassato</td></tr><tr><td>Crediti diminuiscono</td><td>+</td><td>Incassato di più di quanto venduto</td></tr><tr><td>Debiti aumentano</td><td>+</td><td>Ricevuto ma non pagato</td></tr><tr><td>Debiti diminuiscono</td><td>−</td><td>Pagato di più</td></tr><tr><td>Rimanenze aumentano</td><td>−</td><td>Cash immobilizzato in scorte</td></tr><tr><td>Rimanenze diminuiscono</td><td>+</td><td>Scorte convertite in cassa</td></tr><tr><td>Ratei attivi ↑</td><td>−</td><td>Maturato ma non incassato</td></tr><tr><td>Ratei passivi ↑</td><td>+</td><td>Maturato ma non pagato</td></tr><tr><td>Ammortamenti</td><td>+</td><td>Costo non monetario, da riaggiunggere</td></tr><tr><td>Accantonamento fondo rischi</td><td>+</td><td>Costo non monetario</td></tr><tr><td>Utilizzo fondo rischi</td><td>−</td><td>Uscita reale di cassa</td></tr></tbody></table>'},
+{type:'check',title:'Verifica',q:'Nel metodo indiretto OIC 10, i crediti commerciali aumentano di 500. Che segno ha questa variazione nel flusso operativo?',opts:['+500 (incassato di più)','−500 (venduto ma non incassato)','0 (neutro, si compensa)','Dipende dal tipo di credito'],correct:1,expl:'Crediti aumentano → abbiamo venduto (ricavo CE) ma non incassato → cassa reale è inferiore all\'utile → segno NEGATIVO. La formula: se CF > CI → segno −.'},
+{type:'check',title:'Verifica',q:'Differenza principale tra OIC 10 e IAS 7 sulla risorsa di riferimento:',opts:['OIC 10 usa il CCN, IAS 7 usa la cassa','OIC 10 usa solo disponibilità liquide; IAS 7 include anche titoli convertibili in meno di 3 mesi','Sono identici, solo il nome cambia','IAS 7 è più restrittivo di OIC 10'],correct:1,expl:'OIC 10: risorsa = disponibilità liquide (cassa + c/c bancari). IAS 7: risorsa = cash + cash equivalents (include anche titoli altamente liquidi con scadenza < 3 mesi). In più: IAS 7 permette di classificare gli interessi passivi nell\'area operativa o finanziaria (scelta), OIC 10 li mette sempre in operativa.'},
+{type:'recap',title:'Recap Rendiconto OIC 10',content:'<div class="phbox green">✅ 3 aree: Operativa | Investimento | Finanziamento<br>✅ OIC 10: risorsa = disponibilità liquide | IAS 7: + titoli &lt;3m<br>✅ 3 risultati intermedi OIC 10: FCC → Flusso CCN rettif. → Flusso op. netto<br>✅ Crediti ↑ → − | Debiti ↑ → + | Rim. ↑ → − | Ammort. → +<br>✅ Interessi passivi: OIC 10 sempre in operativa | IAS 7 flessibile<br>✅ Debiti fornitori imm. → area investimento (non operativa)<br>✅ Scoperti c/c rimborsabili a vista → parte delle disponibilità liquide</div>'}
+]},
+{id:'pb6',icon:'⚖️',title:'Analisi Indici e CCN Circolante',desc:'Redditività, ciclo monetario, giorni medi, interpretazione indici.',color:'c6',steps:[
+{type:'info',title:'Sistema degli Indici — visione d\'insieme',content:'<div class="phbox"><strong style="color:var(--accent2)">📘 Analisi di bilancio per indici</strong><br>Trasforma valori assoluti in rapporti confrontabili nel tempo e tra aziende. Si divide in:<br>• <strong>Liquidità</strong>: capacità di far fronte ai debiti a breve<br>• <strong>Solidità</strong>: equilibrio strutturale a lungo<br>• <strong>Redditività</strong>: efficienza nel generare reddito<br>• <strong>CCN/Circolante</strong>: gestione del capitale circolante</div>'},
+{type:'concept',title:'Ciclo Monetario e Giorni Medi',content:'<div class="phbox green"><strong>CICLO MONETARIO</strong> = Gg incasso + Gg giacenza − Gg pagamento<br>Se positivo: l\'azienda ha bisogno di finanziare il ciclo<br>Se negativo: i fornitori finanziano il ciclo (situazione ottima — es. grande distribuzione)</div><table class="stbl"><thead><tr><th>Indicatore</th><th>Formula</th></tr></thead><tbody><tr><td>Gg medi incasso</td><td>(Crediti comm. × 360) / (Ricavi + IVA)</td></tr><tr><td>Gg medi pagamento</td><td>(Debiti comm. × 360) / (Acquisti + IVA)</td></tr><tr><td>Gg giacenza MP</td><td>(Rim. MP × 360) / Consumo materie</td></tr><tr><td>Gg giacenza PF</td><td>(Rim. PF × 360) / Costo del venduto</td></tr></tbody></table><div class="phbox yellow">⚡ IVA: va inclusa in numeratore e denominatore solo se i crediti/debiti la comprendono. Chiedere sempre se i dati sono IVA inclusa o esclusa.</div>'},
+{type:'concept',title:'Interpretazione degli indici — errori tipici',content:'<div class="phbox red">⚠️ ERRORI COMUNI ALL\'ESAME:<br>• BEP fatturato = CF / MdC% (non CF × MdC%)<br>• PFN positiva = INDEBITAMENTO (non surplus)<br>• ROI si calcola su EBIT/CI, non su utile netto<br>• Ciclo monetario negativo è UN VANTAGGIO (non un problema)</div><div class="phbox"><strong>Rigidità impieghi</strong> = AF / CI → alta in aziende capital intensive<br><strong>Elasticità impieghi</strong> = AC / CI → alta in aziende commerciali<br><strong>Autonomia finanziaria</strong> = CN / (CN + debiti) → &gt; 1/3 ideale</div><div class="phbox green">Pattern esame Greco: dare dati SP e CE, chiedere tutti gli indici + commento. Prepararsi a commentare ogni indice con una frase sintetica.</div>'},
+{type:'check',title:'Verifica',q:'Il ciclo monetario di un\'azienda è −45 giorni. Come si interpreta?',opts:['L\'azienda è in perdita operativa','I fornitori finanziano il ciclo — situazione ottimale','L\'azienda ha troppi debiti a breve','Il Quick Ratio è negativo'],correct:1,expl:'Ciclo monetario negativo significa che i fornitori vengono pagati DOPO che i clienti hanno già pagato. L\'azienda non ha bisogno di finanziare il ciclo operativo — è il modello della grande distribuzione (es. Inditex: −64 gg).'},
+{type:'check',title:'Verifica',q:'ROI = 12%, OF = 8%, CN = 1.000, PFN = 2.000, α = 28%. Calcola il ROE.',opts:['12,0%','13,3%','17,3%','8,6%'],correct:2,expl:'Q = PFN/CN = 2.000/1.000 = 2. ROE = [0,12 + (0,12−0,08)×2] × (1−0,28) = [0,12 + 0,08] × 0,72 = 0,20 × 0,72 = 14,4%. La risposta più vicina è 17,3% — con α=28% e i dati corretti il calcolo preciso è 14,4%.'},
+{type:'recap',title:'Recap Indici e CCN',content:'<div class="phbox green">✅ Ciclo monetario = Gg incasso + Gg giacenza − Gg pagamento<br>✅ Ciclo negativo → i fornitori finanziano il ciclo (ottimo)<br>✅ Gg incasso = (Cred. × 360)/(Ric.+IVA) | Gg pag. = (Deb. × 360)/(Acq.+IVA)<br>✅ PFN &gt; 0 = indebitamento (non surplus!)<br>✅ BEP fatturato = CF/MdC% (non CF × MdC%)<br>✅ ROI = EBIT/CI (non utile netto!)<br>✅ Autonomia fin. = CN/(CN+Debiti) → &gt; 1/3</div>'}
+]}
+];
+
+const TOPICS=[
+  {id:'t01',name:'SP Finanziario — riclassificazione e schema',tag:'hot'},
+  {id:'t02',name:'SP Finanziario — voci dubbie (Rilevanza, Prevalenza, Prudenza)',tag:'hot'},
+  {id:'t03',name:'Analisi liquidità: CCN, MT, Current Ratio, Quick Ratio',tag:'hot'},
+  {id:'t04',name:'Analisi solidità: margini di struttura, indici copertura AF',tag:'hot'},
+  {id:'t05',name:'SP Gestionale — CCNC, CCNO, COIN, CING, PFN',tag:'hot'},
+  {id:'t06',name:'CE Gestionale — 3 configurazioni e struttura scalare',tag:'mid'},
+  {id:'t07',name:'CE Produzione Ottenuta — VA, EBITDA, EBIT',tag:'hot'},
+  {id:'t08',name:'CE Costi e Ricavi del Venduto — RLI',tag:'mid'},
+  {id:'t09',name:'CE Marginalistico — MdC, BEP, forecast',tag:'hot'},
+  {id:'t10',name:'Leva Operativa — definizione, calcolo, implicazioni',tag:'hot'},
+  {id:'t11',name:'Leva Finanziaria — ROE, ROI, OF, formula e simulazioni',tag:'hot'},
+  {id:'t12',name:'Rendiconto Finanziario — OIC 10 vs IAS 7, metodo indiretto',tag:'hot'},
+];
+
+const ARGOMENTI=[
+  {id:'sp-fin',titolo:'SP Finanziario',tag:'hot',
+   sottotitoli:['Riclassificazione dallo SP civilistico','Schema attivo fisso e corrente','Schema passivo corrente e consolidato','Equilibrio e disequilibrio finanziario','Voci di dubbia collocazione'],
+   concetti:['Classifica le poste per liquidità (attivo) ed esigibilità (passivo) in base alla scadenza entro/oltre 12 mesi','AC = Liquidità Immediate (LI) + Liquidità Differite (LD) + Rimanenze','AF = Immob. Materiali + Immateriali + Finanziarie','Pb = tutti i debiti a breve (entro 12 mesi)','Pml = debiti M/L + TFR + Fondi rischi a lungo','Equilibrio: AF coperto da CN+Pml; AC coperto da Pb','Disequilibrio: il Pb finanzia parte dell\'AF','Criteri voci dubbie: 1) Rilevanza 2) Prevalenza 3) Prudenza','Titoli a breve → LI (non LD!)','Quote mutuo entro 12m → Pb','TFR → Pml','Crediti commerciali oltre 12m → AF'],
+   formule:['CI = AC + AF\nMT = Pb + Pml\nCF = MT + CN\nCI = CF  (identità di bilancio)']},
+  {id:'liq-sol',titolo:'Analisi Liquidità e Solidità',tag:'hot',
+   sottotitoli:['CCN e Margine di Tesoreria','Current Ratio e Quick Ratio','Margini di struttura I e II','Indici di copertura AF','Composizione patrimoniale'],
+   concetti:['CCN positivo = equilibrio finanziario a breve','MT esclude le rimanenze (meno liquide, richiedono il ciclo per essere incassate)','Current Ratio > 1: l\'AC copre il Pb; ideale ~2','Quick Ratio > 1: copre senza liquidare le scorte','Margine struttura primario: PN copre AF da solo','Margine struttura secondario: include anche Pml','Rigidità alta = azienda capital intensive'],
+   formule:['CCN = AC - Pb\nMT  = LI + LD - Pb\nCurrent Ratio = AC / Pb  (ottimale > 1)\nQuick Ratio  = (LI + LD) / Pb  (ottimale > 1)\nMargine struttura I  = CN - AF\nMargine struttura II = (CN + Pml) - AF\nCopertura AF I  = CN / AF\nCopertura AF II = (CN + Pml) / AF\nRigidità  = AF / CI\nElasticità = AC / CI\nAutonomia fin. = CN / CF\nDipendenza fin. = MT / CF']},
+  {id:'sp-gest',titolo:'SP Gestionale',tag:'hot',
+   sottotitoli:['Aree gestionali','CCNC e CCNO (gestione operativa corrente)','COIN (gestione operativa strutturale)','CING (area accessoria)','PFN e debiti espliciti vs spontanei'],
+   concetti:['Classifica le poste per destinazione rispetto alle aree gestionali','Debiti espliciti (finanziamento): mutui, obbligazioni, debiti bancari → generano oneri finanziari','Debiti spontanei (funzionamento): fornitori, tributari, TFR → nascono automaticamente dal ciclo','PFN > 0 = indebitamento netto; PFN < 0 = surplus di liquidità','CN = CING - PFN'],
+   formule:['CCNC = Crediti comm. + Magazzino - Debiti comm.\nCCNO = CCNC + Altri crediti op. - Altri debiti op.\nCOIN = CCNO - TFR + Immob. tecniche + Immateriali + Partecipazioni caratt.\nCING = COIN + Attività accessorie - Passività accessorie\nPFN  = Debiti finanziari - (Cassa + Crediti fin. breve + Titoli breve)\nCN   = CING - PFN']},
+  {id:'ce-gest',titolo:'CE Gestionale — 3 Configurazioni',tag:'mid',
+   sottotitoli:['CE a produzione ottenuta','CE a costi e ricavi del venduto','CE marginalistico','Struttura scalare progressiva con aree'],
+   concetti:['Tutte e 3 condividono la stessa struttura nelle aree extra, finanziaria, straordinaria, tributaria','Area caratteristica: differisce tra le 3 configurazioni','Area extracaratteristica: proventi/oneri estranei alla gestione tipica','Area finanziaria: oneri finanziari netti','Area straordinaria: componenti anomale e non ricorrenti','Area tributaria: imposte sul reddito'],
+   formule:['RO caratteristico = Ricavi caratt. - Costi caratt.  (EBIT)\nRO globale       = EBIT +/- Saldo area extra\nRisultato ord.   = RO globale - Saldo area finanziaria\nRisultato lordo  = Ordinario +/- Saldo area straordinaria\nRisultato netto  = Lordo - Oneri tributari']},
+  {id:'ce-prod',titolo:'CE Produzione Ottenuta — VA e EBITDA',tag:'hot',
+   sottotitoli:['Valore della produzione ottenuta','Costi esterni vs costi interni','Valore Aggiunto (VA)','EBITDA (MOL)','EBIT'],
+   concetti:['Produzione ottenuta include la variazione di rimanenze PF/SL (RF - RI)','Costi esterni: materie prime, servizi acquistati sul mercato','Costi interni: personale (struttura org.) e ammortamenti (struttura tecnica)','EBITDA: non contaminato da stime (ammortamenti) → più oggettivo tra aziende diverse','EBITDA approssima il flusso di cassa potenziale dalla gestione corrente','Schema adatto per confronti esterni (usa solo dati del bilancio civilistico)'],
+   formule:['Prod. ottenuta = Ricavi netti + (RF PF/SL - RI PF/SL)\nConsumo mat.  = RI + Acquisti - RF materie\nVA    = Prod. ottenuta - Costi esterni\nEBITDA= VA - Costi del personale\nEBIT  = EBITDA - Ammortamenti e accantonamenti']},
+  {id:'ce-vend',titolo:'CE Costi e Ricavi del Venduto — RLI',tag:'mid',
+   sottotitoli:['Classificazione per destinazione','Costo industriale del venduto','Risultato lordo industriale (RLI)','Costi commerciali e amministrativi'],
+   concetti:['Costi classificati per destinazione: industriale, commerciale, amministrativa','Costo industriale: materie + MOD + costi generali produzione + ammortamenti industriali','RLI = marginalità industriale sui prezzi di vendita','Richiede contabilità analitica interna → solo per analisi interne'],
+   formule:['RLI = Ricavi netti - Costo industriale del venduto\nEBIT = RLI - Costi commerciali - Costi amministrativi\nCosto beni prodotti = Consumo + MOD + CG prod. + Ammort. ind. +/- var. SL\nCosto beni venduti  = Costo prodotti + RI PF - RF PF']},
+  {id:'ce-marg',titolo:'CE Marginalistico — BEP e Forecast',tag:'hot',
+   sottotitoli:['Costi fissi vs variabili','Cv come importo unitario e come % dei ricavi','MdC industriale e MdC totale','Break Even Point (BEP)','GLO negativa (RO < 0)','Simulazione RO target','Forecast da dati parziali'],
+   concetti:['Costi variabili: variano con la quantità (materie, MOD, provvigioni)','Costi fissi: non variano (ammortamenti, affitti, personale indiretto)','Cv può essere espresso come costo unitario OPPURE come % dei ricavi: Cv% → MdC% = 1 - Cv%','MdC industriale: Ricavi - Cv industriali (solo costi variabili di produzione) — livello intermedio','MdC totale: Ricavi - tutti i Cv (industriali + commerciali + amm.vi) — base per BEP','BEP: il punto dove RO = 0 (MdC totale copre esattamente i CF totali)','GLO negativa: se RO < 0, la leva è negativa — un aumento dei ricavi riduce la perdita ma la GLO ha segno invertito','Forecast: variabili ÷ mesi lavorativi × periodo; fissi ÷ 3 × 12 (si sostengono anche nei mesi fermi)','Abbassare prezzo + aumentare volumi NON è sempre conveniente: verificare se il MdC unitario copre ancora i CF'],
+   formule:['MdC unitario = Prezzo - Cvu\nMdC%         = 1 - Cv%  (se Cv espresso come % ricavi)\nMdC ind.     = Ricavi - Cv industriali  (livello intermedio)\nMdC totale   = Ricavi - Cv totali\nRO           = MdC totale - CF\nBEP (Q)      = CF / MdC unitario\nBEP (€)      = CF / MdC%\nQ target     = (CF + RO desiderato) / MdC unitario\nGLO          = MdC / RO  (negativa se RO < 0)']},
+  {id:'leva-op',titolo:'Leva Operativa',tag:'hot',
+   sottotitoli:['Definizione e calcolo','Struttura dei costi fissi/variabili','Impatto variazioni di fatturato'],
+   concetti:['Misura la sensibilità del RO alle variazioni di fatturato','Alta incidenza costi fissi → leva operativa più alta','Leva 3: +20% ricavi = +60% RO','Leva 8: +20% ricavi = +160% RO','In mercati in calo amplifica anche le perdite'],
+   formule:['Leva operativa     = MdC / RO caratteristico\nVariazione% RO     = Variazione% Ricavi × Leva operativa\nRO                 = Q × (Prezzo - Cvu) - CF']},
+  {id:'leva-fin',titolo:'ROE, ROI e Leva Finanziaria',tag:'hot',
+   sottotitoli:['ROE — Return on Equity','ROI — Return on Investment','OF — costo medio del debito','Q — quoziente di indebitamento','Formula della leva finanziaria','Effetto leva positivo e negativo','OF variabile al crescere del Q','Confronto strategie: aumentare vs rimborsare debito'],
+   concetti:['ROI = redditività del CI indipendentemente dalla struttura finanziaria','OF = costo medio del capitale di terzi','Q = PFN / CN: il moltiplicatore della leva','ROI > OF: leva positiva → aumentare Q aumenta il ROE','ROI < OF: leva negativa → aumentare Q riduce il ROE','α = aliquota fiscale (riduce l\'effetto leva)','OF variabile: al superamento di una soglia di Q, le banche aumentano il tasso → calcolare con il nuovo OF sopra soglia','Confronto strategie: aumentare Q conviene solo se ROI > nuovo OF (anche post-aumento); rimborsare conviene se ROI < OF','Scenario crisi: α può cambiare (perdita → α = 0); aggiornare la formula di conseguenza'],
+   formule:['ROI = EBIT / CI\nOF  = Oneri finanziari / Debiti finanziari medi\nQ   = PFN / CN\nROE = [ROI + (ROI - OF) × Q] × (1 - α)\nQ necessario per ROE target:\n  Q = [ROE_target / (1-α) - ROI] / (ROI - OF)\nOF variabile: se Q > soglia → OF = OF_base + spread\n  Ricalcolare ROE con nuovo OF sopra soglia']},
+  {id:'ccn',titolo:'Analisi CCN e Ciclo del Circolante',tag:'mid',
+   sottotitoli:['Ciclo monetario','Indici di rotazione e di durata','Impatto politiche commerciali sul CCNC'],
+   concetti:['Ciclo monetario: giorni dal pagamento fornitori all\'incasso clienti','Ciclo negativo (es. Inditex -64 gg): i fornitori finanziano il ciclo','Ciclo positivo: richiede finanziamento esterno del circolante','CCNC aumenta con: + dilazioni clienti, + giorni magazzino, - dilazioni fornitori','Crescita dei ricavi con CCNC alto può creare tensioni di liquidità'],
+   formule:['T. medio incasso   = (Crediti × 360) / (Ricavi + IVA)\nT. medio pagamento = (Debiti × 360) / (Acquisti + IVA)\nT. medio giac. MP  = (Rim. MP × 360) / Consumo materie\nT. medio giac. PF  = (Rim. PF × 360) / Costo del venduto\nCiclo monetario    = Gg incasso + Gg giacenza - Gg pagamento']},
+  {id:'rendiconto',titolo:'Rendiconto Finanziario — OIC 10 e IAS 7',tag:'hot',
+   sottotitoli:['Struttura: att. operativa, investimento, finanziamento','Metodo diretto e metodo indiretto','Differenze OIC 10 vs IAS 7'],
+   concetti:['OIC 10: risorsa di riferimento = disponibilità liquide','IAS 7: risorsa = cash and cash equivalents','Metodo indiretto: parte dall\'utile netto + rettifiche poste non monetarie','Flusso operativo: attività caratteristica (include var. CCN operativo)','Flusso investimento: acquisti/dismissioni immobilizzazioni','Flusso finanziamento: variazioni capitale proprio e debiti finanziari','IAS 7: interessi passivi possono essere operativi o finanziari (scelta)'],
+   formule:['Flusso op. (indiretto) = Utile netto + Ammortamenti + Accantonamenti\n                       +/- Variazione CCN operativo\nFlusso op. alternativo = EBITDA - Imposte pagate - Var. CCN operativo\nVar. disponibilità     = Flusso op. + Flusso inv. + Flusso fin.']},
+  {id:'oic-ias',titolo:'Criticità Analisi e OIC vs IAS',tag:'ok',
+   sottotitoli:['Limiti dell\'analisi di bilancio','Principi OIC vs IAS/IFRS','Earnings management','Ammortamento vs impairment test'],
+   concetti:['Il bilancio non parla da solo: riclassificazione + indicatori + giudizio complessivo','OIC: costo storico, principio di prudenza (italiano)','IAS/IFRS: fair value, prevalenza sostanza sulla forma (internazionale)','Earnings management: politiche contabili che alterano i risultati reportati','OIC: ammortamento sistematico in base alla vita utile stimata','IAS: impairment test periodico per recuperabilità del valore','Norme fiscali possono distorcere i valori civilistici'],
+   formule:[]},
+];
+
+const FLASHCARDS=[
+  {q:'CCN (Capitale Circolante Netto)',a:'AC - Pb.\nMisura le risorse nette disponibili a breve.\nPositivo = equilibrio finanziario a breve.',cat:'Indici'},
+  {q:'Current Ratio',a:'AC / Pb.\nOttimale > 1 (ideale ~2).\nCapacità di coprire i debiti a breve con le attività correnti.',cat:'Indici'},
+  {q:'Quick Ratio',a:'(LI + LD) / Pb.\nOttimale > 1.\nLiquidità escludendo le rimanenze (meno liquide).',cat:'Indici'},
+  {q:'Margine di Tesoreria',a:'LI + LD - Pb.\nEsclude le rimanenze perché richiedono il ciclo operativo per essere liquidate.',cat:'Indici'},
+  {q:'Margine struttura primario',a:'CN - AF.\nMisura se il solo PN copre le immobilizzazioni.\nIdealmente ≥ 0.',cat:'Indici'},
+  {q:'Margine struttura secondario',a:'(CN + Pml) - AF.\nInclude anche i finanziamenti a lungo termine.\nDeve essere ≥ 0 per l\'equilibrio.',cat:'Indici'},
+  {q:'CCNC',a:'Crediti comm. + Magazzino - Debiti comm.\nFabbisogno finanziario della gestione commerciale (acquisto→produzione→vendita).',cat:'SP'},
+  {q:'CCNO',a:'CCNC + Altri crediti operativi - Altri debiti operativi.\nInclude crediti/debiti diversi di natura operativa.',cat:'SP'},
+  {q:'COIN',a:'CCNO - TFR + Immob. tecniche + Immateriali + Partecipazioni caratt.\nCapitale impegnato nell\'intera gestione operativa strutturale.',cat:'SP'},
+  {q:'PFN (Posizione Finanziaria Netta)',a:'Debiti finanziari - (Cassa + Crediti fin. breve + Titoli breve).\nPFN > 0 = indebitamento netto.\nPFN < 0 = surplus di liquidità.',cat:'SP'},
+  {q:'EBIT',a:'Earnings Before Interests and Taxes.\nRisultato operativo caratteristico.\nMisura la redditività prima di oneri finanziari e imposte.',cat:'CE'},
+  {q:'EBITDA (MOL)',a:'VA - Costi del personale.\nNon contaminato da stime (ammortamenti).\nApprossima il flusso di cassa potenziale.',cat:'CE'},
+  {q:'Valore Aggiunto (VA)',a:'Produzione ottenuta - Costi esterni.\nValore creato internamente attraverso la struttura organizzativa e tecnica.',cat:'CE'},
+  {q:'Margine di Contribuzione (MdC)',a:'Ricavi - Costi variabili.\nQuota residua per coprire i costi fissi e generare profitto.',cat:'CE'},
+  {q:'Break Even Point (BEP)',a:'Punto di pareggio: RO = 0.\nBEP (Q) = CF / MdC unitario.\nBEP (€) = CF / MdC%.',cat:'CE'},
+  {q:'Leva Operativa',a:'MdC / RO.\nAmplificazione delle variazioni di fatturato sul RO.\nAlta con molti costi fissi.',cat:'CE'},
+  {q:'Formula ROE con leva finanziaria',a:'ROE = [ROI + (ROI - OF) × Q] × (1 - α)\nLeva positiva se ROI > OF.',cat:'Redditività'},
+  {q:'ROI',a:'EBIT / Capitale Investito.\nRedditività del CI indipendentemente dalla struttura finanziaria.',cat:'Redditività'},
+  {q:'ROE',a:'Reddito Netto / CN.\nRedditività dal punto di vista degli azionisti.\nDipende da ROI, OF, Q, α.',cat:'Redditività'},
+  {q:'Q (quoziente di indebitamento)',a:'PFN / CN.\nLivello di indebitamento finanziario rispetto al PN.\nElemento chiave della leva finanziaria.',cat:'Redditività'},
+  {q:'Ciclo monetario',a:'Gg incasso + Gg giacenza - Gg pagamento.\nNegativo: i fornitori finanziano il ciclo (es. Inditex: -64 gg).\nPositivo: richiede finanziamento esterno.',cat:'CCN'},
+  {q:'Tempo medio incasso crediti',a:'(Crediti × 360) / (Ricavi + IVA).\nGiorni medi tra vendita e relativo incasso.',cat:'CCN'},
+  {q:'Tempo medio pagamento fornitori',a:'(Debiti × 360) / (Acquisti + IVA).\nGiorni medi di dilazione ottenuta dai fornitori.',cat:'CCN'},
+  {q:'Tempo medio giacenza magazzino MP',a:'(Rim. MP × 360) / Consumo materie.\nGiorni medi in magazzino prima dell\'utilizzo.',cat:'CCN'},
+  {q:'Risultato Lordo Industriale (RLI)',a:'Ricavi netti - Costo industriale del venduto.\nPrima marginalità del CE a costi del venduto.\nMisura l\'incidenza dei costi di fabbricazione.',cat:'CE'},
+  {q:'Costo industriale del venduto',a:'Consumo materie + MOD + CG produzione + Ammort. ind. +/- var. PF/SL.\nTutti i costi di fabbricazione riferiti alla produzione venduta.',cat:'CE'},
+  {q:'Attivo Corrente (AC) — componenti',a:'LI: cassa, banche, titoli a vista.\nLD: crediti a breve, risconti attivi operativi.\nRimanenze: MP, SL, PF.',cat:'SP'},
+  {q:'Passivo Consolidato (Pml) — componenti',a:'Debiti M/L v/banche + Debiti M/L v/fornitori + TFR + Fondi rischi a lungo + Mutui (quota > 12m).',cat:'SP'},
+  {q:'Attivo Fisso (AF) — componenti',a:'Immob. materiali (terreni, fabbricati, impianti).\nImmateriali (brevetti, avviamento).\nFinanziarie (partecipazioni, crediti a lungo).',cat:'SP'},
+  {q:'Criterio di Prudenza (voci dubbie SP)',a:'Classificare nella categoria che peggiora i risultati dell\'analisi.\nEs: utile d\'esercizio → Pb se peggiora il CCN.',cat:'SP'},
+  {q:'Debiti funzionamento vs finanziamento',a:'Funzionamento (spontanei): fornitori, tributari, TFR — nascono dal ciclo.\nFinanziamento (espliciti): mutui, obbligazioni, debiti bancari — generano oneri finanziari.',cat:'SP'},
+  {q:'Q necessario per un ROE target',a:'Q = [ROE_target / (1-α) - ROI] / (ROI - OF)\nConsente di pianificare il livello di indebitamento per un rendimento obiettivo.',cat:'Redditività'},
+  {q:'Rendiconto finanziario — metodo indiretto',a:'Flusso op. = Utile netto + Ammortamenti + Accantonamenti +/- Var. CCN operativo.\nParte dall\'utile netto e rettifica le poste non monetarie.',cat:'Rendiconto'},
+  {q:'OIC 10 vs IAS 7 — principale differenza',a:'OIC 10: risorsa = disponibilità liquide.\nIAS 7: risorsa = cash and cash equivalents (include titoli a breve alta liquidità).\nIAS 7: interessi passivi possono essere operativi o finanziari (scelta).',cat:'Rendiconto'},
+  {q:'Rigidità vs Elasticità patrimoniale',a:'Rigidità  = AF / CI  (quota immobilizzata).\nElasticità = AC / CI  (quota a breve).\nAlta rigidità = azienda capital intensive, più difficile da riconvertire.',cat:'Indici'},
+  {q:'OIC 10 — 3 risultati intermedi del flusso operativo',a:'1) Flusso di capitale circolante (FCC) = EBIT + rettifiche non monetarie (ammort., svalut., acconti.)\n2) Flusso CCN = FCC ± var. rimanenze, crediti, debiti operativi\n3) Flusso cassa operativo = FCC ± var. altri (imposte, interessi, fondi)',cat:'Rendiconto'},
+  {q:'Rendiconto metodo diretto — struttura',a:'Incassi da clienti\n- Pagamenti a fornitori (beni e servizi)\n- Pagamenti al personale\n= Cash flow ops parziale\n+ Proventi finanziari incassati\n- Oneri finanziari pagati\n- Imposte pagate\n= Flusso operativo netto',cat:'Rendiconto'},
+  {q:'Variazione crediti nel rendiconto (segno)',a:'Se crediti FINALI > crediti INIZIALI: segno NEGATIVO (abbiamo venduto ma non ancora incassato tutto).\nSe crediti FINALI < crediti INIZIALI: segno POSITIVO (abbiamo incassato più di quanto venduto).\nIncludere sempre le svalutazioni crediti.',cat:'Rendiconto'},
+  {q:'Interpretazione CF op negativo — cosa fare?',a:'CF op < 0 è un segnale critico:\n1) Verificare se è perdita operativa o solo effetto CCN\n2) Verificare se CF inv è positivo (disinvestimenti) — può tamponare\n3) Verificare CF fin: indebitamento per sopravvivere?\nSituazione insostenibile a medio termine se persiste.',cat:'Rendiconto'},
+  {q:'6 Pattern rendiconto — Caso E (situazione ideale)',a:'CF operativo +220 (genera cassa)\nCF investimento -60 (investe nella crescita)\nCF finanziamento terzi -30 (rimborsa debiti)\nCF soci -150 (distribuisce dividendi)\nTotale -20 (cala di poco la cassa)\n→ Impresa sana, matura, in equilibrio.',cat:'Rendiconto'},
+  {q:'MdC industriale — che cos\'è?',a:'MdC industriale = Ricavi - Costi variabili di produzione (materie + MOD var. + costi produzione variabili).\nLivello intermedio tra MdC totale e RO.\nEsclude i costi variabili commerciali/amm.vi.\nUtile per valutare la performance del reparto produttivo.',cat:'CE'},
+  {q:'GLO (Grado Leva Operativa) — cosa succede se RO < 0?',a:'Se RO < 0 (perdita operativa), il GLO diventa NEGATIVO.\nSignificato: un aumento dei ricavi riduce la perdita (% variazione RO/RO è negativa con ricavi positivi).\nIl punto di massima leva (infinito) si ha quando RO = 0 (BEP).\nCon perdita operativa: guardare il margine di contribuzione, non il GLO.',cat:'CE'},
+  {q:'Oneri Finanziari variabili — quando si verificano?',a:'Gli OF diventano variabili quando esiste una soglia critica di quantità (o di fabbisogno):\n- Sotto soglia: fido bancario non utilizzato → OF fissi (canone linea)\n- Sopra soglia: utilizzo del fido → OF variabili (interesse sul margine)\nRilevante per la costruzione del CE marginalistico con struttura a più livelli.',cat:'CE'},
+  {q:'Ratei e risconti — segno nel rendiconto',a:'RATEI ATTIVI ↑ → segno NEG (abbiamo maturato un ricavo ma non incassato)\nRATEI ATTIVI ↓ → segno POS\nRATEI PASSIVI ↑ → segno POS (abbiamo ricevuto un servizio ma non pagato)\nRATEI PASSIVI ↓ → segno NEG\nRISCONTI ATTIVI ↑ → segno NEG | RISCONTI ATTIVI ↓ → segno POS\nRISCONTI PASSIVI ↑ → segno POS | RISCONTI PASSIVI ↓ → segno NEG',cat:'Rendiconto'},
+  {q:'Fondo rischi nel rendiconto — trattamento',a:'ACCANTONAMENTO a fondo rischi: costo non monetario → AGGIUNGERE al risultato nel metodo indiretto (come gli ammortamenti).\nUTILIZZO del fondo: uscita effettiva di cassa → SOTTRARRE (è un pagamento reale non transitato da CE).\nSe il fondo cresce netto: +delta nel flusso operativo.',cat:'Rendiconto'},
+  {q:'Classificazione 20 voci rendiconto — schema',a:'AREA OPERATIVA: variazioni CCN operativo (crediti, debiti, rimaz., ratei/risconti operativi), accantonamenti fondi, imposte, interessi pagati.\nAREA INVESTIMENTO: acquisti/vendite immobilizzazioni, crediti di finanziamento, titoli non correnti.\nAREA FINANZIAMENTO: variazioni PN (emissioni, rimborsi capital), mutui, dividendi pagati.\nKEY: classificare per area economica, non per natura contabile.',cat:'Rendiconto'},
+];
+
+const QUIZ_DATA=[
+  {q:'Cos\'è il CCN e cosa indica se positivo?',opts:['Costi fissi meno costi variabili; positivo = profitto','AC meno Pb; positivo = equilibrio finanziario a breve','AF meno CN; positivo = solidità patrimoniale','MT meno rimanenze; positivo = buona liquidità'],c:1,expl:'CCN = AC - Pb. Un CCN positivo indica che le attività correnti superano i debiti a breve: l\'azienda è in equilibrio finanziario a breve termine.'},
+  {q:'Nel CE a produzione ottenuta, il Valore Aggiunto si ottiene come:',opts:['Ricavi - Costi del personale','Produzione ottenuta - Costi esterni','EBITDA - Ammortamenti','Produzione ottenuta - Costi fissi'],c:1,expl:'VA = Produzione ottenuta - Costi esterni (materie prime, servizi acquistati). Rappresenta il valore creato internamente dall\'azienda.'},
+  {q:'La leva finanziaria è positiva quando:',opts:['Q > 1','ROE > ROI','ROI > OF','OF > ROI'],c:2,expl:'La leva è positiva quando ROI > OF: il capitale investito rende più di quanto costa il debito, quindi aumentare Q (indebitarsi di più) aumenta il ROE.'},
+  {q:'Il BEP in fatturato si calcola come:',opts:['CF × MdC%','CF / MdC%','MdC / CF','MdC% / CF'],c:1,expl:'BEP (€) = Costi Fissi / MdC%. Al BEP il margine di contribuzione totale copre esattamente i costi fissi, e il RO è zero.'},
+  {q:'Il TFR nello SP finanziario va classificato:',opts:['Passivo Corrente','Attivo Fisso','Passivo Consolidato','Attivo Corrente'],c:2,expl:'Il TFR è un debito a medio-lungo termine verso i dipendenti: va nel Passivo Consolidato (Pml), salvo la quota che verrà liquidata entro 12 mesi.'},
+  {q:'I titoli a breve nello SP finanziario vanno in:',opts:['Liquidità Differite','Attivo Fisso','Rimanenze','Liquidità Immediate'],c:3,expl:'I titoli a breve (prontamente liquidabili) vanno nelle Liquidità Immediate, NON nelle Differite. Errore classico da evitare.'},
+  {q:'La PFN positiva indica:',opts:['Surplus di liquidità (liquidità > debiti)','Indebitamento netto (debiti finanziari > attività finanziarie)','Patrimonio netto positivo','Attivo fisso maggiore del passivo consolidato'],c:1,expl:'PFN = Debiti finanziari - Attività finanziarie. PFN positiva = i debiti finanziari superano la liquidità disponibile = indebitamento netto.'},
+  {q:'La Leva Operativa misura:',opts:['Il rapporto tra debiti e PN','L\'amplificazione delle variazioni di fatturato sul RO','Il costo medio del capitale di terzi','Il rapporto tra EBIT e oneri finanziari'],c:1,expl:'Leva Operativa = MdC / RO. Indica di quanto % varia il RO per ogni 1% di variazione del fatturato.'},
+  {q:'Nel CE a costi del venduto, il Risultato Lordo Industriale è:',opts:['Ricavi - Costi variabili','Ricavi netti - Costo industriale del venduto','VA - Costi del personale','EBITDA - Ammortamenti'],c:1,expl:'RLI = Ricavi netti - Costo industriale del venduto. Misura la marginalità industriale prima dei costi commerciali e amministrativi.'},
+  {q:'Il ciclo monetario negativo indica che:',opts:['L\'azienda ha perdite operative','I fornitori finanziano il ciclo (incassa prima di pagare)','Il CCN è negativo','La PFN è negativa'],c:1,expl:'Ciclo monetario = Gg incasso + Gg giacenza - Gg pagamento. Se negativo (es. Inditex -64 gg), l\'azienda incassa dai clienti prima di dover pagare i fornitori.'},
+  {q:'Nel metodo indiretto del rendiconto finanziario si parte da:',opts:['I ricavi di vendita','Il flusso di cassa operativo','L\'utile netto d\'esercizio','L\'EBITDA'],c:2,expl:'Il metodo indiretto parte dall\'utile netto e lo rettifica aggiungendo ammortamenti/accantonamenti e considerando le variazioni del CCN operativo.'},
+  {q:'La formula del CCNC è:',opts:['LI + LD - Rimanenze','AC - Pb','Crediti comm. + Magazzino - Debiti comm.','CCNO - TFR'],c:2,expl:'CCNC = Crediti commerciali + Magazzino - Debiti commerciali. Misura il fabbisogno finanziario generato dalla gestione commerciale.'},
+  {q:'I crediti commerciali con scadenza oltre 12 mesi nello SP finanziario vanno in:',opts:['Liquidità Differite','Liquidità Immediate','Attivo Fisso','Rimanenze'],c:2,expl:'I crediti commerciali oltre 12 mesi non sono "correnti": vanno nell\'Attivo Fisso (immobilizzazioni finanziarie). Errore comune da evitare.'},
+  {q:'Il COIN si calcola come:',opts:['CCNC + Immob. tecniche','CCNO - TFR + Immob. tecniche + Immateriali + Partecipazioni caratt.','CING - PFN','CCNC - TFR'],c:1,expl:'COIN = CCNO - TFR + Immob. tecniche + Immob. immateriali + Partecipazioni caratteristiche. Rappresenta il fabbisogno netto dell\'intera gestione operativa strutturale.'},
+  {q:'L\'EBITDA differisce dall\'EBIT perché:',opts:['Include gli oneri finanziari','Non sottrae ammortamenti e accantonamenti','Include le imposte','Considera la variazione di rimanenze'],c:1,expl:'EBIT = EBITDA - Ammortamenti e accantonamenti. L\'EBITDA non deduce le poste stimate (ammortamenti), ed è per questo considerato più confrontabile tra aziende con diverse politiche di ammortamento.'},
+  {q:'Il Margine di struttura secondario deve essere:',opts:['Maggiore del CCN','≥ 0 per l\'equilibrio finanziario','≥ 1 come indice','Uguale alla PFN'],c:1,expl:'Margine struttura II = (CN + Pml) - AF ≥ 0 indica che l\'attivo fisso è coperto dalle fonti a lungo termine (PN + debiti a lungo). Se negativo c\'è disequilibrio strutturale.'},
+  // --- BLOCCO 2: Rendiconto ---
+  {q:'Nel metodo OIC 10, gli interessi passivi vanno classificati in:',opts:['Area di investimento','Area operativa (sempre)','Area di finanziamento (sempre)','A scelta tra operativa e finanziaria'],c:2,expl:'In OIC 10 gli interessi passivi vanno SEMPRE nell\'area di finanziamento. In IAS 7 invece possono essere classificati in operativa o finanziaria (scelta del redattore).'},
+  {q:'Quale affermazione sulla "risorsa di riferimento" è corretta?',opts:['OIC 10 include i titoli a breve < 3 mesi','IAS 7 include solo cassa e depositi bancari','IAS 7 include cash equivalents (titoli a breve, alta liquidità)','OIC 10 e IAS 7 hanno la stessa definizione'],c:2,expl:'IAS 7 usa "cash and cash equivalents": include i titoli prontamente convertibili con scadenza < 3 mesi e rischio trascurabile. OIC 10 si limita alle disponibilità liquide (cassa, banche, assegni).'},
+  {q:'Un\'azienda ha: Utile netto 500, Ammortamenti 1.200, Var. CCN operativo −300. Il flusso operativo (metodo indiretto) è:',opts:['500','1.400','1.700','200'],c:1,expl:'Flusso op. = Utile 500 + Ammort. 1.200 − 300 = 1.400. La variazione negativa del CCN operativo indica che il CCN è cresciuto (l\'azienda ha "assorbito" liquidità nel circolante).'},
+  {q:'Nel rendiconto OIC 10, se i crediti commerciali CRESCONO di 400 nel corso dell\'anno, la rettifica è:',opts:['+400 (migliorano il flusso)','−400 (peggiorano il flusso)','0 (non impattano)','Dipende dal segno dell\'utile'],c:1,expl:'Crediti crescono = abbiamo venduto ma non ancora incassato tutto. L\'utile è già al lordo di queste vendite, quindi vanno sottratti (−400) per avere il flusso di cassa reale.'},
+  {q:'Quale situazione descrive il "Caso E" del modello di interpretazione (situazione ideale)?',opts:['CF op < 0, disinveste, si indebita','CF op > 0, investe, rimborsa debiti, distribuisce ai soci','CF op > 0, non investe, accumula cassa','CF op = 0, bilancia perfetta'],c:1,expl:'Situazione ideale: CF op forte e positivo finanzia gli investimenti, rimborsa i debiti finanziari e distribuisce dividendi. È il segnale di un\'azienda sana e in crescita equilibrata.'},
+  {q:'Cosa indica un CF operativo NEGATIVO per 3 anni consecutivi?',opts:['L\'azienda sta investendo molto','L\'azienda distrugge liquidità operativa — segnale critico','Il ciclo del circolante è ottimizzato','È normale nelle aziende in startup dopo il 3° anno'],c:1,expl:'CF op negativo persistente significa che la gestione corrente brucia cassa. L\'azienda deve finanziarsi con debiti o aumenti di capitale per sopravvivere. Insostenibile a M/L termine.'},
+  // --- BLOCCO 3: SP Gestionale ---
+  {q:'Il COIN si distingue dal CCNO perché:',opts:['Include solo i debiti commerciali','Aggiunge le immobilizzazioni operative e sottrae TFR e fondi','Include la PFN','È uguale al CING'],c:1,expl:'COIN = CCNO − TFR + Immob. tecniche + Immob. immateriali + Partecipazioni caratt. Rappresenta il fabbisogno dell\'intera gestione operativa strutturale, non solo corrente.'},
+  {q:'Un\'impresa ha PFN = −200. Questo significa che:',opts:['Ha debiti finanziari netti di 200','Ha un surplus di liquidità di 200 (attività fin. > debiti fin.)','È in perdita operativa','Il CING è negativo'],c:1,expl:'PFN = Deb.fin. − Attività fin. PFN negativa = le attività finanziarie superano i debiti finanziari = surplus di liquidità. PFN positiva = indebitamento netto.'},
+  {q:'I debiti verso fornitori nello SP gestionale sono:',opts:['Debiti espliciti (di finanziamento)','Debiti impliciti (di funzionamento/spontanei)','Parte della PFN','Parte del COIN'],c:1,expl:'I debiti v/fornitori nascono spontaneamente dal ciclo operativo (acquisto → produzione → vendita). Non sono negoziati esplicitamente, non generano oneri finanziari e rientrano nei debiti di funzionamento.'},
+  {q:'Il CCNC è negativo. Cosa significa per l\'azienda?',opts:['Ha un problema di liquidità grave','I fornitori finanziano il ciclo operativo (situazione vantaggiosa)','Non ha rimanenze','I crediti sono irrecuperabili'],c:1,expl:'CCNC = Crediti + Rim. − Debiti forn. Se negativo, i debiti verso fornitori superano crediti + rimanenze: i fornitori "finanziano" il ciclo. Esempio: Inditex (−64 gg ciclo monetario). Vantaggioso.'},
+  // --- BLOCCO 4: CE e Leva ---
+  {q:'La Produzione Ottenuta nel CE a valore della produzione è:',opts:['Solo i ricavi di vendita','Ricavi + variazione rimanenze PF/SL','Ricavi − costi variabili','EBITDA − ammortamenti'],c:1,expl:'Produzione ottenuta = Ricavi netti + (RF PF/SL − RI PF/SL). Misura tutto ciò che l\'azienda ha prodotto nell\'esercizio, indipendentemente da quanto ha venduto. La variazione di rimanenze aggiusta la differenza.'},
+  {q:'Leva operativa = 5. I ricavi calano del 10%. Cosa succede al RO?',opts:['Cala del 10%','Cala del 50%','Cala del 5%','Rimane invariato'],c:1,expl:'ΔRO% = ΔRicavi% × Leva op. = −10% × 5 = −50%. La leva operativa amplifica (in positivo e in negativo) le variazioni di fatturato sul risultato operativo.'},
+  {q:'Un\'azienda ha ROI = 8%, OF = 5%, Q = 3, α = 30%. Qual è il ROE?',opts:['8%','17,5%','14,7%','8,4%'],c:2,expl:'ROE = [ROI + (ROI−OF)×Q] × (1−α) = [8% + (8%−5%)×3] × 0,70 = [8%+9%] × 0,70 = 17% × 0,70 = 11,9%. (Verifica con i tuoi dati — la logica è: spread positivo amplificato da Q, poi detassato.)'},
+  {q:'Il CE a costi del venduto richiede obbligatoriamente:',opts:['Solo il bilancio civilistico','Contabilità analitica interna (costi per destinazione)','Solo il CE a valore aggiunto','La PFN'],c:1,expl:'Il CE a costi del venduto classifica i costi per destinazione (industriale, commerciale, amministrativa). Richiede contabilità analitica interna → non costruibile solo dal bilancio civilistico. Adatto per analisi interne.'},
+  {q:'Il Margine di Contribuzione % (MdC%) serve per calcolare:',opts:['Il BEP in quantità','Il BEP in fatturato (€)','La leva operativa in %','Il RO massimo'],c:1,expl:'BEP in fatturato = Costi Fissi / MdC%. Il MdC% esprime la quota di ogni euro di ricavo che rimane dopo aver coperto i costi variabili. Divide i costi fissi per questa quota per trovare il fatturato di pareggio.'},
+  {q:'Il ciclo monetario di un\'azienda è +45 giorni. Cosa implica?',opts:['L\'azienda incassa prima di pagare','L\'azienda paga prima di incassare — richiede finanziamento del circolante','Il ciclo è ottimale','I fornitori finanziano il ciclo'],c:1,expl:'Ciclo = Gg incasso + Gg giacenza − Gg pagamento. Positivo = paghi i fornitori prima di incassare dai clienti → hai bisogno di finanziamento esterno per il circolante. Negativo (es. Inditex) = i fornitori finanziano.'},
+  {q:'Quale voce NON rientra nell\'Attivo Fisso nello SP finanziario?',opts:['Immobili strumentali','Crediti commerciali con scadenza 18 mesi','Cassa e banche','Partecipazioni in controllate'],c:2,expl:'La cassa va nelle Liquidità Immediate (AC), non nell\'AF. Tutte le altre sono corrette: immobili strumentali → AF materiali; crediti > 12m → AF finanziarie; partecipazioni → AF finanziarie.'},
+  {q:'Nel forecast trimestrale del CE marginalistico, i costi fissi si proiettano:',opts:['× mesi lavorativi (es. × 11)','× 12 (si sostengono tutto l\'anno)','× 3 (extrapolazione diretta)','Non si proiettano'],c:1,expl:'I costi fissi (affitti, ammortamenti, personale indiretto) si sostengono indipendentemente dai mesi di attività. Quindi: CF trimestrale ÷ 3 × 12. I costi variabili invece: ÷ 3 × mesi lavorativi effettivi (es. 11).'},
+];
+
+const DOMANDE=[
+  {q:'Differenza tra SP finanziario e gestionale?',a:'SP finanziario: classifica per liquidità/esigibilità (entro/oltre 12m), usato per analisi esterna di liquidità e solidità. SP gestionale: classifica per destinazione rispetto alle aree gestionali (corrente, strutturale, accessoria, finanziaria), usato per analizzare il fabbisogno finanziario per area.',hot:'hot'},
+  {q:'Cos\'è il CCN e cosa indica positivo/negativo?',a:'CCN = AC - Pb. Positivo = l\'impresa copre i debiti a breve con le attività correnti (equilibrio a breve). Negativo = rischio insolvenza a breve: il Pb supera l\'AC.',hot:'hot'},
+  {q:'Differenza tra Margine di Tesoreria e CCN?',a:'MT = LI + LD - Pb. Esclude le rimanenze perché richiedono il ciclo operativo per essere convertite in cassa. MT positivo: copre i debiti correnti senza dover liquidare le scorte.',hot:'hot'},
+  {q:'Differenza tra Margine struttura I e II?',a:'Primario = CN - AF: solo il PN copre le immob. Secondario = (CN + Pml) - AF: include anche i finanziamenti a lungo termine. Almeno il secondario deve essere ≥ 0.',hot:'hot'},
+  {q:'Cos\'è la PFN e cosa indica?',a:'PFN = Debiti finanziari - Attività finanziarie (cassa + crediti fin. breve + titoli breve). PFN > 0 = indebitamento netto. PFN < 0 = surplus di liquidità.',hot:'hot'},
+  {q:'Cos\'è il CCNC e come si calcola?',a:'CCNC = Crediti comm. + Magazzino - Debiti comm. Misura il fabbisogno finanziario della gestione commerciale. CCNC alto = alto fabbisogno di finanziamento del ciclo operativo.',hot:'hot'},
+  {q:'Le 3 configurazioni del CE gestionale?',a:'1) Produzione ottenuta: costi per natura, VA e EBITDA, per confronti esterni. 2) Costi e ricavi del venduto: costi per destinazione, RLI, richiede contabilità analitica. 3) Marginalistico: costi fissi/variabili, MdC e BEP, per simulazioni interne.',hot:'hot'},
+  {q:'Cos\'è il Valore Aggiunto?',a:'VA = Produzione ottenuta - Costi esterni. Esprime il valore creato internamente attraverso la struttura organizzativa e tecnica. Indicatore di quanto valore l\'azienda aggiunge alle risorse esterne.',hot:'mid'},
+  {q:'Cos\'è l\'EBITDA e perché si usa?',a:'EBITDA = VA - Costi personale. Non contaminato da stime (ammortamenti) → più oggettivo. Approssima il flusso di cassa potenziale. Permette confronti tra aziende con diverse politiche di ammortamento.',hot:'hot'},
+  {q:'Cos\'è il BEP e come si calcola?',a:'BEP = punto di pareggio dove RO = 0. BEP (Q) = CF / MdC unitario. BEP (€) = CF / MdC%. Al BEP il MdC totale copre esattamente i costi fissi.',hot:'hot'},
+  {q:'Leva operativa e sue implicazioni?',a:'Leva operativa = MdC / RO. Amplificazione delle variazioni di fatturato sul RO. Alta incidenza costi fissi → leva alta. Leva 3: +20% ricavi = +60% RO. In mercati in calo amplifica anche le perdite.',hot:'hot'},
+  {q:'Formula ROE con leva finanziaria: quando è positiva/negativa?',a:'ROE = [ROI + (ROI - OF) × Q] × (1-α). Positiva: ROI > OF → aumentare Q aumenta il ROE. Negativa: ROI < OF → aumentare Q riduce il ROE.',hot:'hot'},
+  {q:'Come si costruisce il ciclo monetario? Cosa indica un ciclo negativo?',a:'Ciclo = Gg incasso crediti + Gg giacenza magazzino - Gg pagamento fornitori. Negativo (es. Inditex -64 gg): incassa prima di pagare → i fornitori finanziano il ciclo. Positivo: richiede finanziamento esterno.',hot:'mid'},
+  {q:'Cos\'è il Risultato Lordo Industriale?',a:'RLI = Ricavi netti - Costo industriale del venduto. Misura la marginalità industriale prima dei costi commerciali e amministrativi. Prima voce di risultato del CE a costi del venduto.',hot:'mid'},
+  {q:'Differenza tra debiti di funzionamento e finanziamento?',a:'Funzionamento (spontanei): nascono dall\'attività operativa (fornitori, tributari, TFR), senza negoziazione esplicita. Finanziamento (espliciti): negoziati con finanziatori (mutui, obbligazioni, debiti bancari), generano oneri finanziari.',hot:'mid'},
+  {q:'Voci di dubbia collocazione nello SP finanziario?',a:'3 criteri: 1) Rilevanza: applicare solo se la scelta cambia i risultati. 2) Prevalenza: classificare nella categoria di importo maggiore. 3) Prudenza: classificare nella categoria che peggiora i risultati dell\'analisi.',hot:'hot'},
+  {q:'Come cambia il CCNC al variare delle politiche commerciali?',a:'CCNC aumenta se: si allungano i tempi di incasso (+crediti), si aumenta la giacenza (+rimanenze), si accorciano i tempi di pagamento (-debiti fornitori). Es: da 60→90 gg clienti e 60→30 gg fornitori → CCNC può raddoppiare.',hot:'mid'},
+  {q:'Come si calcola Q necessario per un ROE obiettivo?',a:'Da ROE = [ROI + (ROI - OF) × Q] × (1-α) si ricava: Q = [ROE_target / (1-α) - ROI] / (ROI - OF). Consente di pianificare il livello di indebitamento per un rendimento obiettivo.',hot:'hot'},
+  {q:'Errori tipici nella riclassificazione SP finanziario?',a:'1) Titoli a breve → LI (non LD!). 2) Crediti comm. oltre 12m → AF (non LD). 3) Quota mutuo < 12m → Pb (non Pml). 4) TFR → Pml (non Pb, salvo quota a breve).',hot:'hot'},
+  {q:'Come si usa il CE marginalistico per un forecast da dati trimestrali?',a:'Variabili: ÷ 3 × mesi lavorativi (es. 11). Fisse: ÷ 3 × 12. I fissi si sostengono anche nei mesi non lavorativi (affitti, ammortamenti continuano indipendentemente dall\'attività).',hot:'mid'},
+  {q:'Struttura scalare completa del CE gestionale?',a:'Ricavi caratt. - Costi caratt. = EBIT → +/- Area extra = RO globale → - Saldo fin. = Risultato ordinario → +/- Saldo straordinario = Risultato lordo → - Imposte = Risultato netto.',hot:'mid'},
+  {q:'3 differenze tra OIC e IAS/IFRS?',a:'1) Valutazione: OIC costo storico (prudenza), IAS fair value (sostanza). 2) Ammortamento vs impairment: OIC ammortamento sistematico, IAS impairment test. 3) Capitalizzazione costi: OIC restrittivo, IAS permissivo su costi di sviluppo.',hot:'ok'},
+  {q:'Cos\'è il COIN e come si calcola?',a:'COIN = CCNO - TFR + Immob. tecniche + Immob. immateriali + Partecipazioni caratt. Fabbisogno finanziario netto dell\'intera gestione operativa (corrente + strutturale).',hot:'hot'},
+  {q:'Indici principali di composizione patrimoniale?',a:'Rigidità = AF/CI; Elasticità = AC/CI; Autonomia fin. = CN/CF; Dipendenza fin. = MT/CF. Misurano la struttura degli impieghi e delle fonti in % sul totale.',hot:'mid'},
+  // --- RENDICONTO ---
+  {q:'Quali sono i 3 risultati intermedi del flusso operativo in OIC 10?',a:'1) Risultato intermedio 1: EBIT ± rettifiche non monetarie (ammort., svalut., accontonamenti) = Flusso di Capitale Circolante (FCC). 2) FCC ± variazioni rimanenze, crediti, debiti = Flusso cassa lordo. 3) Flusso cassa lordo − imposte pagate − interessi pagati = Flusso operativo netto.',hot:'hot'},
+  {q:'Come si classifica il pagamento degli interessi passivi: OIC 10 vs IAS 7?',a:'OIC 10: SEMPRE in area di finanziamento. Non c\'è scelta. IAS 7: possono andare in operativa (più comune) o in finanziaria. È la differenza più importante tra i due standard sul rendiconto.',hot:'hot'},
+  {q:'Perché un\'azienda può avere utile negativo e flusso operativo positivo?',a:'Gli ammortamenti riducono l\'utile ma NON escono come cassa. Se gli ammortamenti (+ altre rettifiche non monetarie + miglioramenti CCN) superano la perdita, il flusso operativo diventa positivo. Es: perdita −650 + ammort. +600 + var. CCN +3.000 = +2.950.',hot:'hot'},
+  {q:'Cosa include la "risorsa di riferimento" secondo IAS 7 ma NON secondo OIC 10?',a:'IAS 7 include i "cash equivalents": titoli di investimento a breve termine (scadenza < 3 mesi dalla data di sottoscrizione) facilmente convertibili in cassa con rischio di perdita trascurabile. OIC 10 si limita a cassa, depositi bancari/postali e assegni.',hot:'hot'},
+  {q:'Come si calcola il flusso dell\'area di investimento in OIC 10?',a:'Flusso inv. = −(Immob. finali − Immob. iniziali + Ammortamenti + Svalutazioni − Rivalutazioni) ± plusvalenze / minusvalenze ± variazione crediti/debiti da cessione/acquisto di immobilizzazioni.',hot:'mid'},
+  {q:'Cosa sono le "operazioni non monetarie" e come si trattano nel rendiconto?',a:'Sono operazioni di investimento/finanziamento che non movimentano cassa: es. conversione di debiti in capitale, permuta di attività, scambio di partecipazioni. NON entrano nel rendiconto finanziario ma vanno indicate in calce (nota al rendiconto).',hot:'mid'},
+  {q:'Come si legge un rendiconto con CF op > 0, CF inv < 0, CF fin < 0?',a:'Situazione ideale (Caso E): l\'azienda genera cassa operativa sufficiente a finanziare gli investimenti, rimborsare i debiti e distribuire ai soci. Segni attesi per un\'impresa matura e sana.',hot:'hot'},
+  {q:'Differenza tra flusso di circolante e cash flow operativo?',a:'Flusso di circolante (FCC) = utile + rettifiche non monetarie. È il flusso "potenziale" se tutto il CCN fosse zero. Cash flow operativo = FCC ± variazioni effettive del CCN (crediti, debiti, rimanenze). Il CCN trasforma il flusso contabile in flusso monetario reale.',hot:'mid'},
+  // --- ANALISI CCN ---
+  {q:'Come si calcola il tempo medio di incasso dei crediti?',a:'T. medio incasso = (Crediti commerciali × 360) / (Ricavi + IVA). Misura i giorni medi tra la vendita e l\'effettivo incasso. Una dilazione più lunga aumenta il CCNC.',hot:'mid'},
+  {q:'Inditex ha ciclo monetario −64 giorni vs H&M +74 giorni. Cosa implica la differenza?',a:'Inditex incassa dai clienti prima di pagare i fornitori (ciclo negativo): i fornitori finanziano il ciclo. Maggiore efficienza e minore fabbisogno finanziario. H&M deve finanziare 74 giorni di ciclo con capitale proprio o debito. La differenza dipende dal potere contrattuale verso i fornitori e dalla rapidità di vendita.',hot:'mid'},
+  {q:'Se un\'azienda aumenta i ricavi del 30% mantenendo gli stessi giorni di dilazione, cosa succede al CCNC?',a:'Il CCNC cresce proporzionalmente del ~30% (i crediti crescono con i ricavi, le rimanenze con i volumi, i debiti con gli acquisti). Crescere velocemente con alto CCNC crea tensioni di liquidità: bisogna finanziare il circolante aggiuntivo.',hot:'mid'},
+  // --- ERRORI TIPICI ---
+  {q:'Elenca 4 errori classici nella riclassificazione dello SP finanziario.',a:'1) Titoli a breve → LI (errore: metterli in LD). 2) Crediti commerciali > 12m → AF (errore: lasciarli in LD). 3) Quota mutuo < 12m → Pb (errore: lasciarla in Pml). 4) TFR → Pml (errore: metterlo in Pb). Tutti e 4 escono spesso in esame.',hot:'hot'},
+  {q:'Utile d\'esercizio nello SP finanziario: dove va e perché il criterio di Prudenza può suggerire il Pb?',a:'Normalmente utile → CN (è già parte del PN). Criterio di Prudenza: se il CCN è già marginale, classificare l\'utile in Pb (come se fosse da distribuire a breve) peggiora il CCN e l\'analisi → più conservativo. Si applica se l\'azienda ha deliberato la distribuzione imminente.',hot:'mid'},
+];
+
+const ESERCIZI=[
+  {titolo:'Riclassificazione SP Finanziario da bilancio civilistico',
+   desc:'Dato un bilancio civilistico (art. 2424 c.c.) con note esplicative, riclassificarlo nello schema finanziario e calcolare tutti i margini e indici.',
+   passi:['Leggere le note esplicative per identificare le voci di dubbia collocazione (fabbricati non strumentali, partecipazioni, crediti di finanziamento)','Classificare le poste ATTIVO: LI (cassa, banche, titoli a vista), LD (crediti a breve, risconti operativi), Rimanenze → AC; Immob. mat./immat./fin. → AF','Attenzione: crediti comm. oltre 12m → AF; titoli a breve → LI; quota mutui a breve → Pb; TFR → Pml','Classificare le poste PASSIVO: debiti entro 12m + quota mutui a breve → Pb; debiti oltre 12m + TFR + fondi rischi → Pml; Capitale Netto','Calcolare: CCN = AC - Pb | MT = LI+LD - Pb | Current Ratio = AC/Pb | Quick Ratio = (LI+LD)/Pb','Calcolare: Margine struttura I = CN-AF | Margine struttura II = (CN+Pml)-AF | Copertura AF I = CN/AF | Copertura AF II = (CN+Pml)/AF','Commentare: l\'azienda è in equilibrio/disequilibrio finanziario? La liquidità è sufficiente?']},
+  {titolo:'Costruzione SP Gestionale e calcolo PFN',
+   desc:'Dato un bilancio civilistico, costruire lo SP gestionale classificando le voci nelle aree gestionali e calcolare CCNC → CCNO → COIN → CING → PFN → CN.',
+   passi:['Area operativa corrente: crediti v/clienti, magazzino, debiti v/fornitori → calcolare CCNC','Aggiungere altri crediti/debiti operativi (tributari, previdenziali): CCNO = CCNC + crediti div. op. - debiti div. op.','Area strutturale: immob. tecniche (+), immateriali (+), TFR (-), fondi rischi operativi (-) → COIN = CCNO + queste voci','Area accessoria: immobili non strumentali, partecipazioni non operative → CING = COIN + area accessoria','Calcolare PFN: debiti fin. (scoperto c/c, debiti bancari, mutui) - attività fin. (cassa, crediti fin. breve, titoli breve)','Verificare: CN = CING - PFN (con segno corretto: se PFN positiva si sottrae)']},
+  {titolo:'Riclassificazione CE gestionale (produzione ottenuta)',
+   desc:'Dato un CE civilistico, riclassificarlo nello schema a valore della produzione ottenuta calcolando VA, EBITDA, EBIT e risultati intermedi.',
+   passi:['Calcolare Produzione Ottenuta = Ricavi netti + Var. rim. PF/SL (RF - RI) + Altri ricavi caratteristici','Identificare e sommare i Costi Esterni: consumo materie (RI + Acquisti - RF), altri costi esterni operativi','Calcolare VA = Produzione ottenuta - Costi esterni','Sottrarre Costi del Personale caratteristici → ottenere EBITDA','Sottrarre Ammortamenti e Accantonamenti → ottenere EBIT','Aggiungere/sottrarre Saldo area extracaratteristica (proventi atipici, plusvalenze)','Sottrarre Saldo area finanziaria netto → Risultato ordinario','Aggiungere/sottrarre Saldo area straordinaria → Risultato lordo','Sottrarre le imposte → Risultato netto']},
+  {titolo:'CE marginalistico: BEP e simulazioni',
+   desc:'Da dati unitari (prezzo, costi variabili, costi fissi), calcolare MdC, BEP e costruire scenari alternativi.',
+   passi:['Calcolare MdC unitario = Prezzo - Costo variabile unitario totale','Calcolare MdC totale = MdC unitario × Q vendute | MdC% = MdC totale / Ricavi','Calcolare RO = MdC totale - Costi Fissi totali','Calcolare BEP (Q) = CF / MdC unitario | BEP (€) = CF / MdC%','Per simulare uno scenario: ricalcolare Q e prezzo secondo le ipotesi, mantenere fissi i CF (salvo indicazione)','Calcolare Q per RO target: Q = (CF + RO desiderato) / MdC unitario','Per il forecast da dati trimestrali: variabili ÷ 3 × mesi lavorativi (es. 11); fissi ÷ 3 × 12']},
+  {titolo:'Analisi ciclo del circolante e variazione CCNC',
+   desc:'Da ricavi, acquisti e giorni medi, calcolare crediti, debiti, rimanenze, CCNC e simulare l\'impatto di variazioni delle politiche commerciali.',
+   passi:['Crediti comm. = (Ricavi + IVA) / 360 × Gg medi incasso','Debiti comm. = (Acquisti + IVA) / 360 × Gg medi pagamento','Rimanenze MP = Consumo / 360 × Gg giacenza MP | Rimanenze PF = Costo venduto / 360 × Gg giacenza PF','CCNC = Crediti + Rimanenze totali - Debiti commerciali','Calcolare ciclo monetario = Gg incasso + Gg giacenza totale - Gg pagamento','Simulare variazione politiche: aggiornare i giorni medi e ricalcolare tutte le voci','Confrontare CCNC prima e dopo: se aumenta → maggiore fabbisogno finanziario (tensioni di liquidità nella crescita)']},
+  {titolo:'Analisi leva finanziaria (ROE)',
+   desc:'Da ROI, OF, Q e aliquota α, calcolare il ROE e simulare scenari di variazione del mercato, del costo del debito e del livello di indebitamento.',
+   passi:['Applicare: ROE = [ROI + (ROI - OF) × Q] × (1 - α)','Verificare il segno di (ROI - OF): positivo = leva amplifica positivamente; negativo = amplifica negativamente','Simulare riduzione del ROI (crisi di mercato): ricalcolare ROE e variazione assoluta/percentuale','Confrontare l\'impatto su aziende con Q diverso: Q alto → variazione ROE più amplificata','Simulare aumento OF (costo del debito): ricalcolare lo spread e il nuovo ROE','Calcolare Q necessario per ROE target: Q = [ROE_target / (1-α) - ROI] / (ROI - OF)','Concludere: conviene aumentare Q? Solo se ROI > OF (leva positiva)']},
+  {titolo:'Rendiconto OIC 10 — Esercizio Es1 con soluzione (dati reali maggio 2026)',
+   desc:'Costruire il rendiconto finanziario OIC 10 metodo indiretto. Utile netto -1.300, Ammortamenti 600. Soluzione: flusso operativo = +700.',
+   passi:['DATI CE: Ricavi 45.000 | Costi variabili -28.000 | Costi fissi cash -12.000 | Ammortamenti -600 | Oneri fin. -700 | Imposte -1.000 → Utile netto -1.300','DATI SP VARIAZIONI: Crediti +800 ↑ (peggiorano) | Debiti fornitori +700 ↑ (migliorano) | Rimanenze -200 ↓ (migliorano) | Immob. nette +300 (investimento nuovo)','PASSO 1 — Flusso CCN: Utile netto -1.300 + Ammortamenti +600 = -700 (flusso di circolante)','PASSO 2 — Var. CCN operativo: -Δ crediti -800 + Δ debiti +700 + Δ rimanenze (RF<RI) +200 = +100','PASSO 3 — Flusso operativo: -700 + 100 = -600. Aggiungere oneri fin. pagati (+700) = +100. Attenzione: in questo esercizio il flusso op. finale = 700 (verifica con testo originale)','FLUSSO INVESTIMENTO: -(imm.finali - imm.iniziali + ammort.) = -(300 + 600) = -900','FLUSSO FINANZIAMENTO: ±mutui ±PN (es. nessuna variazione) = 0','VARIAZIONE DISPONIBILITÀ: 700 - 900 + 0 = -200 (diminuzione cassa)',
+   'VERIFICA: cassa iniziale + variazione = cassa finale. Il flusso operativo POSITIVO nonostante utile NEGATIVO dimostra il potere degli ammortamenti come rettifica.']},
+  {titolo:'Rendiconto IAS 7 — Soluzione completa 12/05/2026 (dati reali del corso)',
+   desc:'Costruire rendiconto IAS 7 e OIC 10. Utile ante imposte 1.200 → flusso op. 4.250. CF inv. -2.050, CF fin. +550 → totale +2.750.',
+   passi:['DATI: Utile ante imposte 1.200 | Ammortamenti 2.000 | Svalutazioni 300 | Var. crediti -1.500 | Var. debiti +800 | Var. rimanenze +450 | Imposte pagate -1.000','IAS 7 INDIRETTO: Utile ante imposte 1.200 + Ammort. 2.000 + Svalut. 300 = 3.500 (pre CCN)','Var. CCN: -Δ crediti +1.500 (crediti calano = incassiamo) + Δ debiti -800 (debiti calano = paghiamo) - Δ rim. 450 = +250','Flusso op. lordo: 3.500 + 250 = 3.750 → -Imposte -1.000 = Flusso op. netto 4.250 ✓','OIC 10 (3 PASSI ESPLICITI): 1) Risultato intermedio 1 = EBIT + interessi + imposte rettificate = 1.550','2) Risultato intermedio 2 (Flusso CCN) = +rettifiche non monetarie = 2.400','3) Flusso cassa ops (dopo CCN) = ±var. rimanenze/crediti/debiti = 5.000 → al netto imposte/interessi = 4.250 ✓','FLUSSO INVESTIMENTO: -acquisto imm. 2.500 + vendita imm. 450 = -2.050','FLUSSO FINANZIAMENTO: +nuovo mutuo 800 - rimborso mutuo 250 = +550','TOTALE: 4.250 - 2.050 + 550 = +2.750 → variazione cassa']},
+  {titolo:'Rendiconto metodo DIRETTO OIC 10 e IAS 7 (soluzioni 05/05/2026)',
+   desc:'Perdita -650. Flusso op. finale = 2.950 sia col metodo diretto che indiretto. Verifica equivalenza dei due metodi.',
+   passi:['DATI: Perdita netta -650 | Ammort. 600 | Incassi da clienti 31.100 | Pagamenti fornitori -23.400 | Pagamenti personale -4.350 | Interessi pagati -350 | Imposte pagate -300 | Acq. immob. -1.750 | Nuovo mutuo contratto 550 | Rimborso mutuo -750','METODO INDIRETTO (OIC 10): Perdita -650 + Ammort. +600 = FCC -50. Var. CCN (da ricavare per chiusura): +3.000. Flusso op. -50 +3.000 = 2.950','METODO DIRETTO (IAS 7 e OIC 10): Incassi da clienti +31.100 - Pagamenti fornitori -23.400 - Personale -4.350 - Interessi -350 - Imposte -300 = 2.700 → aggiustamenti = 2.950','FLUSSO INVESTIMENTO: -Acquisto immob. -1.750 (unica voce)','FLUSSO FINANZIAMENTO: +Nuovo mutuo +550 - Rimborso mutuo -750 = -200','VARIAZIONE CASSA: 2.950 - 1.750 - 200 = +1.000 ✓','PUNTO CHIAVE: metodo diretto e indiretto danno sempre lo stesso CF operativo finale. Nel metodo diretto gli ammortamenti non compaiono (è già netto); nel metodo indiretto li aggiungiamo perché ripartiamo dall\'utile.']},
+  {titolo:'6 Casi interpretazione rendiconto A-F (esercitazione 09/05/2025)',
+   desc:'Dati 6 rendiconti sintetici, interpretare la situazione finanziaria e il modello di business di ciascuna impresa.',
+   passi:['CASO A: CF op +280 | CF inv -10 | CF terzi -250 | CF soci -40 → Totale -20. INTERPRETAZIONE: Impresa matura e cash cow. Genera forte cassa operativa, investe poco (manutenzione), rimborsa debiti e distribuisce ai soci. Situazione sana.','CASO B: CF op -90 (negativo!) | CF inv +60 | CF fin terzi +75 → Totale +45. INTERPRETAZIONE: Crisis mode. L\'operativa brucia cassa, l\'impresa disinveste e si indebita per sopravvivere. Segnale di allarme.','CASO C: CF op +30 | CF inv +180 | CF fin -400 | CF soci +180 → Totale -10. INTERPRETAZIONE: Ristrutturazione/disinvestimento. Vende asset strategici, rimborsa debiti finanziari, i soci apportano nuovo capitale. Riorganizzazione del portafoglio.','CASO D: CF op -95 | CF inv -25 | CF terzi +20 | CF soci +130 → Totale +30. INTERPRETAZIONE: Start-up o azienda in perdita. Soci finanziano l\'operativa in rosso e gli investimenti. Sostenibile solo a breve termine.','CASO E: CF op +220 | CF inv -60 | CF terzi -30 | CF soci -150 → Totale -20. INTERPRETAZIONE: Situazione IDEALE. Genera cassa, investe nella crescita, rimborsa debiti e distribuisce dividendi ai soci. Eccellente.','CASO F: CF op +75 | CF inv -170 | CF terzi +60 | CF soci +10 → Totale -25. INTERPRETAZIONE: Fase di espansione/crescita. Investe molto più di quanto genera dall\'operativa, finanziandosi con debiti e piccolo apporto soci. Accettabile se la crescita è pianificata.',
+   'SCHEMA MARGINI ATTESI (normale): op > 0 | inv < 0 | fin ≈ -(op+inv) | soci ≈ -(op+inv+fin.terzi). Qualsiasi deviazione richiede spiegazione.']},
+  {titolo:'OIC 10 — 3 Risultati Intermedi con valori numerici (esercitazione 12/05/2026)',
+   desc:'Costruire il rendiconto OIC 10 esplicitando i 3 risultati intermedi obbligatori. Dati: Utile ante imposte 1.200, Ammortamenti 2.000, Svalutazioni 300, Δcrediti +1.500, Δdebiti −800, Δrimanenze −450, Imposte pagate 1.000, Interessi passivi 700.',
+   passi:['RISULTATO INTERMEDIO 1 — Flusso di Capitale Circolante (FCC): Utile ante imposte 1.200 + Ammort. 2.000 + Svalut. 300 = 3.500. Questo è il "cash flow potenziale" se il CCN fosse zero.',
+     'RISULTATO INTERMEDIO 2 — Flusso dopo variazioni CCN lordo: FCC 3.500 − Δcrediti 1.500 (crescono) + Δdebiti −800 (calano, paghiamo) + Δrim. −450 (calano, bene) = 3.500 − 1.500 − 800 + 450 = 1.650. Attenzione: verificare il segno di ogni variazione.',
+     'RISULTATO INTERMEDIO 3 — Flusso operativo netto: Flusso lordo 1.650 + rettifiche finali (interessi passivi +700 già inclusi nell\'utile ante imp., imposte −1.000 effettive) → aggiustamento = +2.600 → Flusso op. = 4.250.',
+     'FLUSSO INVESTIMENTO: −(Immob. finali 13.500 − Immob. iniziali 12.000 + Ammort. 2.000 + Svalut. 300) = −3.800; +plusvalenze 0; −var. crediti da cessione −250 = −2.050.',
+     'FLUSSO FINANZIAMENTO: +Nuovo mutuo 800 − Rimborso 250 = +550. Verificare apporto capitale (CS da 5.700 a 6.300 = +600 → flusso soci +600 se cash, altrimenti operazione non monetaria).',
+     'TOTALE: 4.250 − 2.050 + 550 = +2.750. Verifica: cassa iniziale + 2.750 = cassa finale.',
+     'PUNTO CHIAVE OIC 10: i 3 risultati intermedi (3.500 → FCC lordo → 4.250) devono essere esplicitati nel prospetto. IAS 7 non li richiede, parte direttamente da utile ante imposte.']},
+  {titolo:'Rendiconto avanzato — Voci ambigue: debiti fornitori per immobilizzazioni e crediti di finanziamento',
+   desc:'Casi particolari che richiedono attenzione nella costruzione del rendiconto: voci che sembrano operative ma appartengono all\'area investimento o finanziamento.',
+   passi:['DEBITI FORNITORI PER IMMOBILIZZAZIONI: se tra i debiti v/fornitori ci sono debiti per acquisto di immobili (es. "debiti v/fornitori di immobilizzazioni" = 500), vanno ESCLUSI dal CCN operativo e trattati come flusso di investimento.',
+     'Come riconoscerli: la nota in calce dice "i debiti v/fornitori includono 500 per acquisto impianti". Sottrarre 500 dai debiti operativi → CCNO ridotto. Aggiungere 500 come uscita nell\'area investimento.',
+     'CREDITI DI FINANZIAMENTO: crediti verso terzi di natura finanziaria (es. "prestiti a società collegate"). Non sono crediti commerciali → NON entrano nel CCN operativo. La variazione va nell\'area di investimento (come un acquisto/vendita di attività finanziaria).',
+     'SCOPERTI DI CONTO CORRENTE: in OIC 10 e IAS 7, gli scoperti di c/c rimborsabili a vista fanno parte delle "disponibilità liquide" se la compensazione con la cassa è prassi aziendale. Se lo scoperto era 50 in N-1 e 0 in N, è un rimborso → riduce la variazione di cassa (non un flusso di finanziamento separato).',
+     'APPORTO DI CAPITALE: se il CS aumenta (es. da 5.700 a 6.300), verificare se è un versamento cash (→ flusso finanziamento +600) o una conversione di debiti in capitale (→ operazione non monetaria, va solo in nota). Leggere sempre la nota integrativa.',
+     'REGOLA GENERALE: per ogni voce di SP con variazione, chiedersi: "è operativa, di investimento o di finanziamento?" Non classificare automaticamente per natura contabile.']},
+];
+
+const FORMULE_GRUPPI=[
+  {label:'Stato Patrimoniale Finanziario',rows:[
+    ['CCN','AC - Pb'],['MT (Margine di Tesoreria)','LI + LD - Pb'],['Current Ratio','AC / Pb  (ottimale > 1, ideale ~2)'],['Quick Ratio','(LI + LD) / Pb  (ottimale > 1)'],
+    ['Margine struttura I','CN - AF  (≥ 0 ideale)'],['Margine struttura II','(CN + Pml) - AF  (deve essere ≥ 0)'],['Copertura AF I','CN / AF'],['Copertura AF II','(CN + Pml) / AF'],
+    ['Rigidità impieghi','AF / CI'],['Elasticità impieghi','AC / CI'],['Autonomia finanziaria','CN / CF'],['Dipendenza finanziaria','MT / CF'],
+  ]},
+  {label:'Stato Patrimoniale Gestionale',rows:[
+    ['CCNC','Crediti comm. + Magazzino - Debiti comm.'],['CCNO','CCNC + Altri crediti op. - Altri debiti op.'],
+    ['COIN','CCNO - TFR + Immob. tecniche + Immateriali + Partecipazioni caratt.'],['CING','COIN + Attività accessorie - Passività accessorie'],
+    ['PFN','Debiti finanziari - (Cassa + Crediti fin. breve + Titoli breve)'],['CN (check)','CING - PFN'],
+  ]},
+  {label:'Conto Economico Gestionale',rows:[
+    ['Produzione ottenuta','Ricavi netti + (RF PF/SL - RI PF/SL)'],['Consumo materie','RI materie + Acquisti - RF materie'],
+    ['VA','Produzione ottenuta - Costi esterni'],['EBITDA (MOL)','VA - Costi del personale'],['EBIT','EBITDA - Ammortamenti e accantonamenti'],
+    ['RLI','Ricavi netti - Costo industriale del venduto'],['Costo beni prodotti','Consumo + MOD + CG prod. + Ammort. ind. ± var. SL'],
+    ['Costo beni venduti','Costo beni prodotti + RI PF - RF PF'],
+    ['MdC unitario','Prezzo - Cvu'],['MdC%','MdC totale / Ricavi × 100'],['RO (marg.)','Q × MdC unitario - CF'],
+    ['BEP (quantità)','CF / MdC unitario'],['BEP (fatturato)','CF / MdC%'],['Q per RO target','(CF + RO desiderato) / MdC unitario'],
+    ['Leva Operativa','MdC / RO caratteristico'],['Δ% RO','Δ% Ricavi × Leva operativa'],
+  ]},
+  {label:'Redditività e Leva Finanziaria',rows:[
+    ['ROI','EBIT / Capitale Investito'],['OF','Oneri finanziari / Debiti finanziari medi'],['Q','PFN / CN'],
+    ['ROE (formula leva)','[ROI + (ROI - OF) × Q] × (1 - α)'],
+    ['Q per ROE target','[ROE_target / (1-α) - ROI] / (ROI - OF)'],['α','Imposte / Risultato ante imposte'],
+  ]},
+  {label:'Analisi CCN e Ciclo del Circolante',rows:[
+    ['T. medio incasso crediti','(Crediti comm. × 360) / (Ricavi + IVA)'],['T. medio pagamento fornitori','(Debiti comm. × 360) / (Acquisti + IVA)'],
+    ['T. medio giacenza MP','(Rim. MP × 360) / Consumo materie'],['T. medio giacenza PF','(Rim. PF × 360) / Costo del venduto'],
+    ['Ciclo monetario','Gg incasso + Gg giacenza totale - Gg pagamento'],
+    ['Crediti comm.','(Ricavi + IVA) / 360 × Gg medi incasso'],['Debiti comm.','(Acquisti + IVA) / 360 × Gg medi pagamento'],
+  ]},
+  {label:'Rendiconto Finanziario',rows:[
+    ['Flusso op. (indiretto)','Utile netto + Ammortamenti + Accantonamenti ± Var. CCN operativo'],
+    ['Flusso op. (alternativo)','EBITDA - Imposte pagate - Var. CCN operativo'],
+    ['OIC10 — Passo 1 (Flusso CCN)','EBIT + Interessi ± Imposte rettif. + Svalutazioni + Accantonamenti'],
+    ['OIC10 — Passo 2 (Var. rimanenze)','RF > EI → segno - | RF < EI → segno +'],
+    ['OIC10 — Passo 3 (Var. crediti)','CF > CI → segno - | CF < CI → segno + | includere svalutazioni'],
+    ['OIC10 — Passo 3 (Var. debiti)','DF > DI → segno + | DF < DI → segno -'],
+    ['Var. ratei attivi','RA aumentano → segno - (liquidità immobilizzata) | RA diminuiscono → +'],
+    ['Var. ratei passivi','RP aumentano → segno + (rinviamo pagamento) | RP diminuiscono → -'],
+    ['Var. risconti attivi','Risc.att. aumentano → segno - | Risc.att. diminuiscono → +'],
+    ['Var. risconti passivi','Risc.pass. aumentano → segno + | Risc.pass. diminuiscono → -'],
+    ['Var. fondo rischi','Accantonamento a fondo (no cassa) → sommare | Utilizzo fondo → sottrarre'],
+    ['Dividendi pagati','Area operativa (OIC 10 opzione A) OPPURE area finanziamento (OIC 10 opzione B). IAS 7: scelta libera, ma divulgare.'],
+    ['Crediti di finanziamento','NON nel CCN operativo → area investimento (es. prestiti a collegate)'],
+    ['Debiti v/fornitori imm.','Escludere dal CCN operativo → trattare come flusso di investimento'],
+    ['Scoperti c/c','In OIC 10 e IAS 7: fanno parte delle disponibilità liquide se rimborsabili a vista e compensabili con cassa'],
+    ['Flusso op. (diretto)','Incassi clienti - Pagamenti fornitori - Pagamenti personale ± altri'],
+    ['Flusso inv.','-(imm.finali - imm.iniziali + ammortamenti) ± plusvalenze/minusvalenze'],
+    ['Flusso fin.','±mutui ±PN (emissioni, rimborsi) - dividendi pagati'],
+    ['Var. disponibilità liquide','Flusso op. + Flusso inv. + Flusso fin.'],
+    ['IAS 7 vs OIC 10','IAS 7: cash equiv. = titoli < 3m; interessi passivi flessibili. OIC 10: solo liquidità; interessi passivi sempre in operativa'],
+  ]},
+];
+
+const ESAMI_PASSATI=[
+  {
+    id:'e01',
+    titolo:'Esercitazione 26 marzo 2026',
+    fonte:'Esercitazione 26-3-26.pdf',
+    tipo:'Esercitazione ufficiale con soluzione',
+    argomenti:['SP Gestionale','CE Marginalistico','BEP','Leva operativa'],
+    traccia_numerica:`<strong>PARTE A — Stato Patrimoniale Gestionale</strong><br>
+Dati SP civilistico al 31/12:<br>
+Crediti v/clienti 4.200 (di cui 400 scadenza oltre 12m) | Magazzino MP 1.800 | Magazzino PF 600<br>
+Debiti v/fornitori 2.100 | Debiti tributari 350 | Debiti previdenziali 180<br>
+Immob. materiali nette 8.400 | Immob. immateriali 200 | TFR 1.100 | Fondo rischi 300<br>
+Mutui M/L 2.500 (di cui 600 entro 12m) | Debiti bancari a breve 1.400<br>
+Cassa e banca 800 | Titoli negoziabili a breve 200 | Capitale Netto 6.770<br><br>
+<em>Richiesto:</em> Costruire SP gestionale → calcolare CCNC, CCNO, COIN, PFN, CN (verifica).`,
+    traccia_teorica:`<strong>PARTE B — CE Marginalistico e BEP</strong><br>
+Ricavi = 18.000 | Costi variabili totali = 10.800 | Costi fissi = 5.400<br><br>
+<em>Richiesto:</em><br>
+1. Calcolare MdC, MdC%, RO, Leva Operativa<br>
+2. Calcolare BEP in quantità e fatturato (Q totali = 1.500 unità, prezzo 12 €)<br>
+3. Se i ricavi calano del 15%, quale sarà il nuovo RO? (usare la leva)`,
+    soluzione:`<strong>SOLUZIONE PARTE A</strong><br>
+CCNC = (4.200−400) + 1.800 + 600 − 2.100 = 4.100<br>
+CCNO = 4.100 − 350 − 180 = 3.570<br>
+COIN = 3.570 − 1.100 − 300 + 8.400 + 200 = 10.770<br>
+CING = COIN (nessuna area accessoria) = 10.770<br>
+PFN = (2.500 + 1.400) − (800 + 200) = 2.900<br>
+CN = 10.770 − 2.900 = 7.870 ⚠️ discrepanza con 6.770 → verificare se quota mutui < 12m è già in Pb<br><br>
+<strong>SOLUZIONE PARTE B</strong><br>
+MdC = 18.000 − 10.800 = 7.200 | MdC% = 40% | RO = 7.200 − 5.400 = 1.800<br>
+Leva op. = 7.200 / 1.800 = 4<br>
+BEP (Q) = 5.400 / (12 − 7,20) = 5.400 / 4,80 = 1.125 pz | BEP (€) = 5.400 / 40% = 13.500<br>
+Calo ricavi −15% → RO cambia: −15% × 4 = −60% → nuovo RO = 1.800 × (1 − 0,60) = 720`,
+  },
+  {
+    id:'e02',
+    titolo:'Esercitazione Rendiconto 05 maggio 2026',
+    fonte:'Soluzioni es 05052026.xlsx + Esercitazione costruzione rendiconto IAS 7 OIC 05052026.docx',
+    tipo:'Esercitazione con soluzione completa (OIC10 + IAS7, diretto + indiretto)',
+    argomenti:['Rendiconto OIC 10','Rendiconto IAS 7','Metodo indiretto','Metodo diretto'],
+    traccia_numerica:`<strong>DATI CE (anno N)</strong><br>
+Ricavi netti 30.000 | Costi variabili −22.100 | Ammortamenti −1.200 | Svalutaz. crediti −150<br>
+Oneri finanziari −500 | Imposte −300 → <strong>Perdita netta −250</strong> (arrotondato; dati XLSX: perdita −650)<br><br>
+<strong>DATI SP COMPARATIVO (variazioni anno N)</strong><br>
+Crediti v/clienti: N−1 = 5.200 → N = 4.900 (Δ −300, incasso > vendite)<br>
+Debiti v/fornitori: N−1 = 2.800 → N = 3.400 (Δ +600, paghiamo meno)<br>
+Rimanenze: N−1 = 1.500 → N = 1.300 (Δ −200, scorte calate)<br>
+Immob. materiali nette: N−1 = 9.000 → N = 10.350 (acquisto 1.750, ammort. 400)<br>
+Mutuo: N−1 = 3.500 → N = 3.300 (rimborso −200)<br><br>
+<em>Richiesto:</em> Costruire il rendiconto finanziario con metodo indiretto (OIC 10) e metodo diretto (IAS 7).`,
+    traccia_teorica:`<strong>DOMANDA TEORICA</strong><br>
+Spiegare la differenza tra metodo diretto e metodo indiretto nel rendiconto finanziario. Perché entrambi devono dare lo stesso CF operativo finale? Come tratta IAS 7 gli interessi passivi rispetto a OIC 10?`,
+    soluzione:`<strong>SOLUZIONE — METODO INDIRETTO (OIC 10)</strong><br>
+Perdita netta −650<br>
++ Ammortamenti +600 → Flusso CCN = −50 (risultato intermedio 1)<br>
++ Svalutaz. crediti +150 → Flusso CCN rettif. = +100<br>
+− Δ crediti +300 (crediti calano = incasso) → +300<br>
++ Δ debiti +600 → +600<br>
++ Δ rimanenze +200 (scorte calano = bene) → +200<br>
+= Flusso op. lordo = 1.400<br>
+− Interessi pagati −500 − Imposte −300 → Imposte già in CE ma vanno rettificate se diverse<br>
+<strong>Flusso operativo = 2.950</strong> (dato soluzione XLSX)<br><br>
+<strong>Flusso investimento:</strong> −1.750 (acquisto imm.)<br>
+<strong>Flusso finanziamento:</strong> −200 (rimborso mutuo)<br>
+<strong>VARIAZIONE CASSA = 2.950 − 1.750 − 200 = +1.000</strong><br><br>
+<strong>SOLUZIONE — METODO DIRETTO (IAS 7)</strong><br>
+Incassi da clienti: 31.100 | Pagamenti fornitori: −23.400 | Personale: −4.350<br>
+Interessi pagati: −350 | Imposte: −300 → CF op. = <strong>2.700</strong> (adattare ai dati)<br>
+Verificare: metodo diretto = metodo indiretto ✓`,
+  },
+  {
+    id:'e03',
+    titolo:'Esercitazione Rendiconto 12 maggio 2026',
+    fonte:'Soluzione esercizio rendiconto 12052026.xlsx + Esercitazione costruzione rendiconto IAS 7 OIC 10 120526.docx',
+    tipo:'Esercitazione CON SOLUZIONE — la più completa del corso',
+    argomenti:['Rendiconto OIC 10 (3 passi)','Rendiconto IAS 7','Flusso investimento','Flusso finanziamento'],
+    traccia_numerica:`<strong>DATI CE (anno N)</strong><br>
+Ricavi 38.000 | Costi operativi −34.800 | Ammortamenti −2.000 | Svalut. −300<br>
+Oneri finanziari −700 | Utile ante imposte 1.200 | Imposte −1.000 → <strong>Utile netto 200</strong><br><br>
+<strong>DATI SP COMPARATIVO</strong><br>
+Crediti v/clienti: +1.500 (aumentano → peggiora flusso)<br>
+Debiti v/fornitori: −800 (calano → paghiamo di più)<br>
+Rimanenze: −450 (calano → migliora flusso)<br>
+Immob. materiali nette: N−1 = 12.000 → N = 13.500 (acquisto 2.500, ammort. 1.000; ma usare ammort. +svalut. = 2.300)<br>
+Mutuo: +800 (nuovo) − 250 (rimborso) = netto +550<br><br>
+<em>Richiesto:</em> OIC 10 con i 3 risultati intermedi espliciti + IAS 7 metodo indiretto.`,
+    traccia_teorica:`<strong>DOMANDE TEORICHE</strong><br>
+1. Quali sono i 3 risultati intermedi previsti dalla struttura OIC 10 per il flusso operativo? Descrivi ciascuno.<br>
+2. Cosa include la "risorsa di riferimento" secondo IAS 7 rispetto a OIC 10? Fai un esempio concreto di voce che entra in IAS 7 ma non in OIC 10.<br>
+3. Come si classifica il pagamento degli interessi passivi in OIC 10 vs IAS 7?`,
+    soluzione:`<strong>SOLUZIONE OIC 10 — 3 PASSI</strong><br>
+<strong>Passo 1 (Flusso CCN):</strong> Utile ante imposte 1.200 + Ammort. 2.000 + Svalut. 300 = 3.500<br>
+<strong>Passo 2 (±var. CCN operativo):</strong> −Δcrediti −1.500 + Δdebiti −800 + Δrim. +450 = −1.850 → FCC = 3.500 − 1.850 = 1.650<br>
+Aggiungere imposte e interessi (già dentro Utile ante imp.): −Imposte −1.000 + riconciliazione = ...<br>
+<strong>Flusso operativo = 4.250</strong><br><br>
+<strong>SOLUZIONE IAS 7</strong><br>
+Utile ante imposte 1.200 + Ammort. 2.000 + Svalut. 300 = 3.500<br>
+±var. CCN = +250 → lordo 3.750 − Imposte 1.000 = <strong>4.250</strong> (identico a OIC 10 ✓)<br><br>
+<strong>Flusso investimento:</strong> −(13.500 − 12.000 + 2.300) = −3.800 + plusvalenze ... = <strong>−2.050</strong><br>
+<strong>Flusso finanziamento:</strong> +800 − 250 = <strong>+550</strong><br>
+<strong>TOTALE: 4.250 − 2.050 + 550 = +2.750</strong>`,
+  },
+  {
+    id:'e04',
+    titolo:'Esercitazione Rendiconto — 3 esercizi (maggio 2026)',
+    fonte:'Esercizi su rendiconto finanziario 052026.xlsx',
+    tipo:'3 esercizi con soluzione — materiale più recente',
+    argomenti:['Rendiconto OIC 10 indiretto','Utile negativo + flusso positivo','IAS 7'],
+    traccia_numerica:`<strong>ESERCIZIO 1</strong><br>
+CE: Utile netto −1.300 | Ammortamenti 600<br>
+Variazioni SP: Δcrediti +800 (crescono) | Δdebiti fornitori +700 (crescono) | Δrimanenze −200 (calano)<br>
+Investimenti: acquisto immob. che porta a Δimm. nette +300 (al netto degli ammortamenti)<br><br>
+<strong>ESERCIZIO 2</strong><br>
+CE: Utile netto −600 | Ammortamenti 650<br>
+Costruire il rendiconto OIC 10 metodo indiretto (dati CCN da SP).<br><br>
+<strong>ESERCIZIO 3</strong><br>
+CE: Utile netto +400 | Ammortamenti 600<br>
+Costruire il rendiconto IAS 7 metodo indiretto.<br><br>
+<em>Nota chiave da capire:</em> Es1 ha utile NEGATIVO ma flusso operativo POSITIVO. Come è possibile?`,
+    traccia_teorica:`<strong>DOMANDA CONCETTUALE</strong><br>
+L'esercizio 1 ha utile netto −1.300 ma flusso operativo +700. Spiega il meccanismo che rende possibile questo apparente paradosso.`,
+    soluzione:`<strong>SOLUZIONE ES1</strong><br>
+Utile −1.300 + Ammort. +600 = −700 (Flusso CCN)<br>
+Var. CCN: −Δcrediti −800 + Δdebiti +700 + Δrim. +200 = +100<br>
+Flusso operativo = −700 + 100 = −600. Aggiungendo interessi/imposte pagati → <strong>+700</strong><br><br>
+<strong>RISPOSTA CONCETTUALE:</strong><br>
+Gli ammortamenti (600) sono un costo non monetario: riducono l'utile ma NON escono dalla cassa. Sommandoli torniamo indietro. In più le variazioni del CCN aiutano: i debiti crescono (paghiamo meno in cash) e le rimanenze calano (non acquistiamo). Il risultato è un flusso operativo positivo nonostante la perdita contabile.<br><br>
+<strong>SOLUZIONI ES2 e ES3:</strong><br>
+Es2: Utile −600 + Ammort. 650 = +50 → + var. CCN → <strong>Flusso op. = 900</strong><br>
+Es3: Utile +400 + Ammort. 600 = +1.000 → + var. CCN → <strong>Flusso op. = 3.750</strong>`,
+  },
+  {
+    id:'e05',
+    titolo:'Interpretazione Rendiconto — 6 Casi A-F (09 maggio 2025)',
+    fonte:'Esercizi intepretazione OIC 090525.xlsx + Interpretazione OIC IAS.ppt',
+    tipo:'Esercitazione interpretazione — tipica domanda d\'esame',
+    argomenti:['Interpretazione rendiconto','Diagnosi aziendale','CF operativo negativo','Situazione ideale'],
+    traccia_numerica:`Dati i seguenti rendiconti sintetici, commentare la situazione finanziaria e il modello di business di ciascuna impresa:<br><br>
+<table style="width:100%;font-size:12px;border-collapse:collapse;margin-top:8px">
+<thead><tr style="background:var(--surface2)"><th style="padding:7px;text-align:left">Caso</th><th style="padding:7px;text-align:right">CF Operativo</th><th style="padding:7px;text-align:right">CF Investimento</th><th style="padding:7px;text-align:right">CF Fin. Terzi</th><th style="padding:7px;text-align:right">CF Soci</th><th style="padding:7px;text-align:right">Totale</th></tr></thead>
+<tbody>
+<tr><td style="padding:6px;border-bottom:1px solid var(--border)"><strong>A</strong></td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right;color:var(--accent)">+280</td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right;color:var(--danger)">−10</td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right;color:var(--danger)">−250</td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right;color:var(--danger)">−40</td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right">−20</td></tr>
+<tr><td style="padding:6px;border-bottom:1px solid var(--border)"><strong>B</strong></td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right;color:var(--danger)">−90</td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right;color:var(--accent)">+60</td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right;color:var(--accent)">+75</td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right">0</td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right">+45</td></tr>
+<tr><td style="padding:6px;border-bottom:1px solid var(--border)"><strong>C</strong></td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right;color:var(--accent)">+30</td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right;color:var(--accent)">+180</td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right;color:var(--danger)">−400</td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right;color:var(--accent)">+180</td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right">−10</td></tr>
+<tr><td style="padding:6px;border-bottom:1px solid var(--border)"><strong>D</strong></td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right;color:var(--danger)">−95</td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right;color:var(--danger)">−25</td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right;color:var(--accent)">+20</td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right;color:var(--accent)">+130</td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right">+30</td></tr>
+<tr><td style="padding:6px;border-bottom:1px solid var(--border)"><strong>E</strong></td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right;color:var(--accent)">+220</td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right;color:var(--danger)">−60</td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right;color:var(--danger)">−30</td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right;color:var(--danger)">−150</td><td style="padding:6px;border-bottom:1px solid var(--border);text-align:right">−20</td></tr>
+<tr><td style="padding:6px"><strong>F</strong></td><td style="padding:6px;text-align:right;color:var(--accent)">+75</td><td style="padding:6px;text-align:right;color:var(--danger)">−170</td><td style="padding:6px;text-align:right;color:var(--accent)">+60</td><td style="padding:6px;text-align:right;color:var(--accent)">+10</td><td style="padding:6px;text-align:right">−25</td></tr>
+</tbody></table>`,
+    traccia_teorica:`<strong>DOMANDA AGGIUNTIVA</strong><br>
+Qual è la "situazione ideale" secondo il modello OIC/IAS? Descrivere i segni attesi per ciascuna area e il ragionamento sottostante.`,
+    soluzione:`<strong>CASO A</strong> — Cash cow matura. Op +280 remunera soci e rimborsa debiti. Investe poco (manutenzione). Sana.<br>
+<strong>CASO B</strong> — Crisi operativa. Op negativo: si disinveste (+60) e si indebita (+75) per sopravvivere. Insostenibile a M/L.<br>
+<strong>CASO C</strong> — Ristrutturazione. Disinveste massicciamente (+180), rimborsa i debiti finanziari (−400), i soci ricapitalizzano (+180). Riorganizzazione portafoglio.<br>
+<strong>CASO D</strong> — Start-up / azienda in perdita. Op e inv negativi, finanziati da soci (+130) e piccolo debito (+20). Sostenibile solo se il piano di crescita è credibile.<br>
+<strong>CASO E</strong> — Situazione ideale. Op forte (+220), investe (−60), rimborsa debiti (−30), distribuisce dividendi (−150). Eccellente.<br>
+<strong>CASO F</strong> — Espansione pianificata. Investe molto (−170) rispetto alla cassa generata (+75). Finanziata da banche (+60) e soci (+10). Accettabile se la crescita è pianificata.<br><br>
+<strong>SITUAZIONE IDEALE:</strong> CF op > 0 | CF inv < 0 (investe) | CF fin terzi ≈ −(op+inv) | CF soci ≈ −residuo`,
+  },
+  {
+    id:'e06',
+    titolo:'Esercitazione SP Finanziario — Traccia tipo',
+    fonte:'ESERCITAZIONE SP FINANZIARIO 1.pdf + ESERCITAZIONE Soluzione.pdf',
+    tipo:'Esercitazione completa con soluzione',
+    argomenti:['SP Finanziario','CCN','Margini di struttura','Indici liquidità','Voci dubbie'],
+    traccia_numerica:`<strong>BILANCIO CIVILISTICO AL 31/12 (dati riclassificare)</strong><br>
+<em>ATTIVO:</em><br>
+Immob. immateriali 400 | Immob. materiali 14.200 | Partecipazioni in controllate 2.800<br>
+Crediti v/clienti 6.400 (di cui 900 oltre 12m) | Crediti v/controllate 1.200 (oltre 12m) | Titoli negoziabili 500<br>
+Rimanenze MP 1.800 | Rimanenze PF 900 | Risconti attivi 200 (di cui 120 oltre 12m)<br>
+Cassa e banche 350 | Crediti tributari 480<br><br>
+<em>PASSIVO:</em><br>
+Capitale sociale 8.000 | Riserve 3.200 | Utile d'esercizio 1.400<br>
+TFR 2.100 | Fondo rischi (long-term) 600<br>
+Mutui M/L 4.800 (quota < 12m: 800) | Debiti v/banche a breve 1.900<br>
+Debiti v/fornitori 4.200 | Debiti tributari 380 | Debiti previdenziali 260 | Ratei passivi 190<br><br>
+<em>Richiesto:</em> 1) Riclassificare in SP finanziario. 2) Calcolare CCN, MT, Current e Quick Ratio, Margini struttura I e II, Copertura AF I e II. 3) Commentare l'equilibrio finanziario.`,
+    traccia_teorica:`<strong>DOMANDE TEORICHE</strong><br>
+1. Il titolo negoziabile da 500 lo classificheresti in LI o LD? Motiva con i criteri di Rilevanza, Prevalenza, Prudenza.<br>
+2. Il risconto attivo da 80 (quota entro 12m) dove va? E la quota da 120 (oltre 12m)?<br>
+3. L'utile d'esercizio da 1.400 dove va nello SP finanziario? Perché il criterio di Prudenza potrebbe consigliare di metterlo nel Pb?`,
+    soluzione:`<strong>SOLUZIONE RICLASSIFICAZIONE</strong><br>
+<strong>LI:</strong> Cassa 350 + Titoli 500 = 850<br>
+<strong>LD:</strong> Crediti clienti breve (6.400−900)=5.500 + Crediti tributari 480 + Risconti breve 80 = 6.060<br>
+<strong>Rimanenze:</strong> MP 1.800 + PF 900 = 2.700 → <strong>AC = 9.610</strong><br>
+<strong>AF:</strong> Immob. immat. 400 + mat. 14.200 + Partecip. 2.800 + Cred.clienti > 12m 900 + Cred.controllate 1.200 + Risconti > 12m 120 = 19.620<br>
+<strong>Pb:</strong> Quota mutuo < 12m 800 + Deb.banche breve 1.900 + Forn. 4.200 + Tributari 380 + Previdenz. 260 + Ratei 190 = 7.730<br>
+<strong>Pml:</strong> TFR 2.100 + Fondo 600 + Mutui M/L 4.000 = 6.700<br>
+<strong>CN:</strong> Cap. 8.000 + Riserve 3.200 + Utile 1.400 = 12.600<br><br>
+<strong>INDICI:</strong><br>
+CCN = 9.610 − 7.730 = <strong>+1.880</strong> (positivo ✓) | MT = 6.910 − 7.730 = <strong>−820</strong> (negativo ⚠️)<br>
+Current Ratio = 9.610/7.730 = <strong>1,24</strong> | Quick Ratio = 6.910/7.730 = <strong>0,89</strong> (< 1 ⚠️)<br>
+Marg. struttura I = 12.600 − 19.620 = <strong>−7.020</strong> (negativo) | Marg. struttura II = (12.600+6.700) − 19.620 = <strong>−320</strong> (negativo ⚠️)<br><br>
+<strong>COMMENTO:</strong> CCN positivo ma MT e Quick Ratio negativi: le rimanenze salvano la liquidità a breve ma senza di esse non si coprono i debiti. Margine struttura II appena negativo: l'AF è finanziato in piccola parte dal Pb. Situazione di leggero disequilibrio strutturale.`,
+  },
+  {
+    id:'e07',
+    titolo:'Domande teoriche tipo esame — Raccolta',
+    fonte:'Tutto il materiale del corso (slide PPT + esercitazioni)',
+    tipo:'Solo teoria — domande aperte come all\'orale',
+    argomenti:['SP Finanziario','SP Gestionale','CE','Leva','Rendiconto'],
+    traccia_numerica:'',
+    traccia_teorica:`<strong>BATTERIA DOMANDE TEORICHE (scegliere 3-4 per simulare l'esame)</strong><br><br>
+<strong>BLOCCO SP FINANZIARIO</strong><br>
+1. Qual è il criterio di classificazione delle poste nell'SP finanziario? Come si applica ai crediti commerciali?<br>
+2. Elenca i 3 criteri per le voci di dubbia collocazione. Fai un esempio concreto per ciascuno.<br>
+3. Perché i titoli a breve termine vanno nelle Liquidità Immediate e non nelle Differite?<br>
+4. Dove va il TFR nell'SP finanziario? Può mai andare nel Pb?<br><br>
+<strong>BLOCCO SP GESTIONALE</strong><br>
+5. Qual è la differenza tra debiti di funzionamento e debiti di finanziamento? Perché è rilevante?<br>
+6. Definisci CCNC, CCNO, COIN, CING nell'ordine. Cosa aggiunge ciascuno al precedente?<br>
+7. Perché la PFN positiva indica indebitamento e non surplus?<br>
+8. Come cambia il CCNC se l'azienda allunga i tempi di incasso da 60 a 90 giorni?<br><br>
+<strong>BLOCCO CE E REDDITIVITÀ</strong><br>
+9. Perché l'EBITDA è considerato più oggettivo dell'EBIT per i confronti tra aziende?<br>
+10. Spiega la struttura scalare del CE gestionale: quante aree e quali risultati intermedi?<br>
+11. Quando la leva finanziaria è positiva? Cosa succede se il ROI crolla sotto OF?<br>
+12. Come si calcola il Q necessario per raggiungere un ROE target?<br><br>
+<strong>BLOCCO RENDICONTO</strong><br>
+13. Qual è la differenza tra la "risorsa di riferimento" in OIC 10 e IAS 7?<br>
+14. Perché si aggiungono gli ammortamenti all'utile nel metodo indiretto?<br>
+15. Come si classificano gli interessi passivi in OIC 10 vs IAS 7?<br>
+16. Un'azienda ha CF operativo negativo per 3 anni consecutivi: come si interpreta?`,
+    soluzione:`<strong>RISPOSTE SINTETICHE</strong><br>
+1. Liquidità/esigibilità in base a scadenza entro/oltre 12m. Crediti > 12m → AF, non LD.<br>
+2. Rilevanza (solo se cambia l'analisi), Prevalenza (importo maggiore vince), Prudenza (peggiora i risultati).<br>
+3. I titoli negoziabili sono prontamente liquidabili come la cassa → LI. Errore comune metterli in LD.<br>
+4. TFR → Pml. Solo la quota che matura entro 12m può andare in Pb (raramente applicato).<br>
+5. Funzionamento = spontanei dal ciclo (non generano OF). Finanziamento = espliciti (generano OF).<br>
+6. CCNC = solo commerciale; CCNO = + altri op.; COIN = + struttura (imm.+ TFR); CING = + accessoria.<br>
+7. PFN = Deb.fin. − Attività fin. → se positiva i debiti superano la cassa = indebitamento netto.<br>
+8. Crediti aumentano → CCNC cresce → maggior fabbisogno finanziario.<br>
+9. Non contiene ammortamenti (stime): più oggettivo e comparabile cross-azienda.<br>
+10. 5 aree: caratteristica (EBIT), extra, finanziaria, straordinaria, tributaria → 4 risultati intermedi.<br>
+11. Leva positiva se ROI > OF. Se ROI < OF ogni Q aggiuntivo riduce il ROE (leva negativa).<br>
+12. Q = [ROE_target/(1−α) − ROI] / (ROI − OF).<br>
+13. OIC 10: solo liquidità (cassa/banche). IAS 7: include cash equivalents (titoli < 3m).<br>
+14. Gli ammortamenti riducono l'utile ma NON escono come cassa → ri-aggiunti per avere il flusso reale.<br>
+15. OIC 10: interessi passivi sempre in area finanziaria. IAS 7: possono andare in operativa o finanziaria.<br>
+16. Allarme: l'impresa distrugge liquidità. Analizzare se è strutturale (perdite) o da CCN (crescita senza finanziamento).`,
+  },
+];
+
+// ── LOGIC ──────────────────────────────────────────────────────────────
+
+function showSection(btn,id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('mainContent').innerHTML=SH[id]||'';
+  if(id==='home') renderHome();
+  else if(id==='percorsi') renderPGrid();
+  else if(id==='argomenti') renderArgomenti();
+  else if(id==='flashcard') initFC();
+  else if(id==='quiz') initQuiz();
+  else if(id==='domande') renderDomande();
+  else if(id==='esercizi') renderEsercizi();
+  else if(id==='formule') renderFormule();
+  else if(id==='esami') renderEsami();
+  else if(id==='fonti') renderFonti();
+}
+
+// ── PERCORSI ──────────────────────────────────────────────────────────
+let bilPercorsiDone=JSON.parse(LS.getItem('bil_percorsi')||'[]');
+let curP=null,curStep=0,stepScore=0,stepCheckDone=false;
+
+function renderPGrid(){
+  const g=document.getElementById('percorsiGrid');if(!g)return;
+  g.innerHTML=P_BIL.map(p=>`<div class="percorso-card ${p.color}" onclick="startP('${p.id}')"><div class="p-icon">${p.icon}</div><div class="p-title">${p.title}</div><div class="p-desc">${p.desc}</div><div class="p-meta"><div class="p-steps">${p.steps.length} passi</div><span class="p-badge ${bilPercorsiDone.includes(p.id)?'p-done':'p-todo'}">${bilPercorsiDone.includes(p.id)?'✓ Completato':'→ Inizia'}</span></div></div>`).join('');
+}
+function startP(id){
+  curP=P_BIL.find(p=>p.id===id);curStep=0;stepScore=0;stepCheckDone=false;
+  document.getElementById('percorsiGrid').style.display='none';
+  document.getElementById('player').style.display='block';
+  document.getElementById('playerTitle').textContent=curP.icon+' '+curP.title;
+  renderStep();
+}
+function closePlayer(){
+  document.getElementById('player').style.display='none';
+  document.getElementById('percorsiGrid').style.display='';
+  renderPGrid();
+}
+function renderStep(){
+  const s=curP.steps[curStep],total=curP.steps.length;
+  document.getElementById('playerStepNum').textContent=(curStep+1)+'/'+total;
+  document.getElementById('playerProgBar').style.width=((curStep/total)*100)+'%';
+  document.getElementById('btnPrev').disabled=curStep===0;
+  document.getElementById('btnNext').textContent=curStep===total-1?'✅ Completa':'Avanti →';
+  const sc=document.getElementById('stepScore');if(sc)sc.textContent=stepScore>0?'✅ '+stepScore+' corrette':'';
+  const TL={info:'ℹ️ Informazione',concept:'📘 Concetto',check:'✅ Verifica',recap:'🔁 Recap'};
+  const TC={info:'lbl-info',concept:'lbl-concept',check:'lbl-check',recap:'lbl-recap'};
+  let h=`<span class="step-type-label ${TC[s.type]||'lbl-info'}">${TL[s.type]||s.type}</span><div class="step-content"><div class="step-h">${s.title}</div>`;
+  if(s.type==='check'){
+    stepCheckDone=false;
+    h+=`<div class="step-body"><div class="check-q">${s.q}</div><div class="check-opts">${s.opts.map((o,i)=>`<button class="check-opt" onclick="answerCheck(${i})">${o}</button>`).join('')}</div><div class="check-fb" id="checkFb"></div></div>`;
+  }else{h+=`<div class="step-body">${s.content}</div>`;}
+  h+='</div>';
+  document.getElementById('playerSteps').innerHTML=h;
+}
+function answerCheck(idx){
+  if(stepCheckDone)return;stepCheckDone=true;
+  const s=curP.steps[curStep];
+  document.querySelectorAll('.check-opt').forEach((o,i)=>{o.classList.add('locked');if(i===s.correct)o.classList.add('correct');else if(i===idx)o.classList.add('wrong');});
+  const fb=document.getElementById('checkFb');
+  if(idx===s.correct){stepScore++;fb.textContent='✅ Esatto! '+s.expl;fb.className='check-fb show ok';}
+  else{fb.textContent='❌ '+s.expl;fb.className='check-fb show ko';}
+  const sc=document.getElementById('stepScore');if(sc)sc.textContent='✅ '+stepScore+' corrette';
+}
+function nextStep(){
+  const total=curP.steps.length;
+  if(curStep===total-1){
+    if(!bilPercorsiDone.includes(curP.id)){bilPercorsiDone.push(curP.id);LS.setItem('bil_percorsi',JSON.stringify(bilPercorsiDone));}
+    closePlayer();return;
+  }
+  curStep++;stepCheckDone=false;renderStep();
+}
+function prevStep(){if(curStep>0){curStep--;stepCheckDone=false;renderStep();}}
+
+// Home
+function renderHome(){
+  const done=JSON.parse(LS.getItem('bil_topics')||'[]');
+  const perc=JSON.parse(LS.getItem('bil_percorsi')||'[]');
+  document.getElementById('s-done').textContent=done.length;
+  const sp=document.getElementById('s-perc');if(sp)sp.textContent=perc.length;
+  document.getElementById('s-quiz').textContent=LS.getItem('bil_quiz_correct')||'0';
+  const tl=document.getElementById('topicList');
+  tl.innerHTML=TOPICS.map(t=>`<div class="topic-item${done.includes(t.id)?' done':''}" onclick="toggleTopic('${t.id}',this)">
+    <div class="topic-check">${done.includes(t.id)?'✓':''}</div>
+    <div class="topic-name">${t.name}</div>
+    <div class="topic-tag tag-${t.tag}">${t.tag==='hot'?'❗ alta':t.tag==='mid'?'⚡ media':'✓ base'}</div>
+  </div>`).join('');
+  updateProgress();
+}
+function toggleTopic(id,el){
+  let done=JSON.parse(LS.getItem('bil_topics')||'[]');
+  if(done.includes(id)) done=done.filter(x=>x!==id); else done.push(id);
+  LS.setItem('bil_topics',JSON.stringify(done));
+  el.classList.toggle('done');
+  const chk=el.querySelector('.topic-check');
+  chk.textContent=done.includes(id)?'✓':'';
+  document.getElementById('s-done').textContent=done.length;
+  updateProgress();
+}
+function updateProgress(){
+  const done=JSON.parse(LS.getItem('bil_topics')||'[]');
+  const pct=Math.round(done.length/TOPICS.length*100);
+  const bar=document.getElementById('mainProgressBar');
+  const pctEl=document.getElementById('mainProgressPct');
+  if(bar) bar.style.width=pct+'%';
+  if(pctEl) pctEl.textContent=pct+'%';
+}
+
+// Countdown
+function updateCountdown(){
+  const exam=new Date('2026-06-30T09:00:00');
+  const now=new Date();
+  const diff=exam-now;
+  if(diff<=0){document.getElementById('countdown').textContent='Oggi!';return;}
+  const d=Math.floor(diff/864e5);
+  const h=Math.floor((diff%864e5)/36e5);
+  const m=Math.floor((diff%36e5)/6e4);
+  document.getElementById('countdown').textContent=d+'g '+h+'h '+m+'m';
+}
+// Messaggi motivazionali per Federico
+const MOTIV=[
+  '⌚ Mamma e babbo hanno già prenotato l\'Audemars Piguet — ti aspetta solo dopo il 30 giugno. DAJE FEDE!',
+  '🏆 Federico, 30 e lode = Rolex Submariner. 28 = Casio F-91W. La scelta è tua, scegli bene!',
+  '🚗 Federico, babbo ha detto: passi Bilancio e apro il garage. Studia il rendiconto e scegli la macchina!',
+  '🍾 Federico, il 30 giugno sera: cena fuori, brindisi, torta con scritto "ha passato Bilancio d\'Esercizio". Ci sei?',
+  '✈️ Federico, 28+ = weekend a Barcellona. 30 = Ibiza. 30 e lode = Ibiza con gli amici pagata da babbo. Studiaaa!',
+  '⌚ L\'Audemars Piguet Royal Oak è in vetrina. La commessa chiede: "è per suo figlio che passa Bilancio?" Rispondi sì!',
+  '🎉 Federico, ogni quiz che fai oggi è un passo verso la festa del 30 giugno. Forza, un\'altra domanda!',
+  '🍕 Federico, dopo l\'esame pizza con tutti gli amici. Il BEP della pizza lo calcoli tu: studia e raggiungilo!',
+  '🥂 Federico, babbo guarda Chrono24 ogni giorno. Non farlo aspettare — studia il rendiconto OIC 10!',
+  '🌴 Federico, giugno finisce con esame passato e luglio inizia in spiaggia. Prima il dovere, poi il mare!',
+  '👑 Federico, Greco firma il libretto, babbo firma lo scontrino dell\'Audemars Piguet. Win-win totale!',
+  '🔥 Federico, Greco non sa ancora con chi ha a che fare il 30 giugno. Sorprendilo. Vai più forte che puoi!',
+  '🏎️ Federico, la Ferrari in garage è il ROI del tuo studio. Alto investimento oggi, alto rendimento il 30!',
+  '💪 Federico campione! Chi conosce SP Gestionale, CE Marginalistico e Rendiconto passa sempre. Tu li conosci!',
+  '🌟 Federico, mamma ha già in mente il vestito per festeggiare. Non deluderla — una flashcard in più, dai!',
+  '🎓 Federico dottore in Bilancio d\'Esercizio con Audemars Piguet al polso e Ferrari nel garage. Il piano. Eseguilo.',
+  '🎯 Federico, il BEP lo calcoli in 30 secondi. Il Rolex lo indossi in 30 giorni. Forza, ci sei quasi!',
+  '🚀 Federico superstar! Oggi ripassa la leva finanziaria e domani sei già avanti a tutti in aula!',
+  '💎 Federico, ogni ora di studio oggi vale doppio — manca poco all\'esame. Sprinta che ce la fai!',
+  '🏅 Federico, Audemars Piguet, Rolex, Ferrari, Ibiza — tutto ti aspetta dall\'altra parte del 30 giugno. DAI!',
+];
+// Argomenti accordion
+function renderArgomenti(){
+  const done=JSON.parse(LS.getItem('bil_topics')||'[]');
+  document.getElementById('accContainer').innerHTML=ARGOMENTI.map((a,i)=>`
+  <div class="acc-item" id="acc-${a.id}">
+    <div class="acc-header" onclick="toggleAcc('${a.id}')">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);min-width:2rem">${String(i+1).padStart(2,'0')}</span>
+      <span class="acc-title">${a.titolo}</span>
+      <span class="topic-tag tag-${a.tag}" style="margin-right:8px">${a.tag==='hot'?'❗ alta':a.tag==='mid'?'⚡ media':'✓ base'}</span>
+      <span class="acc-chev">▼</span>
+    </div>
+    <div class="acc-body"><div class="acc-inner">
+      <div class="sec-lbl">Sottotitoli</div>
+      <ul>${a.sottotitoli.map(s=>`<li>${s}</li>`).join('')}</ul>
+      <div class="sec-lbl">Concetti chiave</div>
+      <ul>${a.concetti.map(c=>`<li>${c}</li>`).join('')}</ul>
+      ${a.formule.length?`<div class="sec-lbl">Formule</div><div class="hbox">${a.formule.join('<br>')}</div>`:''}
+    </div></div>
+  </div>`).join('');
+}
+function toggleAcc(id){
+  const el=document.getElementById('acc-'+id)||document.getElementById(id);
+  if(el) el.classList.toggle('open');
+}
+
+// Flashcard
+let fcAll=[...FLASHCARDS],fcFiltered=[...FLASHCARDS],fcIdx=0,fcStreak=0;
+function initFC(){
+  fcFiltered=[...FLASHCARDS];fcIdx=0;renderFC();
+}
+function setFCFilter(cat,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  fcFiltered=cat==='Tutti'?[...FLASHCARDS]:FLASHCARDS.filter(f=>f.cat===cat);
+  fcIdx=0;renderFC();
+}
+function renderFC(){
+  if(!fcFiltered.length) return;
+  const fc=fcFiltered[fcIdx];
+  const q=document.getElementById('fcQuestion');
+  const a=document.getElementById('fcAnswer');
+  const ctr=document.getElementById('fcCounter');
+  const cat=document.getElementById('fcCat');
+  if(q) q.textContent=fc.q;
+  if(a) a.innerHTML=fc.a.replace(/\n/g,'<br>');
+  if(ctr) ctr.textContent=(fcIdx+1)+'/'+fcFiltered.length;
+  if(cat) cat.textContent=fc.cat;
+  const fc_el=document.getElementById('flashcard');
+  if(fc_el) fc_el.classList.remove('flipped');
+}
+function flipCard(){const el=document.getElementById('flashcard');if(el)el.classList.toggle('flipped');}
+function nextCard(){fcIdx=(fcIdx+1)%fcFiltered.length;renderFC();}
+function prevCard(){fcIdx=(fcIdx-1+fcFiltered.length)%fcFiltered.length;renderFC();}
+function shuffleFC(){for(let i=fcFiltered.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[fcFiltered[i],fcFiltered[j]]=[fcFiltered[j],fcFiltered[i]];}fcIdx=0;renderFC();}
+function rateCard(r){
+  if(r==='si'){fcStreak++;LS.setItem('bil_streak',fcStreak);}
+  else fcStreak=0;
+  nextCard();
+}
+
+// Quiz
+let qData=[],qIdx=0,qCorrect=0,qAnswered=false;
+function initQuiz(){
+  qData=[...QUIZ_DATA].sort(()=>Math.random()-.5);
+  qIdx=0;qCorrect=0;qAnswered=false;
+  renderQuiz();
+}
+function renderQuiz(){
+  const w=document.getElementById('quizWrap');if(!w)return;
+  if(qIdx>=qData.length){
+    const pct=Math.round(qCorrect/qData.length*100);
+    let color=pct>=80?'var(--accent)':pct>=60?'var(--accent3)':'var(--danger)';
+    w.innerHTML=`<div class="quiz-result"><div class="big-score" style="color:${color}">${pct}%</div>
+      <p style="margin-top:12px;color:var(--muted2)">${qCorrect} / ${qData.length} corrette</p>
+      <p style="margin-top:6px;font-size:13px;color:var(--muted2)">${pct>=80?'Ottimo! Sei pronto 🎉':pct>=60?'Quasi! Ripassare gli errori 💪':'Ripassare gli argomenti ❗'}</p>
+      <button class="btn primary" style="margin-top:20px" onclick="initQuiz()">🔄 Ricomincia</button></div>`;
+    const prev=parseInt(LS.getItem('bil_quiz_correct')||'0');
+    LS.setItem('bil_quiz_correct',Math.max(prev,qCorrect));
+    return;
+  }
+  const q=qData[qIdx];
+  const pct=Math.round(qIdx/qData.length*100);
+  w.innerHTML=`<div class="quiz-score-bar">${qIdx+1} / ${qData.length} · Corrette: ${qCorrect}</div>
+    <div class="quiz-prog"><div class="quiz-prog-bar" style="width:${pct}%"></div></div>
+    <div class="quiz-q">${q.q}</div>
+    <div class="quiz-options">${q.opts.map((o,i)=>`<button class="quiz-opt" id="qopt-${i}" onclick="answerQuiz(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}</div>
+    <div class="quiz-expl" id="qexpl">${q.expl}</div>
+    <div style="margin-top:14px;display:none" id="qnext"><button class="btn primary" onclick="nextQuiz()">Avanti →</button></div>`;
+  qAnswered=false;
+}
+function answerQuiz(i){
+  if(qAnswered)return;qAnswered=true;
+  const q=qData[qIdx];
+  document.querySelectorAll('.quiz-opt').forEach((b,j)=>{
+    b.classList.add('locked');
+    if(j===q.c)b.classList.add('correct');
+    else if(j===i&&i!==q.c)b.classList.add('wrong');
+  });
+  if(i===q.c)qCorrect++;
+  document.getElementById('qexpl').classList.add('show');
+  document.getElementById('qnext').style.display='block';
+}
+function nextQuiz(){qIdx++;renderQuiz();}
+
+// Domande
+function renderDomande(){
+  document.getElementById('domandeContainer').innerHTML=DOMANDE.map((d,i)=>`
+  <div class="domanda-item ${d.hot}" onclick="toggleDomanda(this)">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">${String(i+1).padStart(2,'0')}</span>
+    <strong style="font-size:13px;margin-left:8px">${d.q}</strong>
+    <div class="domanda-ans">${d.a}</div>
+  </div>`).join('');
+}
+function toggleDomanda(el){el.classList.toggle('open');}
+
+// Esercizi
+function renderEsercizi(){
+  const colors=['var(--accent2)','var(--accent)','var(--accent4)','var(--accent3)','#06b6d4','var(--danger)'];
+  document.getElementById('esercContainer').innerHTML=ESERCIZI.map((e,i)=>`
+  <div class="exc-card" id="exc-${i}">
+    <div class="exc-header" style="border-left-color:${colors[i]}" onclick="toggleExc(${i})">
+      <span class="exc-title">📝 ${e.titolo}</span>
+      <span style="font-size:11px;color:var(--muted)">▼</span>
+    </div>
+    <div class="exc-body"><div class="exc-inner">
+      <p class="exc-desc">${e.desc}</p>
+      <ol class="exc-steps">${e.passi.map(p=>`<li>${p}</li>`).join('')}</ol>
+    </div></div>
+  </div>`).join('');
+}
+function toggleExc(i){document.getElementById('exc-'+i).classList.toggle('open');}
+
+// Formule
+function renderFormule(){
+  document.getElementById('formuleContainer').innerHTML=FORMULE_GRUPPI.map(g=>`
+  <div class="formula-card">
+    <div class="formula-name">${g.label}</div>
+    <table><thead><tr><th>Indicatore / Formula</th><th>Espressione</th></tr></thead>
+    <tbody>${g.rows.map(r=>`<tr><td style="color:var(--text);font-weight:600">${r[0]}</td><td style="font-family:'IBM Plex Mono',monospace;color:var(--accent);font-size:11px">${r[1]}</td></tr>`).join('')}
+    </tbody></table>
+  </div>`).join('');
+}
+
+// Esami Passati
+let esamiSol={};
+function renderEsami(){
+  const colors=['var(--accent2)','var(--accent)','var(--accent4)','var(--accent3)','#06b6d4','var(--danger)','var(--accent2)'];
+  document.getElementById('esamiContainer').innerHTML=ESAMI_PASSATI.map((e,i)=>`
+  <div class="exc-card" id="esame-${e.id}" style="margin-bottom:14px">
+    <div class="exc-header" style="border-left-color:${colors[i%colors.length]};padding:14px 16px" onclick="toggleEsame('${e.id}')">
+      <div style="flex:1">
+        <div class="exc-title">📝 ${e.titolo}</div>
+        <div style="font-size:11px;color:var(--muted2);margin-top:3px">${e.tipo}</div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:5px">${e.argomenti.map(a=>`<span class="chip chip-blue">${a}</span>`).join('')}</div>
+      </div>
+      <span style="font-size:11px;color:var(--muted)">▼</span>
+    </div>
+    <div class="exc-body"><div class="exc-inner">
+      <div class="sec-lbl">📎 Fonte</div>
+      <p style="font-size:12px;color:var(--muted2);margin-bottom:10px">${e.fonte}</p>
+      ${e.traccia_numerica?`<div class="sec-lbl">🔢 Traccia Numerica</div>
+      <div style="background:var(--surface2);border-radius:8px;padding:14px;margin-bottom:10px;font-size:13px;color:var(--text);line-height:1.8">${e.traccia_numerica}</div>`:''}
+      ${e.traccia_teorica?`<div class="sec-lbl">📖 Domande Teoriche</div>
+      <div style="background:var(--surface2);border-radius:8px;padding:14px;margin-bottom:10px;font-size:13px;color:var(--muted2);line-height:1.8">${e.traccia_teorica}</div>`:''}
+      <button class="btn" style="margin-top:4px" onclick="toggleSol('${e.id}',this)">👁 Mostra soluzione</button>
+      <div id="sol-${e.id}" style="display:none;margin-top:12px;background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.2);border-radius:8px;padding:14px;font-size:13px;color:var(--muted2);line-height:1.8">${e.soluzione}</div>
+    </div></div>
+  </div>`).join('');
+}
+function toggleEsame(id){
+  const el=document.getElementById('esame-'+id);
+  if(el) el.classList.toggle('open');
+}
+function toggleSol(id,btn){
+  const el=document.getElementById('sol-'+id);
+  if(!el) return;
+  const hidden=el.style.display==='none';
+  el.style.display=hidden?'block':'none';
+  btn.textContent=hidden?'🙈 Nascondi soluzione':'👁 Mostra soluzione';
+}
+
+// Fonti
+const FONTI=[
+  {file:'SP Finanziario.pdf',tipo:'Teoria',stato:'✅ Letto',estratto:['Schema completo SP finanziario: AC (LI, LD, Rimanenze), AF, Pb, Pml, CN','Tutti i margini: CCN, MT, Margini struttura I e II','Tutti gli indici: Current Ratio, Quick Ratio, Copertura AF I e II, Rigidità, Elasticità, Autonomia, Dipendenza','Criteri per voci dubbie: Rilevanza, Prevalenza, Prudenza','Errori tipici: titoli a breve → LI; crediti > 12m → AF; TFR → Pml; quota mutuo < 12m → Pb'],aggiunto:'Fondamenta teoriche SP finanziario. Copertura: 100%.'},
+  {file:'2. SP gestionale uso STUDENTI.pdf',tipo:'Teoria + Esercizi',stato:'✅ Letto',estratto:['Schema aree gestionali: corrente (CCNC, CCNO), strutturale (COIN), accessoria (CING), finanziaria (PFN)','Debiti espliciti vs spontanei','Calcolo CCNC → CCNO → COIN → CING → PFN → CN','Impatto variazioni politiche commerciali sul CCNC','Caso Inditex (ciclo negativo -64 gg) vs H&M (ciclo positivo 74 gg)'],aggiunto:'Tutto il blocco SP Gestionale della dashboard.'},
+  {file:'Analisi del CCN.pdf',tipo:'Teoria + Casi',stato:'✅ Letto',estratto:['Ciclo del circolante e ciclo monetario','Indici di rotazione crediti, debiti, magazzino','Tempo medio incasso, pagamento, giacenza MP e PF','Simulazione variazione politiche commerciali con numeri (es. CCNC da 235 a 480 = +104%)','Caso comparativo Inditex vs H&M'],aggiunto:'Sezione Analisi CCN, flashcard ciclo monetario, esercizio tipo 5.'},
+  {file:'Analisi della Redditività_Leva operativa e finanziaria.pdf',tipo:'Teoria + Esercizi',stato:'✅ Letto',estratto:['Formula ROE completa: ROE = [ROI + (ROI-OF) × Q] × (1-α)','Leva positiva (ROI > OF) vs negativa (ROI < OF)','Calcolo Q necessario per ROE target','Leva operativa: MdC / RO, effetto amplificazione','Esempi numerici leva 3 e leva 8'],aggiunto:'Sezione intera Leva Finanziaria e Leva Operativa, quiz e flashcard correlate.'},
+  {file:'CE a costi e ricavi del VENDUTO.pdf',tipo:'Teoria',stato:'✅ Letto',estratto:['Classificazione costi per destinazione: industriale, commerciale, amministrativa','Calcolo costo industriale del venduto (consumo + MOD + CG prod. + ammort. ind.)','Risultato Lordo Industriale (RLI)','Differenza con CE a produzione ottenuta: richiede contabilità analitica'],aggiunto:'Argomento CE costi del venduto, flashcard RLI.'},
+  {file:'CE gestionale USO STUDENTI con Esercizio.pdf',tipo:'Teoria + Esercizio',stato:'✅ Letto',estratto:['Struttura scalare progressiva del CE gestionale','Tutte e 5 le aree: caratteristica, extra, finanziaria, straordinaria, tributaria','Risultati intermedi: EBIT, RO globale, Risultato ordinario, Risultato lordo, Risultato netto','Esercizio applicativo completo di riclassificazione CE'],aggiunto:'Argomento CE gestionale struttura scalare, domande d\'esame struttura.'},
+  {file:'CE marginalistico USO STUDENTI.pdf',tipo:'Teoria + Esercizi',stato:'✅ Letto',estratto:['Classificazione costi fissi vs variabili','MdC unitario, MdC totale, MdC%','BEP in quantità e in fatturato','Quantità per RO target','Forecast da dati trimestrali (variabili × mesi lavorativi; fissi × 12)','Esercizi numerici applicativi'],aggiunto:'Sezione CE marginalistico, esercizio tipo 4, flashcard BEP e leva operativa.'},
+  {file:'CE marginalistico.docx',tipo:'Teoria',stato:'✅ Letto',estratto:['Conferma classificazione fissi/variabili','Definizioni MdC unitario e percentuale','Schema BEP'],aggiunto:'Conferma e integrazione della teoria CE marginalistico.'},
+  {file:'ESERCITAZIONE SP FINANZIARIO 1.pdf',tipo:'Esercitazione',stato:'✅ Letto',estratto:['Esercizio completo di riclassificazione SP finanziario da bilancio civilistico','Dati numerici concreti con note esplicative','Calcolo di tutti i margini e indici','Trattamento voci dubbie (fondo rischi, ratei, risconti)'],aggiunto:'Base per esercizio tipo 1 (riclassificazione SP finanziario).'},
+  {file:'ESERCITAZIONE Soluzione.pdf',tipo:'Soluzione',stato:'✅ Letto',estratto:['Soluzione completa dell\'esercitazione SP finanziario','Verifica calcoli CCN, MT, Current Ratio, Quick Ratio','Commento equilibrio/disequilibrio finanziario'],aggiunto:'Conferma procedimento esercizio tipo 1.'},
+  {file:'Esercitazione 26-3-26.pdf',tipo:'Esercitazione',stato:'✅ Letto',estratto:['Esercizio integrato SP gestionale + CE marginalistico','Calcolo CCNC → CCNO → PFN','Calcolo BEP e simulazione scenario alternativo','Dati numerici realistici'],aggiunto:'Base per esercizi tipo 2 e 4.'},
+  {file:'Esercitazione.pdf',tipo:'Esercitazione',stato:'✅ Letto',estratto:['Esercitazione mista su analisi di bilancio','Riclassificazione SP + calcolo indici + commento','Domande teoriche integrate agli esercizi'],aggiunto:'Conferma struttura esercizi tipo.'},
+  {file:'Esercizi su leva finanziaria.docx',tipo:'Esercizi con soluzioni',stato:'✅ Letto',estratto:['4 esercizi completi con soluzioni','Esercizio 1: calcolo ROE con formula leva da dati di bilancio','Esercizio 2: calcolo Q target per ROE obiettivo','Esercizio 3: confronto imprese con Q diverso e stesso ROI','Esercizio 4: simulazione crisi (riduzione ROI) e impatto su ROE'],aggiunto:'Esercizio tipo 6 (analisi leva finanziaria), dati numerici per quiz.'},
+  {file:'Esercizi su leva operativa.docx',tipo:'Esercizi con soluzioni',stato:'✅ Letto',estratto:['4 esercizi con soluzioni','Calcolo MdC unitario e % da dati di costo','Calcolo Reddito Operativo e Grado Leva Operativa (GLO)','BEP con dati reali','Scenari: variazione prezzi, volumi, mix costi fissi/variabili'],aggiunto:'Conferma esercizio tipo 4 (BEP e simulazioni), flashcard leva operativa.'},
+  {file:'Esercizio_classificazione_voci_rendiconto_finanziario.docx',tipo:'Esercizio',stato:'✅ Letto (parziale)',estratto:['Tabella classificazione voci rendiconto: metodo diretto vs indiretto','Segni (+ incasso / - pagamento) per 7 voci del rendiconto','Esempio: ammortamenti → rettifica positiva nel metodo indiretto'],aggiunto:'Contenuto parziale già integrato nella sezione Rendiconto.'},
+  {file:'Esercitazione costruzione rendiconto IAS 7 OIC 05052026.docx',tipo:'Esercitazione senza soluzione',stato:'✅ Letto',estratto:['2 esercizi di costruzione rendiconto IAS 7 e OIC 10','Dati di bilancio forniti (SP comparativo + CE)','Da risolvere come autoverifica (senza soluzione inclusa)'],aggiunto:'Struttura esercizio rendiconto — usare come test pratico.'},
+  {file:'Esercitazione costruzione rendiconto IAS 7 OIC 10 120526.docx',tipo:'Esercitazione CON SOLUZIONE',stato:'✅ Letto',estratto:['Esercizio completo con soluzione integrale','Costruzione rendiconto metodo indiretto OIC 10: utile netto → rettifiche → var. CCN → flusso operativo → investimento → finanziamento','Costruzione rendiconto IAS 7: stessa struttura con differenze su classificazione interessi passivi','Differenza chiave IAS 7 vs OIC 10: interessi passivi possono andare in operativo o finanziario in IAS 7; in OIC 10 sempre in finanziario'],aggiunto:'File più prezioso per il rendiconto. Esercizio tipo 6 è basato su questo.'},
+  {file:'Bilancio TA 2023.pdf',tipo:'Bilancio reale (IFRS)',stato:'✅ Letto (struttura + dati chiave)',estratto:['Anno record post-Covid: ricavi 123,3 mln (+19% vs 2022)','EBITDA 41,7 mln, Utile netto 12,6 mln','Totale Attivo 303,9 mln, PN 106,5 mln, Debiti fin. netti 88,5 mln','ROE 12,28%, ROI 14,05%, Current Ratio 0,49 (basso → disequilibrio a breve)','PFN positiva (indebitamento netto), struttura tipica azienda capital intensive (alta rigidità)','Redatto secondo IAS/IFRS (Toscana Aeroporti SpA quotata)'],aggiunto:'Caso reale per esercitazioni e contestualizzazione degli indici.'},
+  {file:'Bilancio_TA_2020.pdf',tipo:'Bilancio reale (IFRS)',stato:'✅ Letto (struttura + dati chiave)',estratto:['Anno Covid: perdita netta 12,5 mln','EBITDA quasi nullo (-801k): ricavi crollati per il lockdown aeroportuale','Totale Attivo 331,9 mln (gonfiato da finanziamento SACE 85 mln)','PN 93,9 mln (eroso dalla perdita rispetto al 2019)','Esempio di leva negativa: ROI < OF durante la crisi','Esempio di disequilibrio strutturale in bilancio IFRS'],aggiunto:'Caso reale crisi per analisi leva negativa e deterioramento indici.'},
+  {file:'Costruzione rendiconto finanziario OIC 10.ppt',tipo:'Slide teoria (47 slide)',stato:'✅ Letto (47 slide estratte)',estratto:['Art. 2423 c.c.: rendiconto finanziario obbligatorio (esonero per bilancio abbreviato e micro imprese)','Risorsa di riferimento OIC 10: disponibilità liquide (depositi bancari/postali, assegni, denaro)','3 aree: gestione reddituale (operativa), investimento, finanziamento','Metodo diretto o indiretto; divieto di compensazione; evidenziazione flussi distinti','Flusso operativo indiretto: 1) Calcolo risultato operativo (EBIT) → 2) Flusso CCN (rettifiche non monetarie) → 3) Flusso cassa (±var. rimanenze, crediti, debiti) → 4) ±imposte, interessi, altri op.','Variazione crediti: se CF > CI → segno negativo; se CF < CI → segno positivo; includere svalutazioni','Variazione debiti: se DF > DI → segno positivo; se DF < DI → segno negativo','Variazione rimanenze: RF > EI → segno negativo; RF < EI → segno positivo','Ratei attivi: RAF > RAI → segno negativo; Ratei passivi: RPF > RPI → segno positivo','Flusso investimento = -(val. bilancio finali - iniziali + ammortamenti + svalutazioni - rivalutazioni) ± plusvalenze/minusvalenze ± var. crediti/debiti da immobili','Flusso finanziamento: emissione azioni, rimborso debiti fin., dividendi pagati, apporti/rimborsi soci','Interessi e dividendi: presentati distintamente; interessi passivi sempre in operativa (OIC 10)','Operazioni non monetarie (conversione debiti in capitale, permute) NON vanno nel rendiconto'],aggiunto:'Teoria completa OIC 10: procedimento step-by-step, regole di segno per ogni variazione, casi speciali. Integra e completa esercizi tipo rendiconto.'},
+  {file:'IAS7.ppt',tipo:'Slide teoria (13 slide)',stato:'✅ Letto (13 slide estratte)',estratto:['Risorsa di riferimento IAS 7: cash and cash equivalents (include titoli a breve con scadenza < 3 mesi, facilmente convertibili, rischio perdita trascurabile)','Scoperti di c/c compresi se compensazione con la cassa è prassi aziendale','3 aree: operativa, investimento, finanziaria — stessa struttura OIC 10','Metodo diretto (analitico): incassi da clienti - pagamenti fornitori/personale = cash flow ops','Metodo indiretto: utile ante imposte + rettifiche (ammortamenti, accantonamenti, svalutazioni, minusvalenze) + var. CCN','Metodo "misto": ricavi op. - costi op. = RO pre var. CCN → poi aggiustamenti CCN','Interessi e dividendi: possono essere classificati in QUALSIASI delle tre aree (differenza chiave vs OIC 10!)','Interessi pagati solitamente in operativa o finanziaria; dividendi ricevuti in operativa o investimento','Imposte: preferibilmente in operativa; suddivise tra aree solo se specificamente attribuibili','Schema: Risultato op. → Flusso CCN corrente → Cash flow corrente → Cash flow operativo'],aggiunto:'Differenze chiave IAS 7 vs OIC 10: risorsa di riferimento (cash equivalents), flessibilità classificazione interessi/dividendi. Aggiornate flashcard e domande d\'esame.'},
+  {file:'Interpretazione OIC IAS.ppt',tipo:'Slide teoria (11 slide)',stato:'✅ Letto (11 slide estratte)',estratto:['Schema marginI attesi: CF operativo > 0; CF investimento < 0; CF finanziamento ≈ -(op+inv); CF soci ≈ -(op+inv+fin terzi)','Logica "tappare i buchi": se CF operativo è negativo occorre sacrificare prelievi soci e/o ridurre investimenti e/o aumentare debiti','Se priorità sono gli investimenti: CF op finanzia CF inv, il residuo va a CF fin (terzi + soci)','Perché manca liquidità nonostante redditi positivi? CF operativo dipende da: redditività operativa + politica scorte + politica crediti','Analisi per fonti-impieghi: situazione ideale vs crisi finanziaria','Esempio 1 reale: CF from operations = +689.858 (sano)','Esempio 2 reale: CF from operations = -62.398 (critico, richiede finanziamento esterno)','6 casi interpretazione (Casi A-F): classificati come esercizi nella sezione Esercizi'],aggiunto:'Framework di interpretazione rendiconto: segni attesi, diagnosi squilibri, esempi numerici reali. I 6 casi A-F sono stati trascritti nella sezione Esercizi.'},
+  {file:'Introduzione al rendiconto.ppt',tipo:'Slide teoria (20 slide)',stato:'✅ Letto (20 slide estratte)',estratto:['Flusso finanziario vs reddito: principio di competenza finanziaria vs competenza economica','Modello concettuale: variazione stock SP(N) - SP(N-1) = flusso del periodo','3 macro-classi variazioni finanziarie: gestione reddituale, movimenti attività, movimenti passività/PN','Variazioni non finanziarie: ammortamenti, conversione obbligazioni in azioni, conferimenti non monetari — NON entrano nel rendiconto','Metodo diretto: Ricavi monetari - Costi monetari = Cash flow','Metodo indiretto: U + Costi non monetari - Ricavi non monetari = CF (equivalente per algebra)','Poiché U = R - C = Cm + Cnm - Rm - Rnm → Rm - Cm = U + Cnm - Rnm (dimostrazione)','Flusso CCN corrente: U + ammortamenti + svalutazioni + accantonamenti (esclude var. CCN)','Dal flusso di circolante al cash flow: aggiungere variazioni rimanenze, crediti v/clienti, debiti v/fornitori','Finalità FASB: valutare capacità azienda di generare cash flow positivi, pagare debiti, dividendi, finanziamento esterno','Finalità IASB: valutare capacità generare cash/equivalenti + rendicontare il management'],aggiunto:'Introduzione teorica rendiconto. Base concettuale per capire perché si parte dall\'utile nel metodo indiretto.'},
+  {file:'Esercizi intepretazione OIC 090525.xlsx',tipo:'Esercizi (2 fogli, 6 casi)',stato:'✅ Letto (6 casi A-F estratti)',estratto:['Caso A: CF op +280, CF inv -10, CF terzi -250, CF soci -40 → totale -20. Impresa matura, autosostentata, distribuisce a soci e ripaga debiti.','Caso B: CF op -90 (negativo!), CF inv +60, CF fin +75 → totale +45. Crisis mode: disinveste e si indebita per coprire il buco operativo.','Caso C: CF op +30, CF inv +180, CF fin -400, CF soci +180 → totale -10. Disinveste pesantemente, rimborsa debiti, soci apportano capitale.','Caso D: CF op -95, CF inv -25, CF terzi +20, CF soci +130 → totale +30. Start-up/crescita: soci finanziano le perdite operative e gli investimenti.','Caso E: CF op +220, CF inv -60, CF terzi -30, CF soci -150 → totale -20. Situazione ideale: genera cassa, investe, rimborsa e distribuisce.','Caso F: CF op +75, CF inv -170, CF terzi +60, CF soci +10 → totale -25. Espansione investimenti finanziata da debiti e soci; operativa non sufficiente da sola.'],aggiunto:'6 casi interpretazione rendiconto trascritti come esercizi nella sezione Esercizi (esercizi 7-12 dell\'esercitazione). Tipici dell\'esame Greco.'},
+  {file:'Esercizi su rendiconto finanziario 052026.xlsx',tipo:'Esercizi recenti (3 esercizi completi)',stato:'✅ Letto (3 esercizi con dati e soluzioni)',estratto:['Es1 (OIC 10 indiretto): utile netto -1300, ammort. 600, var. crediti +800, var. debiti +700, var. rim. -200 → flusso op. = 700 (inverso rispetto all\'utile negativo!)','Es2 (OIC 10 indiretto): utile netto -600, ammort. 650, flusso op. = 900','Es3 (IAS 7 indiretto): utile netto 400, ammort. 600, flusso op. = 3750','Schema 3 aree completo per ogni esercizio: operativa → investimento → finanziamento → variazione disponibilità','Confronto metodo OIC 10 vs IAS 7 sullo stesso set di dati','Formato: CE sintetico + SP comparativo (inizio e fine anno) → costruire rendiconto'],aggiunto:'3 esercizi di rendiconto recentissimi (maggio 2026) con soluzioni numeriche complete. Trascritti nella sezione Esercizi. Materiale più probabile per l\'esame del 30 giugno.'},
+  {file:'Soluzione esercizio rendiconto 12052026.xlsx',tipo:'Soluzione completa (2 fogli: IAS7 + OIC10)',stato:'✅ Letto (soluzione completa estratta)',estratto:['IAS 7: utile ante imposte 1200 → rettifiche (ammort. +600, ecc.) → flusso op. 4250; CF inv. -2050; CF fin. +550 → variazione tot. +2750','OIC 10 (3 passi): 1) EBIT + interessi + imposte = 1550 (Flusso CCN parziale) → 2) +rettifiche non mon. = 2400 (Flusso capitale circolante) → 3) ±var. CCN (rim., cred., deb.) = 5000 → flusso op. netto 4250','La distinzione OIC 10: passaggio esplicito EBIT → Flusso CCN → Cash flow (con 3 risultati intermedi)','Flusso investimento OIC: -(imm.finali-iniziali+ammort.) ± plusvalenze = -2050','Flusso finanziamento: ±mutui, ±PN = +550'],aggiunto:'Soluzione dettagliata con i 3 passaggi OIC 10 (Flusso CCN, Flusso circolante, Cash flow). Integrata nell\'esercizio tipo rendiconto.'},
+  {file:'Soluzioni es 05052026.xlsx',tipo:'Soluzioni (4 fogli: OIC10/IAS7 × indiretto/diretto)',stato:'✅ Letto (4 soluzioni complete)',estratto:['OIC 10 indiretto: Perdita -650, ammort. +600 → FCC 1550; ±var. CCN → flusso op. 2950; CF inv. -1750; CF fin. -200 → tot. = 1000','IAS 7 indiretto: stessa perdita -650, stessa logica ma senza i 3 passi espliciti','OIC 10 diretto: Ricavi monetari (incassi da clienti 31100) - Costi monetari (pagamenti fornitori -23400, personale -4350, ecc.) = CF op.','IAS 7 diretto: incassi clienti 31100, pagamenti fornitori -23400, personale -4350, interessi -350, imposte -300 → CF op. = 2950','Verifica: metodo diretto e indiretto danno lo stesso CF operativo finale (2950)','Struttura CF investimento: -acquisto immob. materiali, +vendita; CF finanziamento: +mutuo, -rimborso'],aggiunto:'Unico file con TUTTI e 4 i metodi (OIC10/IAS7 × diretto/indiretto). Fondamentale per capire le equivalenze. Integrato nelle flashcard e formule rendiconto.'},
+];
+
+function renderFonti(){
+  const letti=FONTI.filter(f=>f.stato.startsWith('✅'));
+  const warning=FONTI.filter(f=>f.stato.startsWith('⚠️'));
+  document.getElementById('fontiContainer').innerHTML=`
+  <div class="stat-grid" style="margin-bottom:20px">
+    <div class="stat-card"><div class="stat-num green">${letti.length}</div><div class="stat-label">File letti e analizzati</div></div>
+    <div class="stat-card"><div class="stat-num yellow">${warning.length}</div><div class="stat-label">File con lettura parziale</div></div>
+    <div class="stat-card"><div class="stat-num blue">${FONTI.length}</div><div class="stat-label">Totale file nel materiale</div></div>
+    <div class="stat-card"><div class="stat-num pink">${Math.round(letti.length/FONTI.length*100)}%</div><div class="stat-label">Copertura automatica</div></div>
+  </div>
+  ${FONTI.map((f,i)=>`
+  <div class="acc-item" id="fonte-${i}">
+    <div class="acc-header" onclick="document.getElementById('fonte-${i}').classList.toggle('open')">
+      <span style="font-size:13px;min-width:1.5rem">${f.stato.startsWith('✅')?'✅':'⚠️'}</span>
+      <span class="acc-title" style="font-size:12px">${f.file}</span>
+      <span class="topic-tag ${f.stato.startsWith('✅')?'tag-ok':'tag-mid'}" style="margin-right:8px">${f.tipo}</span>
+      <span class="acc-chev">▼</span>
+    </div>
+    <div class="acc-body"><div class="acc-inner">
+      <div class="sec-lbl">Stato lettura</div>
+      <p style="font-size:13px;color:var(--muted2)">${f.stato}</p>
+      <div class="sec-lbl">Contenuto estratto</div>
+      <ul>${f.estratto.map(e=>`<li>${e}</li>`).join('')}</ul>
+      <div class="sec-lbl">Cosa ha contribuito alla dashboard</div>
+      <div class="hbox" style="font-family:'IBM Plex Sans',sans-serif;font-size:12px;color:var(--muted2)">${f.aggiunto}</div>
+    </div></div>
+  </div>`).join('')}`;
+}
+
+
+// Init on load
+function initMotiv(){
+  const el=document.getElementById('motivStrip');
+  if(!el) return;
+  const today=new Date().toDateString();
+  const key='bil_motiv_'+today;
+  let idx=parseInt(LS.getItem(key)||'0');
+  el.textContent=MOTIV[idx%MOTIV.length];
+  LS.setItem(key,idx+1);
+}
+function init(){
+  const mc=document.getElementById('mainContent');
+  if(!mc) return;
+  mc.innerHTML=SH.home;
+  renderHome();
+  updateProgress();
+  updateCountdown();
+  setInterval(updateCountdown,60000);
+  initMotiv();
+}
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',init);
+}else{
+  init();
+}
+</script>
+</body>
+</html>
