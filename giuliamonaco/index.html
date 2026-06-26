@@ -1557,6 +1557,7 @@ function doLogin(){
     if(lf) lf.style.animation='loginFadeOut .3s ease forwards';
     setTimeout(()=>{ov.style.display='none';if(lf)lf.style.display='none';},300);
     sessionStorage.setItem('atrium_auth','1');
+    sessionStorage.setItem('atrium_ver',APP_VERSION);
   }else{
     errEl.style.display='block';
     errEl.textContent='Credenziali non valide. Riprova.';
@@ -1564,12 +1565,16 @@ function doLogin(){
     document.getElementById('loginPass').focus();
   }
 }
-// Se già autenticato in questa sessione, nascondi overlay
+// Se già autenticato in questa sessione (stessa versione), nascondi overlay
+const APP_VERSION='v20260626b';
 (function(){
-  if(sessionStorage.getItem('atrium_auth')==='1'){
+  if(sessionStorage.getItem('atrium_auth')==='1'&&sessionStorage.getItem('atrium_ver')===APP_VERSION){
     document.getElementById('loginOverlay').style.display='none';
     const lf=document.getElementById('loginFooter');
     if(lf) lf.style.display='none';
+  }else{
+    // versione cambiata o non autenticato: reset
+    sessionStorage.removeItem('atrium_auth');
   }
   ['loginUser','loginPass'].forEach(id=>{
     document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
