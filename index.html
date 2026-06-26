@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Storia dell'Architettura 1 — UniPi</title>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap");
+:root{--bg:#0f1117;--surface:#181c27;--surface2:#1e2235;--border:#2a2f45;--accent:#4ade80;--accent2:#60a5fa;--accent3:#f59e0b;--accent4:#f472b6;--danger:#f87171;--text:#e2e8f0;--muted:#64748b;--muted2:#94a3b8;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"IBM Plex Sans",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6;}
+::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:0;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.4);}
+.header-top{background:#07090f;border-bottom:1px solid #1a1f35;padding:8px 24px;display:flex;align-items:center;gap:12px;}
+.header-main{padding:12px 24px;display:flex;align-items:center;justify-content:space-between;background:var(--surface);}
+.atrium-logo{display:flex;align-items:center;gap:10px;text-decoration:none;transition:opacity .2s;}.atrium-logo:hover{opacity:.8;}
+.atrium-icon{width:28px;height:28px;border-radius:7px;overflow:hidden;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(124,99,240,.4);flex-shrink:0;}
+.atrium-wordmark{font-size:13px;font-weight:800;color:#e2e8f0;letter-spacing:.5px;}
+.atrium-edu-tag{font-size:12px;font-weight:700;color:#818cf8;margin-left:-2px;letter-spacing:.2px;}
+.header-divider{width:1px;height:16px;background:#2a3050;margin:0 8px;}
+.header-subbrand{font-size:11px;color:#6b7fa3;letter-spacing:.3px;}
+.logo{display:flex;align-items:center;gap:12px;}.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#b45309,#9333ea);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;box-shadow:0 0 14px rgba(147,51,234,.25);flex-shrink:0;}.logo-text{font-weight:700;font-size:17px;color:var(--text);}.logo-sub{font-size:11px;color:var(--muted);margin-top:1px;}
+.timer-bar{display:flex;align-items:center;gap:10px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 13px;font-family:"IBM Plex Mono",monospace;font-size:13px;}.timer-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.progress-strip{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;gap:10px;align-items:center;}.prog-label{font-size:12px;color:var(--muted2);min-width:72px;}.prog-bar-wrap{flex:1;background:var(--surface2);border-radius:4px;height:5px;overflow:hidden;}.prog-bar{height:100%;background:linear-gradient(90deg,var(--accent3),var(--accent4));border-radius:4px;transition:width .5s;}.prog-pct{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--accent3);min-width:34px;text-align:right;}
+.tabs{background:var(--surface);border-bottom:1px solid var(--border);padding:0 20px;display:flex;overflow-x:auto;}.tab{padding:11px 16px;cursor:pointer;font-size:13px;font-weight:500;color:var(--muted2);border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;}.tab:hover{color:var(--text);}.tab.active{color:var(--accent3);border-bottom-color:var(--accent3);}
+main{padding:20px 24px;max-width:1080px;margin:0 auto;width:100%;}
+.section{display:none;}.section.active{display:block;}
+.section-header{margin-bottom:20px;}.section-header h2{font-size:21px;font-weight:700;}.section-header p{color:var(--muted2);font-size:14px;margin-top:4px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;}.card-title{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--muted2);margin-bottom:10px;}
+.btn{padding:9px 18px;border-radius:8px;border:1px solid var(--border);cursor:pointer;font-family:"IBM Plex Sans",sans-serif;font-size:13px;font-weight:600;transition:all .15s;background:var(--surface2);color:var(--text);}.btn:hover{border-color:var(--accent3);}.btn.primary{background:var(--accent3);color:#000;border-color:var(--accent3);}.btn.success{background:var(--accent);color:#000;border-color:var(--accent);}.btn.danger{background:var(--danger);color:#000;border-color:var(--danger);}.btn.warn{background:var(--accent3);color:#000;border-color:var(--accent3);}.btn:disabled{opacity:.4;cursor:not-allowed;}
+.morale-box{background:linear-gradient(135deg,#1a0f2e,#2a1a0e,#1a1500);border:1px solid #4a3a10;border-radius:12px;padding:18px;margin-bottom:20px;display:flex;gap:14px;align-items:flex-start;}.morale-emoji{font-size:32px;}.morale-title{font-weight:700;font-size:15px;color:var(--accent3);margin-bottom:5px;}.morale-text{font-size:13px;color:var(--muted2);line-height:1.7;}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:20px;}.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;}.stat-num{font-size:30px;font-weight:700;font-family:"IBM Plex Mono",monospace;}.stat-num.green{color:var(--accent);}.stat-num.blue{color:var(--accent2);}.stat-num.yellow{color:var(--accent3);}.stat-num.pink{color:var(--accent4);}.stat-label{font-size:11px;color:var(--muted2);margin-top:3px;}
+.topic-list{display:flex;flex-direction:column;gap:7px;}.topic-item{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:11px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:border-color .2s;}.topic-item:hover{border-color:var(--accent3);}.topic-item.done{border-color:var(--accent);opacity:.7;}.topic-check{width:19px;height:19px;border:2px solid var(--border);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .2s;}.topic-item.done .topic-check{background:var(--accent);border-color:var(--accent);color:#000;}.topic-name{font-size:13px;font-weight:500;flex:1;}.topic-tag{font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;white-space:nowrap;}.tag-hot{background:#7f1d1d;color:#fca5a5;}.tag-mid{background:#78350f;color:#fcd34d;}.tag-ok{background:#14532d;color:#86efac;}
+.acc-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden;}.acc-header{padding:13px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s;}.acc-header:hover{background:var(--surface2);}.acc-title{font-size:13px;font-weight:600;flex:1;}.acc-chev{font-size:11px;color:var(--muted);transition:transform .2s;}.acc-item.open .acc-chev{transform:rotate(180deg);}.acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease;}.acc-item.open .acc-body{max-height:6000px;}.acc-inner{padding:0 16px 16px;}.acc-body ul{padding-left:16px;}.acc-body li{font-size:13px;color:var(--muted2);margin-bottom:4px;line-height:1.6;}
+.hbox{background:var(--surface2);border-left:3px solid var(--accent3);padding:11px 14px;border-radius:0 8px 8px 0;margin:8px 0;font-size:12px;font-family:"IBM Plex Mono",monospace;color:var(--accent);line-height:1.8;}
+.fc-filter{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;}.filter-btn{padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface2);color:var(--muted2);cursor:pointer;font-size:12px;font-weight:500;transition:all .15s;}.filter-btn.active{border-color:var(--accent3);color:var(--accent3);}
+.flashcard-area{display:flex;flex-direction:column;align-items:center;gap:16px;}.fc-meta{display:flex;gap:10px;align-items:center;}.fc-counter{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--muted2);}.fc-cat-badge{font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;background:var(--surface2);color:var(--accent3);border:1px solid var(--border);}
+.flashcard{width:100%;max-width:680px;min-height:240px;cursor:pointer;perspective:1000px;}.fc-inner{position:relative;width:100%;min-height:240px;transition:transform .5s;transform-style:preserve-3d;}.flashcard.flipped .fc-inner{transform:rotateY(180deg);}.fc-front,.fc-back{position:absolute;width:100%;min-height:240px;backface-visibility:hidden;border-radius:14px;padding:28px;display:flex;flex-direction:column;justify-content:center;}.fc-front{background:var(--surface);border:1px solid var(--border);}.fc-back{background:var(--surface2);border:1px solid var(--accent3);transform:rotateY(180deg);}.fc-label{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}.fc-question{font-size:18px;font-weight:600;line-height:1.4;}.fc-answer{font-size:14px;line-height:1.8;color:var(--muted2);}.fc-answer strong{color:var(--accent3);}.fc-hint{font-size:11px;color:var(--muted);margin-top:14px;}.fc-actions{display:flex;gap:8px;}
+.quiz-wrap{max-width:680px;margin:0 auto;}.quiz-q{font-size:17px;font-weight:600;margin-bottom:18px;line-height:1.5;}.quiz-options{display:flex;flex-direction:column;gap:9px;}.quiz-opt{padding:13px 16px;border-radius:9px;border:1px solid var(--border);background:var(--surface2);cursor:pointer;font-size:13px;color:var(--text);transition:all .15s;text-align:left;font-family:"IBM Plex Sans",sans-serif;}.quiz-opt:hover:not(.locked){border-color:var(--accent3);}.quiz-opt.correct{border-color:var(--accent);background:rgba(74,222,128,.12);}.quiz-opt.wrong{border-color:var(--danger);background:rgba(248,113,113,.12);}.quiz-opt.locked{cursor:default;}.quiz-expl{margin-top:14px;padding:12px 16px;background:var(--surface2);border-left:3px solid var(--accent3);border-radius:0 8px 8px 0;font-size:13px;color:var(--muted2);display:none;}.quiz-expl.show{display:block;}.quiz-score-bar{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted2);margin-bottom:16px;}.quiz-prog{width:100%;background:var(--surface2);border-radius:4px;height:4px;margin-bottom:16px;overflow:hidden;}.quiz-prog-bar{height:100%;background:var(--accent3);border-radius:4px;transition:width .3s;}.quiz-result{text-align:center;padding:36px 20px;}.quiz-result .big-score{font-size:60px;font-weight:700;font-family:"IBM Plex Mono",monospace;}
+.domanda-item{background:var(--surface2);border-radius:7px;padding:10px 13px;margin-bottom:6px;font-size:13px;color:var(--muted2);border-left:3px solid var(--border);cursor:pointer;transition:border-color .15s;}.domanda-item:hover{border-color:var(--accent3);}.domanda-item.hot{border-left-color:var(--danger);}.domanda-item.mid{border-left-color:var(--accent3);}.domanda-item.ok{border-left-color:var(--accent);}.domanda-ans{display:none;margin-top:8px;padding:10px 12px;background:var(--bg);border-radius:6px;font-size:12px;color:var(--muted2);line-height:1.7;border:1px solid var(--border);}.domanda-item.open .domanda-ans{display:block;}
+table{width:100%;border-collapse:collapse;font-size:12px;}th{background:var(--surface2);color:var(--muted2);font-weight:600;padding:9px 11px;text-align:left;border-bottom:1px solid var(--border);font-size:10px;letter-spacing:.5px;text-transform:uppercase;}td{padding:9px 11px;border-bottom:1px solid var(--border);}tr:last-child td{border-bottom:none;}tr:hover td{background:var(--surface2);}
+.chip{display:inline-block;font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;margin:1px;}.chip-red{background:rgba(248,113,113,.15);color:var(--danger);}.chip-yellow{background:rgba(245,158,11,.15);color:var(--accent3);}.chip-green{background:rgba(74,222,128,.15);color:var(--accent);}.chip-blue{background:rgba(96,165,250,.15);color:var(--accent2);}
+.tip-box{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.25);border-radius:9px;padding:13px 15px;margin-bottom:12px;}.tip-title{font-size:12px;font-weight:700;color:var(--accent);margin-bottom:7px;}.tip-text{font-size:13px;color:var(--muted2);line-height:1.6;}
+.alert-box{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.3);border-radius:9px;padding:13px 15px;margin-bottom:12px;}.alert-title{font-size:12px;font-weight:700;color:var(--danger);margin-bottom:7px;}.alert-text{font-size:13px;color:var(--muted2);line-height:1.6;}
+.phbox{background:var(--surface2);border-left:3px solid var(--accent3);padding:12px 16px;border-radius:0 8px 8px 0;margin:8px 0;font-size:13px;line-height:1.7;}.phbox.green{border-color:var(--accent);}.phbox.blue{border-color:var(--accent2);}.phbox.red{border-color:var(--danger);}
+.stbl{width:100%;border-collapse:collapse;margin:10px 0;font-size:12px;}.stbl th{background:rgba(245,158,11,.1);color:var(--accent3);padding:8px 10px;text-align:left;border:1px solid var(--border);}.stbl td{padding:8px 10px;border:1px solid var(--border);color:var(--muted2);}.stbl td strong{color:var(--text);}
+.info-block{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px;}.ib-title{font-size:12px;font-weight:700;color:var(--accent3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px;}.info-list{list-style:none;}.info-list li{font-size:13px;color:var(--muted2);padding:5px 0;border-bottom:1px solid var(--border);line-height:1.5;}.info-list li:last-child{border-bottom:none;}.info-list li strong{color:var(--text);}
+.prof-header{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px;display:flex;gap:16px;align-items:flex-start;}.prof-avatar{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--accent3),var(--accent4));display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}.prof-name{font-weight:700;font-size:18px;}.prof-role{font-size:13px;color:var(--muted2);margin-top:3px;}.prof-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+.edificio-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:10px;border-left:3px solid var(--accent3);}.ed-title{font-weight:700;font-size:14px;color:var(--text);margin-bottom:4px;}.ed-meta{font-size:12px;color:var(--accent3);font-family:"IBM Plex Mono",monospace;margin-bottom:8px;}.ed-body{font-size:13px;color:var(--muted2);line-height:1.6;}
+.periodo-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;margin-bottom:8px;}.pb-classico{background:rgba(96,165,250,.15);color:var(--accent2);}.pb-tardoclassico{background:rgba(245,158,11,.15);color:var(--accent3);}.pb-ellenismo{background:rgba(244,114,182,.15);color:var(--accent4);}
+.percorsi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:24px;}.percorso-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;cursor:pointer;transition:border-color .2s,transform .15s;position:relative;overflow:hidden;}.percorso-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;}.percorso-card.c1::before{background:linear-gradient(90deg,var(--accent2),var(--accent4));}.percorso-card.c2::before{background:linear-gradient(90deg,var(--accent3),var(--accent));}.percorso-card.c3::before{background:linear-gradient(90deg,var(--accent4),var(--accent3));}.percorso-card.c4::before{background:linear-gradient(90deg,var(--accent),var(--accent2));}.percorso-card:hover{border-color:var(--accent3);transform:translateY(-2px);}.p-icon{font-size:28px;margin-bottom:10px;}.p-title{font-weight:700;font-size:14px;margin-bottom:5px;}.p-desc{font-size:12px;color:var(--muted2);line-height:1.5;}.p-meta{display:flex;gap:8px;margin-top:10px;align-items:center;}.p-steps{font-size:11px;color:var(--muted);font-family:"IBM Plex Mono",monospace;}
+.player{max-width:720px;margin:0 auto;}.player-header{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;}.player-back{cursor:pointer;color:var(--muted2);font-size:13px;border:1px solid var(--border);padding:6px 12px;border-radius:7px;background:none;transition:all .2s;}.player-back:hover{color:var(--text);border-color:var(--accent3);}.player-title{font-weight:700;font-size:16px;}.player-prog{flex:1;min-width:80px;background:var(--surface2);border-radius:4px;height:5px;overflow:hidden;}.player-prog-bar{height:100%;background:var(--accent3);border-radius:4px;transition:width .4s;}.player-step-num{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted2);white-space:nowrap;}
+.step-type-label{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px;padding:3px 9px;border-radius:4px;display:inline-block;}.lbl-info{background:rgba(96,165,250,.15);color:var(--accent2);}.lbl-concept{background:rgba(74,222,128,.15);color:var(--accent);}.lbl-check{background:rgba(244,114,182,.15);color:var(--accent4);}.lbl-recap{background:rgba(245,158,11,.2);color:var(--accent3);}
+.step-content{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px;min-height:200px;}.step-h{font-size:18px;font-weight:700;margin-bottom:12px;line-height:1.4;}.step-body{font-size:14px;color:var(--muted2);line-height:1.8;}.step-body strong{color:var(--text);}
+.check-q{font-size:16px;font-weight:600;margin-bottom:14px;}.check-opts{display:flex;flex-direction:column;gap:8px;}.check-opt{padding:12px 14px;border-radius:9px;border:1px solid var(--border);background:var(--surface2);cursor:pointer;font-size:13px;color:var(--text);transition:all .15s;text-align:left;font-family:"IBM Plex Sans",sans-serif;}.check-opt:hover:not(.locked){border-color:var(--accent3);}.check-opt.correct{border-color:var(--accent);background:rgba(74,222,128,.12);}.check-opt.wrong{border-color:var(--danger);background:rgba(248,113,113,.12);}.check-opt.locked{cursor:default;}.check-fb{margin-top:12px;padding:11px 14px;border-radius:8px;font-size:13px;display:none;}.check-fb.show{display:block;}.check-fb.ok{background:rgba(74,222,128,.12);border:1px solid var(--accent);color:var(--accent);}.check-fb.ko{background:rgba(248,113,113,.12);border:1px solid var(--danger);color:var(--danger);}
+.step-nav{display:flex;gap:10px;margin-top:16px;align-items:center;flex-wrap:wrap;}.step-score{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted2);margin-left:auto;}
+.warn-badge{display:flex;align-items:center;gap:5px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.35);border-radius:6px;padding:4px 10px;font-size:11px;font-weight:600;color:var(--accent3);cursor:pointer;transition:background .15s;white-space:nowrap;}.warn-badge:hover{background:rgba(245,158,11,.22);}
+.warn-overlay{display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.6);backdrop-filter:blur(3px);align-items:center;justify-content:center;}.warn-overlay.open{display:flex;}.warn-modal{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;max-width:520px;width:90%;box-shadow:0 24px 60px rgba(0,0,0,.6);}.warn-modal-title{font-size:16px;font-weight:700;color:var(--accent3);margin-bottom:12px;}.warn-modal-body{font-size:13px;color:var(--muted2);line-height:1.7;}.warn-source-list{list-style:none;margin-top:12px;}.warn-source-list li{padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;}.warn-source-list li:last-child{border-bottom:none;}.warn-source-list .icon{margin-right:6px;}.warn-modal-close{margin-top:16px;display:flex;justify-content:flex-end;}
+.fonte-acc{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden;}.fonte-header{padding:12px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s;border-left:4px solid var(--accent3);}.fonte-header:hover{background:var(--surface2);}.fonte-header.pdf-color{border-left-color:var(--danger);}.fonte-header.book-color{border-left-color:var(--accent2);}.fonte-header.web-color{border-left-color:var(--accent);}.fonte-title{font-size:13px;font-weight:600;flex:1;}.fonte-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;}.badge-pdf{background:rgba(248,113,113,.15);color:var(--danger);}.badge-libro{background:rgba(96,165,250,.15);color:var(--accent2);}.badge-web{background:rgba(74,222,128,.15);color:var(--accent);}.fonte-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}.fonte-acc.open .fonte-body{max-height:2000px;}.fonte-inner{padding:0 16px 14px;}
+@media(max-width:600px){main{padding:14px;}header{padding:11px 14px;}.timer-bar{display:none;}}
+
+/* ── LOGIN OVERLAY ── */
+@keyframes loginFadeIn{from{opacity:0;transform:scale(1.01)}to{opacity:1;transform:scale(1)}}
+@keyframes loginFadeOut{from{opacity:1}to{opacity:0;transform:scale(.99)}}
+.login-overlay{position:fixed;inset:0;z-index:9999;background:#07090f;display:flex;align-items:stretch;animation:loginFadeIn .35s ease both;}
+.login-split{display:flex;width:100%;min-height:100vh;}
+.login-left{flex:1.3;background:#07090f;padding:56px 60px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;}
+.login-left::before{content:"";position:absolute;top:-120px;left:-120px;width:500px;height:500px;background:radial-gradient(circle,rgba(99,102,241,.18) 0%,transparent 70%);pointer-events:none;}
+.login-left::after{content:"";position:absolute;bottom:-80px;right:-60px;width:350px;height:350px;background:radial-gradient(circle,rgba(139,92,246,.12) 0%,transparent 70%);pointer-events:none;}
+.login-atrium-brand{display:flex;align-items:center;gap:10px;margin-bottom:52px;}
+.login-atrium-brand svg{border-radius:8px;box-shadow:0 0 16px rgba(124,99,240,.35);}
+.login-tagline{font-size:38px;font-weight:800;line-height:1.2;color:#f1f3ff;margin-bottom:16px;letter-spacing:-.5px;}
+.login-tagline span{background:linear-gradient(90deg,#bcafff,#7d6bf0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.login-sub{font-size:15px;color:#64748b;line-height:1.7;margin-bottom:36px;max-width:420px;}
+.login-features{list-style:none;display:flex;flex-direction:column;gap:13px;margin-bottom:48px;}
+.login-features li{display:flex;align-items:flex-start;gap:12px;font-size:14px;color:#94a3b8;line-height:1.5;}
+.login-features li strong{color:#e2e8f0;}
+.login-feat-icon{width:32px;height:32px;border-radius:8px;background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.2);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.login-course-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:8px;padding:10px 16px;font-size:12px;color:#d97706;font-weight:600;letter-spacing:.2px;}
+.login-right{width:420px;flex-shrink:0;background:#0e1019;border-left:1px solid #1a1f35;display:flex;align-items:center;justify-content:center;padding:40px 32px;}
+.login-form-card{width:100%;max-width:340px;}
+.login-form-icon{width:44px;height:44px;border-radius:12px;overflow:hidden;margin-bottom:24px;box-shadow:0 0 20px rgba(124,99,240,.4);}
+.login-form-card h2{font-size:22px;font-weight:700;color:#f1f3ff;margin-bottom:6px;}
+.login-form-sub{font-size:13px;color:#475569;margin-bottom:28px;}
+.login-field{margin-bottom:16px;}
+.login-field label{display:block;font-size:12px;font-weight:600;color:#64748b;letter-spacing:.4px;text-transform:uppercase;margin-bottom:6px;}
+.login-field input{width:100%;background:#1a1e2e;border:1px solid #252d47;border-radius:9px;padding:12px 14px;font-size:14px;color:#e2e8f0;font-family:"IBM Plex Sans",sans-serif;outline:none;transition:border-color .2s;}
+.login-field input:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.12);}
+.login-field input::placeholder{color:#374151;}
+.login-error{display:none;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);border-radius:7px;padding:9px 12px;font-size:12px;color:#f87171;margin-bottom:14px;}
+.login-btn{width:100%;padding:13px;border-radius:9px;border:none;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:"IBM Plex Sans",sans-serif;letter-spacing:.2px;transition:opacity .2s,transform .15s;margin-bottom:20px;}
+.login-btn:hover{opacity:.9;transform:translateY(-1px);}
+.login-btn:active{transform:translateY(0);}
+.login-footer-note{font-size:11px;color:#2a3050;text-align:center;line-height:1.6;}
+@media(max-width:700px){.login-left{display:none;}.login-right{width:100%;border-left:none;background:#07090f;}}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     LOGIN OVERLAY
+══════════════════════════════════════════════ -->
+<div id="loginOverlay" class="login-overlay">
+  <div class="login-split">
+
+    <!-- LEFT: marketing -->
+    <div class="login-left">
+      <!-- Atrium Edu brand -->
+      <div class="login-atrium-brand">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" width="40" height="40">
+          <defs>
+            <radialGradient id="libg" cx="0.5" cy="0" r="1.15">
+              <stop offset="0" stop-color="#2b3149"/><stop offset="0.46" stop-color="#161924"/><stop offset="1" stop-color="#0a0b11"/>
+            </radialGradient>
+            <linearGradient id="liacc" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#bcafff"/><stop offset="1" stop-color="#7d6bf0"/>
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="512" height="512" rx="116" fill="url(#libg)"/>
+          <g transform="translate(155 88) scale(2.197)" fill="none">
+            <path d="M14 80 L46 14 L78 80" stroke="#f4f5fb" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="30" y="55" width="22" height="9" rx="4.5" fill="url(#liacc)"/>
+          </g>
+        </svg>
+        <div>
+          <div style="font-size:18px;font-weight:800;color:#e8eaf6;letter-spacing:.3px;">ATRIUM <span style="color:#9b8ff5;">EDU</span></div>
+          <div style="font-size:11px;color:#3d4f70;letter-spacing:.4px;margin-top:1px;">LEARNING PLATFORM</div>
+        </div>
+      </div>
+
+      <!-- headline -->
+      <h1 class="login-tagline">Il tuo agente di studio,<br><span>sempre pronto.</span></h1>
+      <p class="login-sub">Preparati all'esame con percorsi guidati passo-passo, flashcard interattive, quiz e le domande reali dell'esame.</p>
+
+      <!-- feature list -->
+      <ul class="login-features">
+        <li>
+          <div class="login-feat-icon">🏛️</div>
+          <div><strong>Storia dell'Architettura 1</strong> — UniPi Ing. Edile-Architettura 2025-26</div>
+        </li>
+        <li>
+          <div class="login-feat-icon">🎯</div>
+          <div><strong>8 Percorsi guidati</strong> — dall'Acropoli all'Ellenismo, passo dopo passo</div>
+        </li>
+        <li>
+          <div class="login-feat-icon">🃏</div>
+          <div><strong>32 Flashcard</strong> con autovalutazione e tracciamento progressi</div>
+        </li>
+        <li>
+          <div class="login-feat-icon">📝</div>
+          <div><strong>30 Quiz + 19 domande</strong> da esami reali, con spiegazioni</div>
+        </li>
+        <li>
+          <div class="login-feat-icon">📚</div>
+          <div><strong>Fonti bibliografiche</strong> complete: PDF, libri, Treccani</div>
+        </li>
+      </ul>
+
+      <!-- course badge -->
+      <div class="login-course-badge">
+        📍 Prof.ssa Denise Ulivieri &nbsp;·&nbsp; A.A. 2025-2026
+      </div>
+    </div>
+
+    <!-- RIGHT: form -->
+    <div class="login-right">
+      <div class="login-form-card">
+        <!-- small icon -->
+        <div class="login-form-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" width="44" height="44">
+            <defs>
+              <radialGradient id="lfibg" cx="0.5" cy="0" r="1.15">
+                <stop offset="0" stop-color="#2b3149"/><stop offset="0.46" stop-color="#161924"/><stop offset="1" stop-color="#0a0b11"/>
+              </radialGradient>
+              <linearGradient id="lfiacc" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#bcafff"/><stop offset="1" stop-color="#7d6bf0"/>
+              </linearGradient>
+            </defs>
+            <rect x="0" y="0" width="512" height="512" rx="116" fill="url(#lfibg)"/>
+            <g transform="translate(155 88) scale(2.197)" fill="none">
+              <path d="M14 80 L46 14 L78 80" stroke="#f4f5fb" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect x="30" y="55" width="22" height="9" rx="4.5" fill="url(#lfiacc)"/>
+            </g>
+          </svg>
+        </div>
+
+        <h2>Accedi alla dashboard</h2>
+        <p class="login-form-sub">Inserisci le tue credenziali per continuare</p>
+
+        <div class="login-field">
+          <label>Username</label>
+          <input id="loginUser" type="text" placeholder="username" autocomplete="username">
+        </div>
+        <div class="login-field">
+          <label>Password</label>
+          <input id="loginPass" type="password" placeholder="••••••••" autocomplete="current-password">
+        </div>
+
+        <div id="loginError" class="login-error">Credenziali non valide. Riprova.</div>
+
+        <button class="login-btn" onclick="doLogin()">Accedi →</button>
+
+        <div class="login-footer-note">
+          Powered by Atrium Edu &nbsp;·&nbsp; Uso didattico privato<br>
+          © 2026 Federico Orsini
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- /LOGIN OVERLAY -->
+
+<header>
+  <!-- top bar: Atrium Edu brand -->
+  <div class="header-top">
+    <a class="atrium-logo" href="#">
+      <!-- Atrium icon reale -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" width="28" height="28" style="border-radius:7px;flex-shrink:0;box-shadow:0 0 10px rgba(124,99,240,.4);">
+        <defs>
+          <radialGradient id="aibg" cx="0.5" cy="0" r="1.15">
+            <stop offset="0" stop-color="#2b3149"/>
+            <stop offset="0.46" stop-color="#161924"/>
+            <stop offset="1" stop-color="#0a0b11"/>
+          </radialGradient>
+          <linearGradient id="aiacc" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#bcafff"/>
+            <stop offset="1" stop-color="#7d6bf0"/>
+          </linearGradient>
+        </defs>
+        <rect x="0" y="0" width="512" height="512" rx="116" fill="url(#aibg)"/>
+        <g transform="translate(155 88) scale(2.197)" fill="none">
+          <path d="M14 80 L46 14 L78 80" stroke="#f4f5fb" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="30" y="55" width="22" height="9" rx="4.5" fill="url(#aiacc)"/>
+        </g>
+      </svg>
+      <!-- wordmark testuale leggibile -->
+      <span style="font-size:14px;font-weight:800;color:#e8eaf6;letter-spacing:.3px;font-family:'IBM Plex Sans',sans-serif;">ATRIUM</span><span style="font-size:13px;font-weight:700;color:#9b8ff5;margin-left:4px;letter-spacing:.2px;font-family:'IBM Plex Sans',sans-serif;">EDU</span>
+    </a>
+    <div class="header-divider"></div>
+    <span class="header-subbrand">Agente di Studio · Preparazione Esame</span>
+  </div>
+  <!-- main bar: corso -->
+  <div class="header-main">
+    <div class="logo">
+      <div class="logo-icon">🏛️</div>
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="logo-text">Storia dell'Architettura 1</div>
+          <button class="warn-badge" onclick="document.getElementById('warnOverlay').classList.add('open')">⚠️ Fonti parziali</button>
+        </div>
+        <div class="logo-sub" style="margin-top:3px;">Prof.ssa Denise Ulivieri &nbsp;·&nbsp; UniPi Ingegneria Edile-Architettura &nbsp;·&nbsp; A.A. 2025-26</div>
+      </div>
+    </div>
+    <div id="headerProgress" style="display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);"></div>
+  </div>
+</header>
+
+<div class="warn-overlay" id="warnOverlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="warn-modal">
+    <div class="warn-modal-title">⚠️ Fonti non leggibili direttamente</div>
+    <div class="warn-modal-body">
+      Questa dashboard è stata costruita sui <strong>3 PDF delle slide della prof.ssa Ulivieri</strong> (letti integralmente) e sulle note bibliografiche del corso.<br><br>
+      Le seguenti fonti <strong>non sono state lette direttamente</strong> perché testi protetti da copyright non disponibili liberamente online. Il loro contenuto è presente indirettamente tramite le slide:
+      <ul class="warn-source-list">
+        <li><span class="icon">📖</span><strong>Watkin D.</strong> — Storia dell'architettura occidentale (Zanichelli 2016) · cap. 2-5</li>
+        <li><span class="icon">📖</span><strong>Bozzoni C. et al.</strong> — L'architettura del mondo antico (Laterza 2006)</li>
+        <li><span class="icon">📖</span><strong>Bonelli R., Bozzoni C.</strong> — Storia dell'architettura medievale (Laterza 2012)</li>
+        <li><span class="icon">📖</span><strong>Zevi B.</strong> — Storia e controstoria dell'architettura in Italia (Newton 2005)</li>
+      </ul>
+      <br>✅ <strong>Fonti lette integralmente:</strong> 5_Fase classica_TEAMS.pdf · 6_eta tardoclassica_TEAMS.pdf · 7_Ellenismo_TEAMS.pdf · Note esame.txt
+    </div>
+    <div class="warn-modal-close"><button class="btn primary" onclick="document.getElementById('warnOverlay').classList.remove('open')">Capito, chiudi</button></div>
+  </div>
+</div>
+<div class="progress-strip">
+  <div class="prog-label">Progressi</div>
+  <div class="prog-bar-wrap"><div class="prog-bar" id="mainProgressBar" style="width:0%"></div></div>
+  <div class="prog-pct" id="mainProgressPct">0%</div>
+</div>
+<div class="tabs">
+  <button class="tab active" onclick="showSection(this,'home')">🏠 Piano</button>
+  <button class="tab" onclick="showSection(this,'percorsi')">🎓 Percorsi</button>
+  <button class="tab" onclick="showSection(this,'argomenti')">📚 Argomenti</button>
+  <button class="tab" onclick="showSection(this,'classica')">🏛️ Età Classica</button>
+  <button class="tab" onclick="showSection(this,'tardoclassica')">🏺 Tardoclassica</button>
+  <button class="tab" onclick="showSection(this,'ellenismo')">🌍 Ellenismo</button>
+  <button class="tab" onclick="showSection(this,'ordini')">📐 Ordini e Tipologie</button>
+  <button class="tab" onclick="showSection(this,'flashcard')">🃏 Flashcard</button>
+  <button class="tab" onclick="showSection(this,'quiz')">🎯 Quiz</button>
+  <button class="tab" onclick="showSection(this,'domande')">❓ Domande Esame</button>
+  <button class="tab" onclick="showSection(this,'prof')">👩‍🏫 La Prof.</button>
+  <button class="tab" onclick="showSection(this,'fonti')">📚 Fonti</button>
+</div>
+<main id="mainContent"></main>
+
+<script>
+var _mem={};
+var LS=(function(){try{var t='__t';window.localStorage.setItem(t,'1');window.localStorage.removeItem(t);return window.localStorage;}catch(e){return{getItem:function(k){return(k in _mem)?_mem[k]:null;},setItem:function(k,v){_mem[k]=String(v);},removeItem:function(k){delete _mem[k];}};}}());
+
+const SH={};
+
+SH.home=`<div class="stat-grid">
+  <div class="stat-card"><div class="stat-num green" id="s-done">0</div><div class="stat-label">Topic completati</div></div>
+  <div class="stat-card"><div class="stat-num yellow">3</div><div class="stat-label">Periodi storici</div></div>
+  <div class="stat-card"><div class="stat-num blue">18</div><div class="stat-label">Edifici chiave</div></div>
+  <div class="stat-card"><div class="stat-num pink">5</div><div class="stat-label">Ordini archit.</div></div>
+</div>
+<div class="section-header"><h2>Piano Studio — 18 Topic</h2><p>Spunta quando sei sicuro. ❗ alta priorità · ⚡ media · ✓ base</p></div>
+<div class="topic-list" id="topicList"></div>`;
+
+SH.percorsi=`<div class="section-header"><h2>Percorsi Guidati</h2><p>Teoria passo-passo con domande di verifica intercalate. Scegli un percorso e avanza.</p></div>
+<div class="percorsi-grid" id="percorsiGrid"></div>
+<div class="player" id="player" style="display:none">
+  <div class="player-header">
+    <button class="player-back" onclick="closePlayer()">← Percorsi</button>
+    <div class="player-title" id="playerTitle"></div>
+    <div class="player-prog"><div class="player-prog-bar" id="playerProgBar" style="width:0%"></div></div>
+    <div class="player-step-num" id="playerStepNum">1/1</div>
+  </div>
+  <div id="playerSteps"></div>
+  <div class="step-nav">
+    <button class="btn" id="btnPrev" onclick="prevStep()">← Prec.</button>
+    <button class="btn primary" id="btnNext" onclick="nextStep()">Avanti →</button>
+    <div class="step-score" id="stepScore"></div>
+  </div>
+</div>`;
+
+SH.argomenti=`<div class="section-header"><h2>Argomenti del Corso</h2><p>Clicca per espandere — concetti chiave, edifici e dati per ogni macro-argomento.</p></div>
+<div id="accContainer"></div>`;
+
+SH.classica=`<div class="section-header"><h2>Età Classica — V-IV sec. a.C.</h2><p>Periodo aureo dell'architettura greca. Acropoli di Atene, Olimpia, perfezionamento degli ordini.</p></div>
+<div class="tip-box"><div class="tip-title">⚡ Cronologia rapida</div><div class="tip-text">
+<strong>480 a.C.</strong> — Distruzione Acropoli da Persiani (Serse) ·
+<strong>447-432 a.C.</strong> — Partenone ·
+<strong>437-432 a.C.</strong> — Propilei ·
+<strong>421-405 a.C.</strong> — Eretteo ·
+<strong>468-460 a.C.</strong> — Tempio Zeus, Olimpia
+</div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">🗿</span><span class="acc-title">Acropoli di Atene — storia e fasi</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox blue"><strong>Dati fisici:</strong> rocca alta 156 m s.l.m. · pianoro sommitale 140 × 280 m · accesso unico a NW</div>
+<div class="phbox"><strong>Fasi storiche:</strong><br>
+• <strong>Micenea</strong> (II mill. a.C.) — palazzo miceneo + mura ciclopiche<br>
+• <strong>Arcaica</strong> (VII-VI sec.) — primo Partenone (Hekatompedon), Propilei arcaici<br>
+• <strong>Classica</strong> (V-IV sec.) — ricostruzione periclea dopo 480 a.C.<br>
+• <strong>Ellenistica-romana</strong> — aggiunte e modifiche minori</div>
+<div class="phbox green"><strong>480 a.C.</strong>: Serse distrugge l'Acropoli durante la seconda guerra persiana. Pericle (461-429) avvia la grande ricostruzione con supervisione artistica di <strong>Fidia</strong>.</div>
+<table class="stbl"><thead><tr><th>Edificio</th><th>Date</th><th>Architetto/i</th><th>Ordine</th></tr></thead><tbody>
+<tr><td><strong>Partenone</strong></td><td>447-432 a.C.</td><td>Ictino + Callicrate</td><td>Dorico</td></tr>
+<tr><td><strong>Propilei</strong></td><td>437-432 a.C.</td><td>Mnesicle</td><td>Dorico + Ionico</td></tr>
+<tr><td><strong>Tempio Athena Nike</strong></td><td>427-424 a.C.</td><td>Callicrate</td><td>Ionico</td></tr>
+<tr><td><strong>Eretteo</strong></td><td>421-405 a.C.</td><td>?</td><td>Ionico</td></tr>
+</tbody></table>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">🏛️</span><span class="acc-title">Partenone — il capolavoro del Dorico</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox blue"><strong>Dati fondamentali:</strong><br>
+Date: <strong>447-432 a.C.</strong> (inaugurato 438 a.C. alle Panatenee)<br>
+Architetti: <strong>Ictino</strong> e <strong>Callicrate</strong> · Sculture: <strong>Fidia</strong><br>
+Tipo: periptero dorico · Colonne: <strong>8 × 17</strong> (ottastilo)<br>
+Stilobate: <strong>30,88 × 69,54 m</strong></div>
+<div class="phbox"><strong>Pianta:</strong><br>
+• Camera Est (Naos): statua crisoelefantina di Atena Parthenos di Fidia (h. ~12 m)<br>
+• Camera Ovest (Partenone/Opistodomo): tesoreria della Lega Delio-Attica<br>
+• Fregio doricoc esterno: 92 metope con Centauromachia, Amazzonomachia, Gigantomachia, Guerra di Troia<br>
+• Fregio ionico continuo interno (lungh. 160 m): processione delle Panatenee (438-432 a.C.)</div>
+<div class="phbox green"><strong>Raffinamenti ottici — DA MEMORIZZARE:</strong><br>
+1. <strong>Curvatura dello stilobate</strong>: convessità verso l'alto (non è piatto!)<br>
+2. <strong>Entasi delle colonne</strong>: rigonfiamento nel terzo inferiore<br>
+3. <strong>Inclinazione delle colonne</strong>: angolari inclinate verso il centro (0,07 m)<br>
+4. <strong>Inclinazione della trabeazione</strong>: piega leggermente verso l'interno<br>
+5. <strong>Colonne angolari</strong>: più tozze per effetto visivo corretto<br>
+→ Tutto per <em>correggere le distorsioni ottiche</em> della visione umana</div>
+<div class="phbox"><strong>Policromia:</strong> ricostruzione di <strong>Hittorff</strong> (XIX sec.) — colori rosso, blu, oro su triglifi, metope e sculture. Il marmo antico non era mai bianco nella visione moderna.</div>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">🚪</span><span class="acc-title">Propilei — ingresso monumentale</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox blue"><strong>Date:</strong> 437-432 a.C. · <strong>Architetto:</strong> Mnesicle</div>
+<div class="phbox"><strong>Caratteristiche:</strong><br>
+• Corpo centrale: facciata esastila dorica sia a est che a ovest<br>
+• Ali laterali nord (Pinacoteca) e sud<br>
+• Interno: colonne ioniche che fiancheggiano il percorso sacro<br>
+• Misto ordine dorico (esterno) + ionico (interno) — <em>contaminazione controllata</em><br>
+• Non completato per scoppio guerra del Peloponneso (431 a.C.)</div>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">⚡</span><span class="acc-title">Tempio di Athena Nike</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox blue"><strong>Architetto:</strong> Callicrate · <strong>Tipo:</strong> anfiprostilo tetrastilo ionico · sul Pyrgos (bastione SW)</div>
+<div class="phbox"><strong>Caratteristiche:</strong><br>
+• Dimensioni ridotte (5,44 × 8,27 m stilobate) — il più piccolo sull'Acropoli<br>
+• 4 colonne ioniche su entrambe le fronti<br>
+• Balaustra del Pyrgos con rilievi di Nike: ca. 420 a.C.<br>
+• Prima vittoria dell'ordine ionico sull'Acropoli</div>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">👑</span><span class="acc-title">Eretteo e Loggia delle Korai (Cariatidi)</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox blue"><strong>Date:</strong> 421-405 a.C. · ordine ionico · pianta irregolare a più livelli</div>
+<div class="phbox"><strong>Caratteristiche:</strong><br>
+• Raccoglie più luoghi sacri: tomba di Erittonio, segno del tridente di Poseidone, ulivo sacro di Atena<br>
+• Tre portici: est (esastilo ionico), nord (tetrastilo pronaos ionico), sud (Loggia delle Korai)<br>
+• <strong>Loggia delle Korai/Cariatidi</strong> (lato sud): 6 figure femminili come colonne portanti<br>
+• Le cariatidi originali al British Museum e museo Acropoli; una copia rimasta in loco<br>
+• Tre livelli diversi in quota per adattarsi al terreno sacro</div>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">⚡</span><span class="acc-title">Tempio di Zeus, Olimpia</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox blue"><strong>Date:</strong> 468-460 a.C. · <strong>Architetto:</strong> Libone di Elide · <strong>Tipo:</strong> periptero dorico</div>
+<div class="phbox"><strong>Dati tecnici:</strong><br>
+• Colonne: <strong>6 × 13</strong> (esastilo)<br>
+• Stilobate: 27,68 × 64,12 m<br>
+• Statue frontoni: Paionio di Mende (est: preparativi gara Pelope-Enomaos) + Alcamene? (ovest: centauromachia)<br>
+• <strong>Statua di Zeus</strong> di Fidia: crisoelefantina, ~13 m · <em>una delle 7 Meraviglie del mondo antico</em></div>
+<div class="phbox green"><strong>Tecnica crisoelefantina:</strong> avorio (carne) + lamina d'oro (vesti) su struttura lignea. Usata da Fidia anche per Atena Parthenos al Partenone.</div>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">📐</span><span class="acc-title">Sezione Aurea e proporzioni nel tempio greco</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox"><strong>Sezione Aurea:</strong> φ = (1 + √5) / 2 = <strong>1,618034...</strong><br>
+Serie di Fibonacci: 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89... (ogni numero = somma dei due precedenti; rapporto tende a φ)</div>
+<div class="phbox green"><strong>Applicazioni nel Partenone:</strong><br>
+• Rapporto larghezza/altezza facciata ≈ φ<br>
+• Proporzioni colonne e trabeazione seguono rapporti aurei<br>
+• <strong>Le Corbusier</strong> sviluppò il Modulor (1948) basandosi sulla sezione aurea applicata al corpo umano</div>
+</div></div></div>`;
+
+SH.tardoclassica=`<div class="section-header"><h2>Età Tardoclassica — IV sec. a.C.</h2><p>Sperimentazione dei nuovi ordini, prime tholoi, evoluzione del Corinzio.</p></div>
+<div class="tip-box"><div class="tip-title">⚡ Cronologia rapida</div><div class="tip-text">
+<strong>450-425 a.C.</strong> — Bassae (Apollo Epicurio) ·
+<strong>380 a.C.</strong> — Tholos di Delfi ·
+<strong>365-335 a.C.</strong> — Tholos di Epidauro ·
+<strong>360 a.C.</strong> — Tempio Athena Alea, Tegea ·
+<strong>330 a.C.</strong> — Tempio Zeus, Nemea
+</div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">🏔️</span><span class="acc-title">Tempio di Apollo Epicurio, Bassae</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox blue"><strong>Date:</strong> 450-425 a.C. · <strong>Attrib.:</strong> Ictino (?) · <strong>Tipo:</strong> periptero dorico</div>
+<div class="phbox"><strong>Dati tecnici:</strong><br>
+• Colonne: <strong>6 × 15</strong> · Stilobate: <strong>14,56 × 38,31 m</strong><br>
+• Orientato N-S (eccezionale!) con adyton con porta laterale est per la luce<br>
+• Interno: colonne semi-addossate doriche (naos) + colonne ioniche in alto<br>
+• <strong>PRIMA CAPITALE CORINZIA CONOSCIUTA</strong> — singola colonna isolata a separare naos e adyton<br>
+• Fregio ionico continuo interno (centauromachia, amazzonomachia) — oggi British Museum</div>
+<div class="phbox green">Importanza: qui compare per la prima volta il capitello corinzio nella storia dell'architettura. Inventore del capitello: <strong>Callimaco</strong> secondo Vitruvio.</div>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">🔥</span><span class="acc-title">Tempio di Athena Alea, Tegea</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox blue"><strong>Data:</strong> ca. 360 a.C. · <strong>Architetto:</strong> Skopas di Paros · ricostruzione dopo incendio 395 a.C.</div>
+<div class="phbox"><strong>Caratteristiche:</strong><br>
+• Stilobate: <strong>19,16 × 47,52 m</strong><br>
+• <strong>Ordine tripartito</strong>: dorico esterno / corinzio interno / ionico in alto → progressione verso il basso della trabeazione<br>
+• Sculture frontoni di Skopas stesso (Caccia al cinghiale caledonio est, Achilleide ovest)<br>
+• Tra i maggiori templi del Peloponneso nel IV sec.</div>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">🌀</span><span class="acc-title">Tholos nel santuario di Atena alla Marmarià, Delfi</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox blue"><strong>Data:</strong> 380 a.C. · <strong>Architetto:</strong> Teodoro di Focea</div>
+<div class="phbox"><strong>Caratteristiche:</strong><br>
+• <strong>20 colonne doriche</strong> esterne in marmo pentelico · diametro: <strong>13,50 m</strong><br>
+• <strong>10 colonne corinzie</strong> interne su podio circolare<br>
+• Cella circolare con pavimento a opus sectile<br>
+• Tra le tholoi più eleganti della Grecia classica</div>
+<div class="phbox green"><strong>Tholos</strong> = edificio a pianta circolare. Funzione ancora dibattuta: heroon? culto ctonio? deposito?</div>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">🏥</span><span class="acc-title">Tholos di Epidauro</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox blue"><strong>Date:</strong> 365-335 a.C. · santuario di Asclepio</div>
+<div class="phbox"><strong>Caratteristiche:</strong><br>
+• Ordine dorico esterno in tufo locale · ordine corinzio interno in marmo<br>
+• Labirinto sotterraneo (corridoi concentrici): forse parte del rito terapeutico<br>
+• Capitelli corinzi tra i più belli conservati dell'antichità</div>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">📊</span><span class="acc-title">Evoluzione proporzioni colonna dorica nel tempo</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox">Le proporzioni del dorico cambiano nei secoli: le colonne arcaiche sono tozze (h = 4-5 × diametro inferiore), quelle classiche più slanciate (h ≈ 5,5-6 ×), quelle tardoclassiche ed ellenistiche ancora più esili.</div>
+<table class="stbl"><thead><tr><th>Edificio</th><th>Data</th><th>Rapporto h/d</th><th>Note</th></tr></thead><tbody>
+<tr><td>Tempio Apollo, Delfi</td><td>~600 a.C.</td><td>~4,0</td><td>Arcaico tozzo</td></tr>
+<tr><td>Tempio Zeus, Olimpia</td><td>460 a.C.</td><td>~4,6</td><td>Classico precoce</td></tr>
+<tr><td>Partenone</td><td>447 a.C.</td><td>~5,5</td><td>Classico maturo</td></tr>
+<tr><td>Bassae</td><td>450-425 a.C.</td><td>~5,7</td><td>Più slanciato</td></tr>
+<tr><td>Tempio Zeus, Nemea</td><td>330 a.C.</td><td>~6,3</td><td>Tardoclassico</td></tr>
+<tr><td>Tempio Cori</td><td>I sec. a.C.</td><td>~7,0</td><td>Ellenistico-romano</td></tr>
+</tbody></table>
+</div></div></div>`;
+
+SH.ellenismo=`<div class="section-header"><h2>Ellenismo — 323-31 a.C.</h2><p>Da Alessandro Magno alla battaglia di Azio. Koinè culturale, nuove tipologie, urbanistica.</p></div>
+<div class="tip-box"><div class="tip-title">⚡ Definizione e contesto</div><div class="tip-text">
+Termine coniato da <strong>Johann Gustav Droysen</strong> (XIX sec.). 323 a.C. = morte di Alessandro Magno. 31 a.C. = battaglia di Azio (Roma conquista Egitto). Quattro regni successori: <strong>Antigonidi</strong> (Macedonia), <strong>Tolomei</strong> (Egitto), <strong>Seleucidi</strong> (Siria-Asia), <strong>Attalidi</strong> (Pergamo).
+</div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">🏆</span><span class="acc-title">Mausoleo di Alicarnasso — una delle 7 Meraviglie</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox blue"><strong>Date:</strong> 377-351 a.C. · <strong>Committente:</strong> Mausolo, satrapo di Caria · <strong>Progettisti:</strong> Pytheos e Satyros</div>
+<div class="phbox"><strong>Caratteristiche:</strong><br>
+• <strong>36 colonne</strong> ioniche su alto podio · altezza totale: <strong>41,50 m</strong><br>
+• Piramide a gradini come coronamento (24 gradini) + quadriga bronzea in cima<br>
+• 4 scultori per 4 lati: <strong>Skopas</strong> (est), <strong>Bryaxis</strong> (nord), <strong>Timotheos</strong> (sud), <strong>Leochares</strong> (ovest)<br>
+• Statua del satrapo + Artemisia in quadriga sommitale<br>
+• Schema: basamento / colonnato ionico / piramide / quadriga<br>
+• Oggi distrutto; frammenti al British Museum</div>
+<div class="phbox green">Dal nome Mausolo deriva la parola "mausoleo" come tomba monumentale.</div>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">🏟️</span><span class="acc-title">Philippeion, Olimpia</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox blue"><strong>Data:</strong> ca. 336 a.C. (iniziato da Filippo II, completato da Alessandro)</div>
+<div class="phbox"><strong>Caratteristiche:</strong><br>
+• <strong>Tholos ionico</strong> — 18 colonne ioniche esterne su stilobate<br>
+• Sculture di <strong>Leochares</strong>: gruppo crisoelefantino di Filippo II con famiglia<br>
+• Primo edificio dedicato a un mortale nel recinto sacro di Olimpia (atto politico!)<br>
+• Interno: 9 semicolonne corinzie</div>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">🏙️</span><span class="acc-title">Priene — città e Tempio di Atena Polias</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox blue"><strong>Città:</strong> fondata ca. 350 a.C. in Ionia (costa turca) · <strong>Tempio:</strong> 334 a.C. · <strong>Architetto:</strong> Piteo (Pytheos)</div>
+<div class="phbox"><strong>Tempio di Atena Polias:</strong><br>
+• Tipo: periptero ionico · colonne: <strong>6 × 11</strong><br>
+• Stilobate: 19,55 × 37,20 m<br>
+• Dedicato da Alessandro Magno (iscrizione)<br>
+• Considerato canone dell'ionico asiatico classico da Vitruvio</div>
+<div class="phbox green"><strong>Urbanistica di Priene:</strong><br>
+• Piano ippodameo a griglia regolare<br>
+• Isolati: <strong>120 × 150 piedi</strong> (ca. 35 × 45 m)<br>
+• Strade perpendicolari adattate al terreno in pendenza<br>
+• Agorà con stoà, santuario di Zeus Olimpio, bouleuterion, teatro</div>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">🌊</span><span class="acc-title">Mileto — urbanistica ippodamea</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox blue"><strong>Ricostruzione:</strong> dopo 479 a.C. (distruzione persiana) · attribuita a <strong>Ippodamo di Mileto</strong></div>
+<div class="phbox"><strong>Schema urbanistico:</strong><br>
+• Griglia ortogonale a tre aree principali: commerciale (nord), civica (centro), religiosa (sud)<br>
+• Porti commerciali e militari integrati nel piano<br>
+• Agorà nord: stoà a L + bouleuterion · Agorà sud: più monumentale<br>
+• Modello per le città ellenistiche di nuova fondazione (Alessandria, Pergamo, Antiocchia)</div>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">🏗️</span><span class="acc-title">Stoà di Attalo, Atene</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox blue"><strong>Date:</strong> 159-138 a.C. · <strong>Committente:</strong> Attalo II di Pergamo</div>
+<div class="phbox"><strong>Caratteristiche:</strong><br>
+• Stoà a due piani: piano terra dorico, piano superiore ionico (contaminazione)<br>
+• Lunghezza: 115 m · 21 negozi sul retro<br>
+• Ricostruzione moderna (1953-56) dall'American School of Classical Studies<br>
+• Oggi museo dell'Agorà di Atene</div>
+<div class="phbox green"><strong>Stoà</strong> = portico colonnato coperto. Funzione: commercio, incontro, filosofia (Stoa Poikile → Stoici). Elemento urbano fondamentale dell'agorà greca.</div>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">🎭</span><span class="acc-title">Teatro di Dioniso, Atene + Teatro di Epidauro</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox blue"><strong>Teatro di Dioniso, Atene:</strong> costruzione licourgea inizio IV sec. a.C. su cavea arcaica</div>
+<div class="phbox"><strong>Anatomia del teatro greco:</strong><br>
+• <strong>Koilon/Cavea</strong>: gradinate scavate nella collina (a volte completate con muratura)<br>
+• <strong>Orchestra</strong>: area circolare dove agisce il coro + altare (thymele)<br>
+• <strong>Skené</strong>: edificio scenico retrostante (dapprima in legno, poi permanente)<br>
+• <strong>Proskenion</strong>: colonnato davanti alla skené (sfondo scenico)<br>
+• <strong>Pàrodoi</strong>: corridoi laterali di accesso per coro e pubblico</div>
+<div class="phbox green"><strong>Teatro di Epidauro</strong> (ca. 300 a.C., attr. <strong>Policleto il Giovane</strong>):<br>
+• Cavea: <strong>82 m</strong> diametro · Orchestra: <strong>26,53 m</strong> diametro · Capacità: <strong>17.000</strong> spettatori<br>
+• Acustica prodigiosa — sfrutta curvatura cavea e qualità calcare<br>
+• Il più completo e meglio conservato teatro greco antico</div>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">🔱</span><span class="acc-title">Tempio di Artemide Leukofriene, Magnesia al Meandro</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox blue"><strong>Data:</strong> ca. 175 a.C. · <strong>Architetto:</strong> Ermogene · <strong>Tipo:</strong> pseudodiptero ionico</div>
+<div class="phbox"><strong>Caratteristiche:</strong><br>
+• Colonne: <strong>8 × 15</strong> · Stilobate: 31,61 × 57,89 m<br>
+• <strong>Pseudodiptero</strong>: eliminazione del colonnato interno del diptero → ampio pteron<br>
+• Ermogene teorizza il pseudodiptero come miglior tipo per l'ionico (Vitruvio lo cita)<br>
+• Fregio con amazzonomachia (167 lastre)<br>
+• Altare monumentale davanti al tempio</div>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">🌙</span><span class="acc-title">Tempio di Apollo, Didyma (Didymeon)</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox blue"><strong>Data:</strong> ca. 300 a.C. · <strong>Architetti:</strong> Paionios di Efeso + Daphnis di Mileto</div>
+<div class="phbox"><strong>Caratteristiche:</strong><br>
+• Tipo: <strong>diptero ionico</strong> — doppia fila di colonne esterne<br>
+• Colonne: <strong>10 × 21</strong> (circa) · mai completato in antico<br>
+• <strong>Ipetro</strong>: naos a cielo aperto (sekos scoperchiato con naiskos interno)<br>
+• Basi delle colonne decorate con rilievi figurati (eccezionale)<br>
+• Oracolo di Apollo — uno dei più importanti dopo Delfi<br>
+• Dimensioni colossali: stilobate ~51 × 109 m</div>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">👑</span><span class="acc-title">Pergamo — acropoli e Altare di Zeus</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox blue"><strong>Pergamo:</strong> capitale degli Attalidi (Turchia occidentale attuale) · acropoli terrazzata</div>
+<div class="phbox"><strong>Edifici sull'acropoli:</strong><br>
+• Teatro scenograficamente incassato nel pendio<br>
+• Tempio di Athena (dorico, II sec. a.C.)<br>
+• Biblioteca (seconda solo ad Alessandria): 200.000 volumi su pergamena<br>
+• Agorà superiore con stoài<br>
+• <strong>Altare di Zeus</strong> (197-159 a.C.): il più spettacolare monumento dell'Ellenismo</div>
+<div class="phbox green"><strong>Altare di Zeus di Pergamo:</strong><br>
+• Pianta a U su alto podio scalinato<br>
+• Fregio della Gigantomachia: <strong>120 m</strong> lineare, alta pittura narrativa<br>
+• Fregio interno (Telefo): schema narrativo continuato<br>
+• Oggi al Pergamonmuseum di Berlino<br>
+• Committente: <strong>Eumene II</strong> (197-159 a.C.) dopo vittoria sui Galati</div>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">🏛️</span><span class="acc-title">Bouleuterion di Priene e Odeion di Pericle</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox"><strong>Bouleuterion di Priene</strong> (ca. 200 a.C.):<br>
+• Sala assembleare del Consiglio (boulè) a pianta quadrata<br>
+• Gradinate su 3 lati · capacità ca. 640 persone<br>
+• Copertura lignea su colonne interne</div>
+<div class="phbox"><strong>Odeion di Pericle, Atene</strong> (metà V sec. a.C.):<br>
+• Pianta quadrata coperta<br>
+• Usato per concorsi musicali (odeion = sala musicale)<br>
+• Copertura ispirata alla tenda di Serse secondo le fonti</div>
+</div></div></div>`;
+
+SH.ordini=`<div class="section-header"><h2>Ordini Architettonici e Tipologie</h2><p>La "grammatica" dell'architettura greca. Base per leggere qualsiasi edificio.</p></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">📏</span><span class="acc-title">Ordine Dorico</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox green"><strong>Caratteristiche principali:</strong><br>
+• Colonna: senza base, capitello a echino + abaco<br>
+• Fusto: scanalato (20 scanalature con spigoli vivi)<br>
+• Trabeazione: architrave liscio / fregio con <strong>triglifi e metope</strong> / cornicione<br>
+• Proporzioni: tozze in arcaico, slanciate in classico<br>
+• Uso: Grecia continentale e Magna Grecia</div>
+<div class="phbox">Elementi specifici: <strong>triglifo</strong> (3 bande verticali) / <strong>metopa</strong> (pannello tra triglifi, decorato con rilievi) / <strong>guttae</strong> (gocce sotto regula) / <strong>mutuli</strong> (nel cornicione)</div>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">🌀</span><span class="acc-title">Ordine Ionico — varianti Attico, Asiatico, Ellenistico</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox blue"><strong>Caratteristiche comuni:</strong><br>
+• Colonna con base · capitello a <strong>volute</strong><br>
+• Trabeazione: architrave a 3 fasce / fregio continuo figurato / cornicione con dentelli<br>
+• Proporzioni più slanciate del dorico</div>
+<table class="stbl"><thead><tr><th>Variante</th><th>Base</th><th>Capitello</th><th>Uso tipico</th></tr></thead><tbody>
+<tr><td><strong>Ionico Attico</strong></td><td>toro / trochilo / toro</td><td>volute frontali</td><td>Eretteo, Propilei interni</td></tr>
+<tr><td><strong>Ionico Asiatico</strong></td><td>base con kyma + tori</td><td>volute a 45°</td><td>Efeso, Samo, Priene</td></tr>
+<tr><td><strong>Ionico Ellenistico</strong></td><td>base elaborata</td><td>fronte e retro eguali</td><td>Didyma, Magnesia</td></tr>
+</tbody></table>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">🌿</span><span class="acc-title">Ordine Corinzio</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<div class="phbox green"><strong>Caratteristiche:</strong><br>
+• Capitello a <strong>foglie d'acanto</strong> + caulicoli + volute angolari (simile in tutte le vedute)<br>
+• Base analoga all'ionico<br>
+• Prima attestazione: Bassae (~450-425 a.C.) attribuita a Callimaco<br>
+• Diffusione: tardoclassico (interni), ellenismo (esterni), Roma (ordine preferito)</div>
+<div class="phbox">Leggenda Vitruviana: Callimaco vide un canestro sepolcrale sopra una tomba di fanciulla con foglie d'acanto cresciute attorno e si ispirò per il capitello corinzio.</div>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">🏛️</span><span class="acc-title">Tipologie templari secondo Vitruvio</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<table class="stbl"><thead><tr><th>Tipo</th><th>Descrizione</th><th>Esempio</th></tr></thead><tbody>
+<tr><td><strong>In antis</strong></td><td>Colonne tra le ante (prosecuzione muri laterali)</td><td>Tesoro Sifni, Delfi</td></tr>
+<tr><td><strong>Prostilo</strong></td><td>Portico colonnato solo in facciata</td><td>—</td></tr>
+<tr><td><strong>Anfiprostilo</strong></td><td>Portico colonnato su entrambe le fronti</td><td>Tempio Athena Nike</td></tr>
+<tr><td><strong>Periptero</strong></td><td>Colonnato su tutti i lati (1 fila)</td><td>Partenone, Zeus Olimpia</td></tr>
+<tr><td><strong>Pseudodiptero</strong></td><td>Come diptero ma senza la fila interna</td><td>Magnesia al Meandro</td></tr>
+<tr><td><strong>Diptero</strong></td><td>Doppio colonnato su tutti i lati</td><td>Didyma, Artemision Efeso</td></tr>
+<tr><td><strong>Ipetro</strong></td><td>Naos a cielo aperto</td><td>Didyma</td></tr>
+</tbody></table>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">📏</span><span class="acc-title">Intercolumni secondo Vitruvio</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<table class="stbl"><thead><tr><th>Tipo</th><th>Interasse</th><th>Misura in moduli</th></tr></thead><tbody>
+<tr><td><strong>Picnostilo</strong></td><td>Molto serrato</td><td>1,5 moduli</td></tr>
+<tr><td><strong>Sistilo</strong></td><td>Serrato</td><td>2 moduli</td></tr>
+<tr><td><strong>Eustilo</strong></td><td>Ottimale (Ermogene)</td><td>2,25 moduli</td></tr>
+<tr><td><strong>Diastilo</strong></td><td>Largo</td><td>3 moduli</td></tr>
+<tr><td><strong>Areostilo</strong></td><td>Molto largo</td><td>4+ moduli (solo in legno)</td></tr>
+</tbody></table>
+</div></div></div>
+
+<div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">🧱</span><span class="acc-title">Operae murarie (Vitruvio) — tecniche costruttive</span><span class="acc-chev">▼</span></div>
+<div class="acc-body"><div class="acc-inner">
+<table class="stbl"><thead><tr><th>Tipo</th><th>Descrizione</th></tr></thead><tbody>
+<tr><td><strong>Opus incertum</strong></td><td>Scaglie di tufo irregolari in malta</td></tr>
+<tr><td><strong>Opus reticolatum</strong></td><td>Blocchetti a losanga disposti a rete (romano)</td></tr>
+<tr><td><strong>Opus isodomon</strong></td><td>Filari di blocchi tutti uguali in altezza</td></tr>
+<tr><td><strong>Opus pseudoisodomon</strong></td><td>Filari alternati di altezze diverse</td></tr>
+<tr><td><strong>A riempimento con diatoni</strong></td><td>Pareti con blocchi passanti (diatoni) come legame</td></tr>
+</tbody></table>
+</div></div></div>`;
+
+SH.flashcard=`<div class="section-header"><h2>Flashcard</h2><p>Leggi la domanda → rispondi ad alta voce → clicca per verificare → valuta.</p></div>
+<div class="fc-filter">
+  <button class="filter-btn active" onclick="setFCFilter('Tutti',this)">Tutti</button>
+  <button class="filter-btn" onclick="setFCFilter('Classica',this)">🏛️ Classica</button>
+  <button class="filter-btn" onclick="setFCFilter('Tardoclassica',this)">🏺 Tardoclassica</button>
+  <button class="filter-btn" onclick="setFCFilter('Ellenismo',this)">🌍 Ellenismo</button>
+  <button class="filter-btn" onclick="setFCFilter('Ordini',this)">📐 Ordini</button>
+  <button class="filter-btn" onclick="setFCFilter('Date',this)">📅 Date chiave</button>
+</div>
+<div class="flashcard-area">
+  <div class="fc-meta"><div class="fc-counter" id="fcCounter">1/40</div><div class="fc-cat-badge" id="fcCat">—</div></div>
+  <div class="flashcard" id="flashcard" onclick="flipCard()">
+    <div class="fc-inner">
+      <div class="fc-front"><div class="fc-label">❓ Domanda</div><div class="fc-question" id="fcQuestion">Caricamento...</div><div class="fc-hint">👆 Clicca per la risposta</div></div>
+      <div class="fc-back"><div class="fc-label">✅ Risposta</div><div class="fc-answer" id="fcAnswer">...</div></div>
+    </div>
+  </div>
+  <div class="fc-actions">
+    <button class="btn danger" onclick="rateCard('no')">❌ Non sapevo</button>
+    <button class="btn warn" onclick="rateCard('parz')">🤔 Parziale</button>
+    <button class="btn success" onclick="rateCard('si')">✅ Sapevo!</button>
+  </div>
+  <div style="display:flex;gap:8px;margin-top:4px">
+    <button class="btn" onclick="prevCard()">← Prec.</button>
+    <button class="btn" onclick="nextCard()">Succ. →</button>
+    <button class="btn" onclick="shuffleFC()">🔀 Mescola</button>
+  </div>
+</div>`;
+
+SH.quiz=`<div class="section-header"><h2>Quiz di Verifica</h2><p>Domande a risposta multipla su tutti i periodi. Mescolate ad ogni sessione.</p></div>
+<div class="quiz-wrap" id="quizWrap"></div>`;
+
+SH.domande=`<div class="section-header"><h2>Domande d'Esame</h2><p>Domande probabili per l'orale. Clicca su ciascuna per vedere la risposta.</p></div>
+<div class="tip-box"><div class="tip-title">💡 Come usarle</div><div class="tip-text">Leggi la domanda, rispondi ad alta voce, poi clicca per confrontare. Le <span style="color:var(--danger)">❗ rosse</span> sono quelle più probabili.</div></div>
+<div id="domandeContainer"></div>`;
+
+SH.prof=`<div class="section-header"><h2>La Professoressa</h2><p>Stile d'esame, argomenti critici, consigli pratici.</p></div>
+<div class="prof-header"><div class="prof-avatar">👩‍🏫</div>
+<div><div class="prof-name">Prof.ssa Denise Ulivieri</div>
+<div class="prof-role">Professore · Dipartimento di Ingegneria Civile e Industriale · Università di Pisa</div>
+<div class="prof-tags"><span class="chip chip-yellow">Storia dell'Architettura</span><span class="chip chip-blue">Patrimonio Architettonico</span><span class="chip chip-green">Architettura Greca e Medievale</span></div></div></div>
+<div class="info-block"><div class="ib-title">📅 Informazioni Esame</div><ul class="info-list">
+<li><strong>Corso:</strong> Storia dell'Architettura 1 — A.A. 2025-2026</li>
+<li><strong>Facoltà:</strong> Ingegneria Edile-Architettura, UniPi</li>
+<li><strong>Modalità:</strong> Orale</li>
+<li><strong>Programma:</strong> Architettura greca (classica, tardoclassica, ellenistica) + Architettura paleocristiana e medievale</li>
+</ul></div>
+<div class="info-block"><div class="ib-title">📚 Bibliografia</div><ul class="info-list">
+<li><strong>Watkin D.</strong> — <em>Storia dell'architettura occidentale</em>, Zanichelli 2016 (V ed.) · Cap. 2-5 <span class="chip chip-red">OBBLIGATORIO</span></li>
+<li><strong>Bozzoni C. et al.</strong> — <em>L'architettura del mondo antico</em>, Laterza 2006 <span class="chip chip-yellow">CONSIGLIATO</span></li>
+<li><strong>Bonelli R. et al.</strong> — <em>Storia dell'architettura medievale</em>, Laterza 2012 <span class="chip chip-yellow">CONSIGLIATO</span></li>
+<li><strong>Zevi B.</strong> — <em>Storia e controstoria dell'architettura in Italia</em>, Newton 2005 · Sez. 3-4 <span class="chip chip-blue">FACOLTATIVO</span></li>
+<li><strong>Treccani</strong> — Enciclopedia dell'arte antica e medievale online <span class="chip chip-blue">CONSULTAZIONE</span></li>
+</ul></div>
+<div class="tip-box"><div class="tip-title">✅ Argomenti ad alta priorità</div><div class="tip-text">
+1. <strong>Partenone</strong> — raffinamenti ottici, architettura, sculture di Fidia<br>
+2. <strong>Ordini architettonici</strong> — differenze Dorico/Ionico/Corinzio<br>
+3. <strong>Acropoli di Atene</strong> — tutti gli edifici, date, architetti<br>
+4. <strong>Mausoleo di Alicarnasso</strong> — struttura, sculture, Meraviglia del Mondo<br>
+5. <strong>Teatro greco</strong> — anatomia, Epidauro<br>
+6. <strong>Tipologie templari Vitruvio</strong> — periptero, diptero, pseudodiptero...<br>
+7. <strong>Urbanistica ellenistica</strong> — Priene, Mileto, Pergamo
+</div></div>`;
+
+SH.fonti=`<div class="section-header"><h2>Fonti — Copertura Materiale</h2><p>7 fonti analizzate e integrate. Per ogni fonte: tipo, contenuto estratto e copertura nella dashboard.</p></div>
+<div class="stat-grid" style="margin-bottom:16px">
+  <div class="stat-card"><div class="stat-num yellow">3</div><div class="stat-label">PDF prof.ssa letti</div></div>
+  <div class="stat-card"><div class="stat-num blue">4</div><div class="stat-label">Testi bibliografici</div></div>
+  <div class="stat-card"><div class="stat-num green">1</div><div class="stat-label">Risorsa web</div></div>
+  <div class="stat-card"><div class="stat-num pink">✓</div><div class="stat-label">Tutto integrato</div></div>
+</div>
+
+<div class="fonte-acc"><div class="fonte-header pdf-color" onclick="toggleFonte(this)"><span>📄</span><span class="fonte-title">5_Fase classica_TEAMS.pdf — Slide lezione 5</span><span class="fonte-badge badge-pdf">PDF · 48 pp.</span><span class="acc-chev" style="margin-left:8px">▼</span></div>
+<div class="fonte-body"><div class="fonte-inner">
+<div class="phbox green"><strong>✅ Letto integralmente — contenuto estratto al 100%</strong></div>
+<ul style="padding-left:16px;margin-top:8px"><li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Tavola cronologica Periodo Classico (V-IV sec.) e Ellenismo</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Acropoli di Atene: dati fisici, fasi storiche (micenea→arcaica→classica→ellenistica)</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Propilei (437-432, Mnesicle): schema, ali, misto dorico/ionico</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Partenone (447-432, Ictino+Callicrate+Fidia): pianta, misure, raffin. ottici, policromia Hittorff</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Tempio Athena Nike (Callicrate): anfiprostilo tetrastilo, balaustra Pyrgos ca. 420 a.C.</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Eretteo e Loggia delle Korai (421-405): aree sacre multiple, cariatidi lato sud</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Ordini architettonici: tabella comparativa Rocco (Dorico, Ionico Attico/Asiatico/Ellenistico, Corinzio)</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Tempio Zeus Olimpia (468-460, Libone di Elide): 6×13 col., statua Zeus di Fidia (crisoelefantina)</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Sezione aurea φ=1,618034, serie Fibonacci, Modulor di Le Corbusier</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Cantiere del tempio greco: tecniche costruttive</li></ul>
+<div style="margin-top:8px;font-size:11px;color:var(--muted)">Integrato in: Età Classica · Ordini e Tipologie · Flashcard · Quiz · Percorsi · Argomenti</div>
+</div></div></div>
+
+<div class="fonte-acc"><div class="fonte-header pdf-color" onclick="toggleFonte(this)"><span>📄</span><span class="fonte-title">6_eta tardoclassica_TEAMS.pdf — Slide lezione 6</span><span class="fonte-badge badge-pdf">PDF · 11 pp.</span><span class="acc-chev" style="margin-left:8px">▼</span></div>
+<div class="fonte-body"><div class="fonte-inner">
+<div class="phbox green"><strong>✅ Letto integralmente — contenuto estratto al 100%</strong></div>
+<ul style="padding-left:16px;margin-top:8px"><li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Tempio Apollo Epicurio, Bassae (450-425, attr. Ictino?): 6×15 colonne, stilobate 14,56×38,31m, <strong>prima colonna corinzia</strong></li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Tempio Athena Alea, Tegea (360, Skopas di Paros): ordine tripartito Dorico/Corinzio/Ionico, stilobate 19,16×47,52m</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Proporzioni colonna dorica nel tempo: tabella comparativa da Delfi (600 a.C.) a Cori (I sec. d.C.)</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Tempio Zeus, Nemea (330 a.C.): colonne slanciate, corinzio interno</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Tholos Delfi/Marmarià (380, Teodoro di Focea): 20 col. doriche, diam. 13,50m, 10 corinzie interne</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Tholos Epidauro (365-335): dorico tufo esterno, corinzio marmo interno</li></ul>
+<div style="margin-top:8px;font-size:11px;color:var(--muted)">Integrato in: Tardoclassica · Ordini e Tipologie · Flashcard · Quiz · Domande Esame</div>
+</div></div></div>
+
+<div class="fonte-acc"><div class="fonte-header pdf-color" onclick="toggleFonte(this)"><span>📄</span><span class="fonte-title">7_Ellenismo_TEAMS.pdf — Slide lezione 7</span><span class="fonte-badge badge-pdf">PDF · 50 pp.</span><span class="acc-chev" style="margin-left:8px">▼</span></div>
+<div class="fonte-body"><div class="fonte-inner">
+<div class="phbox green"><strong>✅ Letto integralmente — contenuto estratto al 100%</strong></div>
+<ul style="padding-left:16px;margin-top:8px"><li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Ellenismo 323-31 a.C., termine Droysen, 4 regni (Antigonidi, Tolomei, Seleucidi, Attalidi)</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Philippeion Olimpia (336 ca.): tholos ionico, Leochares, primo edificio per mortale</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Mausoleo Alicarnasso (377-351): Pytheos+Satyros, 36 col., piramide, 41,50m, 4 scultori, 7 Meraviglie</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Priene: Tempio Atena Polias (334, Piteo), piano ippodameo 120×150 piedi, agorà</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Mileto: urbanistica post-479 a.C., aree commerciale/civica/religiosa</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Stoà di Attalo (159-138): 2 piani dorico+ionico, 115m, ricostruzione 1953-56</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Operae murarie Vitruvio: reticolata, incerta, isodoma, pseudoisodoma</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Tipologie templari Vitruvio: in antis, prostilo, anfiprostilo, periptero, pseudodiptero, diptero, ipetro</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Intercolumni: picnostilo, sistilo, eustilo, diastilo, areostilo</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Tempio Artemide Leukofriene, Magnesia (175, Ermogene): pseudodiptero ionico</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Didyma (300 ca., Paionios+Daphnis): diptero ionico ipetro, basi decorate</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Teatro Dioniso Atene + Teatro Epidauro (300, Policleto il Giovane): cavea 82m, orchestra 26,53m, 17.000</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Bouleuterion Priene (200 a.C.), Odeion di Pericle</li>
+<li style="font-size:13px;color:var(--muted2);margin-bottom:4px">Pergamo: teatro, Tempio Athena, Altare Zeus (Eumene II, Gigantomachia 120m), biblioteca</li></ul>
+<div style="margin-top:8px;font-size:11px;color:var(--muted)">Integrato in: Ellenismo · Ordini e Tipologie · Flashcard · Quiz · Percorsi · Domande Esame</div>
+</div></div></div>
+
+<div class="fonte-acc"><div class="fonte-header book-color" onclick="toggleFonte(this)"><span>📖</span><span class="fonte-title">Watkin D. — Storia dell'architettura occidentale (Zanichelli 2016, V ed.)</span><span class="fonte-badge badge-libro">LIBRO · OBBLIGATORIO</span><span class="acc-chev" style="margin-left:8px">▼</span></div>
+<div class="fonte-body"><div class="fonte-inner">
+<div class="phbox"><strong>Capitoli rilevanti per l'esame:</strong><br>
+Cap. 2 — <strong>I fondamenti classici</strong>: ordini, templi greci, Acropoli, proporzioni<br>
+Cap. 3 — <strong>L'architettura paleocristiana e bizantina</strong>: basilica, martyria, S. Sofia<br>
+Cap. 4 — <strong>Carolingio e Romanico</strong>: tipologie romaniche, abside, deambulatorio<br>
+Cap. 5 — <strong>L'esperimento gotico</strong>: arco acuto, volta a crociera, arco rampante</div>
+<div class="phbox blue"><strong>Contenuto estratto indirettamente:</strong> dalle slide della prof.ssa che citano Watkin per inquadramento storico-critico degli edifici. I capitoli 3-5 coprono l'architettura medievale non inclusa nei PDF forniti.</div>
+<div style="font-size:11px;color:var(--muted);margin-top:8px">⚠️ File non letto direttamente (testo protetto) — da studiare sulla copia cartacea/digitale personale.</div>
+</div></div></div>
+
+<div class="fonte-acc"><div class="fonte-header book-color" onclick="toggleFonte(this)"><span>📖</span><span class="fonte-title">Bozzoni C. et al. — L'architettura del mondo antico (Laterza 2006)</span><span class="fonte-badge badge-libro">LIBRO · CONSIGLIATO</span><span class="acc-chev" style="margin-left:8px">▼</span></div>
+<div class="fonte-body"><div class="fonte-inner">
+<div class="phbox"><strong>Contenuto rilevante:</strong><br>
+• Architettura greca arcaica, classica, tardoclassica ed ellenistica<br>
+• Approfondimento su ordini architettonici e proporzioni<br>
+• Urbanistica greca: agorà, santuari, abitazioni<br>
+• Architettura romana: foro, terme, anfiteatro, basilica civile</div>
+<div class="phbox blue">Capitoli specifici comunicati dalla prof.ssa durante le lezioni — verificare il programma aggiornato su Teams/ricevimento.</div>
+<div style="font-size:11px;color:var(--muted);margin-top:8px">⚠️ File non letto direttamente — da consultare per approfondimenti sugli edifici già coperti dai PDF.</div>
+</div></div></div>
+
+<div class="fonte-acc"><div class="fonte-header book-color" onclick="toggleFonte(this)"><span>📖</span><span class="fonte-title">Bonelli R., Bozzoni C. — Storia dell'architettura medievale (Laterza 2012)</span><span class="fonte-badge badge-libro">LIBRO · CONSIGLIATO</span><span class="acc-chev" style="margin-left:8px">▼</span></div>
+<div class="fonte-body"><div class="fonte-inner">
+<div class="phbox"><strong>Contenuto rilevante:</strong><br>
+• Architettura paleocristiana: basilica a navate, martyria, battisteri<br>
+• Architettura byzantina: pianta centrale, cupola, mosaici<br>
+• Romanico: varietà regionali (lombardo, normanno, toscano, pugliese)<br>
+• Gotico: cattedrale francese, diffusione europea, gotico italiano</div>
+<div class="phbox blue">Capitoli specifici comunicati durante le lezioni — questo libro copre la seconda parte del programma (Watkin cap. 3-5) con maggiore profondità.</div>
+</div></div></div>
+
+<div class="fonte-acc"><div class="fonte-header book-color" onclick="toggleFonte(this)"><span>📖</span><span class="fonte-title">Zevi B. — Storia e controstoria dell'architettura in Italia (Newton 2005)</span><span class="fonte-badge badge-libro">LIBRO · FACOLTATIVO</span><span class="acc-chev" style="margin-left:8px">▼</span></div>
+<div class="fonte-body"><div class="fonte-inner">
+<div class="phbox"><strong>Sezioni consigliate:</strong><br>
+Sez. 3 — Preistoria - Alto Medioevo, pp. 147-235<br>
+Sez. 4 — Romanico - Gotico, pp. 239-327</div>
+<div class="phbox blue">Lettura facoltativa per approfondire personalità e opere del linguaggio architettonico italiano. Utile per domande d'esame sul contesto critico e interpretativo.</div>
+</div></div></div>
+
+<div class="fonte-acc"><div class="fonte-header web-color" onclick="toggleFonte(this)"><span>🌐</span><span class="fonte-title">Enciclopedia Treccani — Arte antica e medievale (online)</span><span class="fonte-badge badge-web">WEB · CONSULTAZIONE</span><span class="acc-chev" style="margin-left:8px">▼</span></div>
+<div class="fonte-body"><div class="fonte-inner">
+<div class="phbox green"><strong>URL:</strong> <a href="http://www.treccani.it/enciclopedia" target="_blank" style="color:var(--accent2)">www.treccani.it/enciclopedia</a></div>
+<div class="phbox"><strong>Voci utili per l'esame (cercare direttamente):</strong><br>
+• Partenone · Acropoli · Propilei · Eretteo<br>
+• Tempio (architettura greca) · Ordini architettonici<br>
+• Ellenismo · Mausoleo di Alicarnasso<br>
+• Teatro greco · Stoà · Tholos<br>
+• Pergamo · Priene · Mileto · Didyma<br>
+• Ictino · Callicrate · Mnesicle · Fidia · Skopas · Ermogene · Vitruvio</div>
+<div class="phbox blue">La Treccani è gratuita online e offre voci approfondite con apparato bibliografico. Ideale per controllare date e attribuzioni dubbie.</div>
+</div></div></div>
+`;
+
+// ── DATA ──────────────────────────────────────────────────────────────
+
+const TOPICS=[
+  {id:'t01',name:'Acropoli di Atene — storia, fasi, edifici',tag:'hot'},
+  {id:'t02',name:'Partenone — date, architetti, raffinamenti ottici',tag:'hot'},
+  {id:'t03',name:'Propilei, Tempio Athena Nike, Eretteo',tag:'hot'},
+  {id:'t04',name:'Tempio di Zeus, Olimpia — Libone, 6×13, statua Fidia',tag:'hot'},
+  {id:'t05',name:'Ordine Dorico — elementi, proporzioni, evoluzione',tag:'hot'},
+  {id:'t06',name:'Ordine Ionico — varianti attico/asiatico/ellenistico',tag:'hot'},
+  {id:'t07',name:'Ordine Corinzio — prima attestazione, Callimaco, Bassae',tag:'mid'},
+  {id:'t08',name:'Bassae — Apollo Epicurio, prima colonna corinzia',tag:'hot'},
+  {id:'t09',name:'Tholos — Delfi (Teodoro) e Epidauro',tag:'mid'},
+  {id:'t10',name:'Mausoleo di Alicarnasso — Pytheos, Satyros, 4 scultori',tag:'hot'},
+  {id:'t11',name:'Tipologie templari Vitruvio (periptero, diptero, ecc.)',tag:'hot'},
+  {id:'t12',name:'Intercolumni Vitruvio (picnostilo, eustilo, ecc.)',tag:'mid'},
+  {id:'t13',name:'Priene — città, tempio Atena, Piteo',tag:'mid'},
+  {id:'t14',name:'Mileto — urbanistica ippodamea',tag:'mid'},
+  {id:'t15',name:'Teatro greco — anatomia, Epidauro (Policleto il Giovane)',tag:'hot'},
+  {id:'t16',name:'Pergamo — acropoli, Altare di Zeus, Gigantomachia',tag:'hot'},
+  {id:'t17',name:'Stoà — tipologia, Stoà di Attalo',tag:'ok'},
+  {id:'t18',name:'Sezione aurea φ=1,618 e proporzioni templari',tag:'ok'},
+];
+
+const FLASHCARDS=[
+  {cat:'Classica',q:'Chi sono gli architetti del Partenone e in che anni fu costruito?',a:'<strong>Ictino</strong> e <strong>Callicrate</strong>, 447-432 a.C. Le sculture sono di <strong>Fidia</strong>. Inaugurato nel 438 a.C. per le Panatenee.'},
+  {cat:'Classica',q:'Quante colonne ha il Partenone (peristasi) e qual è il tipo?',a:'<strong>8 × 17 colonne</strong> → periptero dorico ottastilo. Stilobate: 30,88 × 69,54 m.'},
+  {cat:'Classica',q:'Elenca i 5 raffinamenti ottici del Partenone.',a:'1. <strong>Curvatura stilobate</strong> (convesso) · 2. <strong>Entasi colonne</strong> (rigonfiamento) · 3. <strong>Inclinazione colonne</strong> verso centro (0,07 m angolari) · 4. <strong>Trabeazione inclinata</strong> · 5. <strong>Colonne angolari</strong> più tozze.'},
+  {cat:'Classica',q:'Chi costruì i Propilei e quando?',a:'<strong>Mnesicle</strong>, 437-432 a.C. Corpo centrale esastilo dorico + colonne ioniche interne. Non completato per la guerra del Peloponneso.'},
+  {cat:'Classica',q:'Che tipo architettonico è il Tempio di Athena Nike?',a:'<strong>Anfiprostilo tetrastilo ionico</strong>. Architetto: <strong>Callicrate</strong>. Sul Pyrgos (bastione SW). Balaustra con Nike ca. 420 a.C.'},
+  {cat:'Classica',q:'Cosa sono le Cariatidi e dove si trovano?',a:'Figure femminili usate come colonne portanti nella <strong>Loggia delle Korai</strong> dell\'Eretteo (lato sud). Eretteo: 421-405 a.C., ordine ionico.'},
+  {cat:'Classica',q:'Chi ha costruito il Tempio di Zeus a Olimpia e quante colonne ha?',a:'<strong>Libone di Elide</strong>, 468-460 a.C. · <strong>6 × 13 colonne</strong> (esastilo). Statua di Zeus di Fidia = 7a Meraviglia del Mondo.'},
+  {cat:'Classica',q:'Cos\'è la tecnica crisoelefantina?',a:'Scultura con avorio (parti carnee) + lamine d\'oro (vesti) su anima lignea. Usata da <strong>Fidia</strong> per Zeus a Olimpia e Atena Parthenos al Partenone (~12 m di altezza).'},
+  {cat:'Classica',q:'Quanto vale φ e cosa sono le proporzioni auree?',a:'φ = <strong>1,618034...</strong> = (1+√5)/2. Serie Fibonacci: 1,1,2,3,5,8,13,21... Il Modulor di Le Corbusier si basa su φ applicato al corpo umano.'},
+  {cat:'Tardoclassica',q:'Dove si trova la prima colonna corinzia conosciuta?',a:'<strong>Tempio di Apollo Epicurio, Bassae</strong> (450-425 a.C., attrib. Ictino). Una singola colonna corinzia isolata tra naos e adyton.'},
+  {cat:'Tardoclassica',q:'Chi è l\'architetto del Tempio di Athena Alea a Tegea e qual è il suo ordine tripartito?',a:'<strong>Skopas di Paros</strong>, ca. 360 a.C. Ordine tripartito: <strong>dorico esterno / corinzio interno / ionico in alto</strong>.'},
+  {cat:'Tardoclassica',q:'Descrivi la Tholos di Delfi alla Marmarià.',a:'380 a.C., arch. <strong>Teodoro di Focea</strong>. 20 colonne doriche esterne, 10 corinzie interne. Diametro: <strong>13,50 m</strong>. Marmo pentelico.'},
+  {cat:'Tardoclassica',q:'Cos\'è una tholos?',a:'Edificio a <strong>pianta circolare</strong>. Funzione incerta: heroon, culto ctonio, deposito. Presenti a Delfi, Epidauro, Olimpia (Philippeion).'},
+  {cat:'Ellenismo',q:'Chi costruì il Mausoleo di Alicarnasso e quali scultori decorarono i 4 lati?',a:'Progettisti: <strong>Pytheos + Satyros</strong>. Scultori: <strong>Skopas</strong> (est), <strong>Bryaxis</strong> (nord), <strong>Timotheos</strong> (sud), <strong>Leochares</strong> (ovest). Committente: Mausolo, satrapo di Caria, 377-351 a.C.'},
+  {cat:'Ellenismo',q:'Quanto è alto il Mausoleo di Alicarnasso e quante colonne ha?',a:'<strong>41,50 m</strong> · <strong>36 colonne ioniche</strong> su alto podio. Schema: basamento + colonnato + piramide (24 gradini) + quadriga bronzea.'},
+  {cat:'Ellenismo',q:'Definisci l\'Ellenismo: date e termine.',a:'<strong>323-31 a.C.</strong> — da morte di Alessandro Magno a battaglia di Azio. Termine coniato da <strong>Johann Gustav Droysen</strong> nel XIX sec.'},
+  {cat:'Ellenismo',q:'Quali sono i 4 regni successori di Alessandro?',a:'<strong>Antigonidi</strong> (Macedonia), <strong>Tolomei</strong> (Egitto), <strong>Seleucidi</strong> (Siria-Asia), <strong>Attalidi</strong> (Pergamo).'},
+  {cat:'Ellenismo',q:'Chi costruì il Tempio di Atena Polias a Priene?',a:'<strong>Piteo (Pytheos)</strong>, 334 a.C. Dedicato da Alessandro Magno. Periptero ionico 6×11. Canone dell\'ionico asiatico secondo Vitruvio.'},
+  {cat:'Ellenismo',q:'Descrivi l\'urbanistica di Priene.',a:'Piano ippodameo a griglia. Isolati: <strong>120 × 150 piedi</strong> (ca. 35 × 45 m). Fondata ca. 350 a.C. Agorà, santuario di Zeus, bouleuterion, teatro, stoài.'},
+  {cat:'Ellenismo',q:'Cos\'è il Teatro di Epidauro e chi l\'ha progettato?',a:'Ca. 300 a.C., attr. <strong>Policleto il Giovane</strong>. Cavea: <strong>82 m</strong> Ø · orchestra: <strong>26,53 m</strong> · capacità: <strong>17.000</strong> spettatori. Acustica prodigiosa.'},
+  {cat:'Ellenismo',q:'Elenca gli elementi anatomici del teatro greco.',a:'<strong>Koilon/cavea</strong> (gradinate) · <strong>orchestra</strong> (circolare, coro+thymele) · <strong>skené</strong> (edificio scenico) · <strong>proskenion</strong> (colonnato frontale) · <strong>pàrodoi</strong> (corridoi laterali).'},
+  {cat:'Ellenismo',q:'Cos\'è il Tempio di Artemide Leukofriene a Magnesia? Chi è l\'architetto?',a:'<strong>Ermogene</strong>, ca. 175 a.C. Tipo: <strong>pseudodiptero ionico</strong>, 8×15 colonne. Ermogene teorizza il pseudodiptero come forma ottimale per l\'ionico.'},
+  {cat:'Ellenismo',q:'Descrivi il Tempio di Apollo a Didyma (Didymeon).',a:'Ca. 300 a.C., arch. <strong>Paionios di Efeso + Daphnis di Mileto</strong>. Tipo: <strong>diptero ionico ipetro</strong> (naos a cielo aperto). 10×21 colonne. Basi decorate. Mai completato.'},
+  {cat:'Ellenismo',q:'Cos\'è l\'Altare di Zeus di Pergamo e dove si trova oggi?',a:'197-159 a.C., comm. <strong>Eumene II</strong>. Pianta a U su alto podio. Fregio Gigantomachia: <strong>120 m</strong> lineare. Oggi al <strong>Pergamonmuseum di Berlino</strong>.'},
+  {cat:'Ellenismo',q:'Cos\'è il Philippeion a Olimpia?',a:'Ca. 336 a.C., init. Filippo II. <strong>Tholos ionico</strong> con 18 colonne ioniche esterne. Sculture di <strong>Leochares</strong>. Primo edificio dedicato a un mortale nel santuario di Olimpia.'},
+  {cat:'Ordini',q:'Differenza principale tra fregio dorico e ionico.',a:'Dorico: fregio con <strong>triglifi e metope</strong> alternati (sculture nelle metope). Ionico: fregio <strong>continuo figurato</strong> (narrativo) senza divisioni.'},
+  {cat:'Ordini',q:'Quante varianti di ordine ionico esistono? Elencale.',a:'<strong>3 varianti:</strong> Ionico Attico (base toro-trochilo-toro, Eretteo), Ionico Asiatico (base elaborata, Efeso/Priene), Ionico Ellenistico (fronte e retro uguali, Didyma).'},
+  {cat:'Ordini',q:'Cos\'è il pseudodiptero e chi lo teorizza?',a:'Tempio con <strong>doppio colonnato esterno ma senza la fila interna</strong> → ampio pteron. Teorizzato da <strong>Ermogene</strong> (Magnesia). Citato da Vitruvio come soluzione ottimale.'},
+  {cat:'Ordini',q:'Elenca le 5 tipologie templari di Vitruvio.',a:'In antis · <strong>Prostilo</strong> · <strong>Anfiprostilo</strong> · <strong>Periptero</strong> · Pseudodiptero · <strong>Diptero</strong> · <strong>Ipetro</strong>'},
+  {cat:'Date',q:'Cronologia: quando viene distrutta l\'Acropoli e quando inizia la ricostruzione periclea?',a:'<strong>480 a.C.</strong>: distruzione persiana (Serse). Ricostruzione sotto Pericle (461-429 a.C.) con supervisione artistica di Fidia. Partenone dal <strong>447 a.C.</strong>'},
+  {cat:'Date',q:'Date di costruzione: Partenone, Propilei, Tempio Athena Nike, Eretteo.',a:'<strong>Partenone</strong>: 447-432 · <strong>Propilei</strong>: 437-432 · <strong>Athena Nike</strong>: 427-424 · <strong>Eretteo</strong>: 421-405'},
+  {cat:'Date',q:'In quale anno inizia l\'Ellenismo e perché?',a:'<strong>323 a.C.</strong> — morte di <strong>Alessandro Magno</strong>. Fine: <strong>31 a.C.</strong> — battaglia di Azio (Ottaviano sconfigge Antonio e Cleopatra).'},
+];
+
+const QUIZ_DATA=[
+  {q:'Chi è l\'architetto dei Propilei sull\'Acropoli di Atene?',opts:['Ictino','Mnesicle','Callicrate','Fidia'],c:1,expl:'Mnesicle progettò i Propilei (437-432 a.C.). Ictino è del Partenone, Callicrate è del Tempio di Athena Nike.'},
+  {q:'Quante colonne ha il Partenone su ciascun lato lungo?',opts:['13','15','17','19'],c:2,expl:'Il Partenone ha 8 × 17 colonne. Lato corto: 8 (ottastilo), lato lungo: 17.'},
+  {q:'La prima colonna corinzia conosciuta si trova in quale edificio?',opts:['Partenone','Eretteo','Tempio di Apollo Epicurio a Bassae','Tempio di Zeus a Nemea'],c:2,expl:'A Bassae (450-425 a.C.) compare la prima colonna corinzia conosciuta — isolata tra naos e adyton. Attribuita a Ictino.'},
+  {q:'Chi ha progettato il Mausoleo di Alicarnasso?',opts:['Ictino e Callicrate','Pytheos e Satyros','Teodoro di Focea','Ermogene'],c:1,expl:'Pytheos e Satyros sono i progettisti. I quattro scultori dei lati erano Skopas, Bryaxis, Timotheos e Leochares.'},
+  {q:'Il Teatro di Epidauro ha una capienza di circa:',opts:['5.000 spettatori','10.000 spettatori','17.000 spettatori','25.000 spettatori'],c:2,expl:'Il Teatro di Epidauro (ca. 300 a.C., attr. Policleto il Giovane) ha una capacità di circa 17.000 spettatori. Cavea 82 m, orchestra 26,53 m.'},
+  {q:'Cos\'è il pseudodiptero?',opts:['Tempio con un solo colonnato esterno','Tempio con doppio colonnato esterno ma senza la fila interna','Tempio circolare','Tempio senza copertura'],c:1,expl:'Il pseudodiptero elimina la fila interna del diptero, creando un ampio pteron. Teorizzato da Ermogene per Magnesia al Meandro.'},
+  {q:'Chi ha costruito la Tholos di Delfi (santuario di Atena alla Marmarià)?',opts:['Teodoro di Focea','Policleto il Giovane','Ictino','Skopas di Paros'],c:0,expl:'Teodoro di Focea costruì la Tholos di Delfi (380 a.C.): 20 colonne doriche esterne, 10 corinzie interne, diametro 13,50 m.'},
+  {q:'Il termine "Ellenismo" fu coniato da:',opts:['Aristotele','Johann Gustav Droysen','Vitruvio','Plutarco'],c:1,expl:'Johann Gustav Droysen (storico tedesco del XIX sec.) coniò il termine "Ellenismo" per indicare il periodo 323-31 a.C.'},
+  {q:'L\'ordine ionico che usa un fregio continuo figurato al posto di triglifi e metope è caratteristico di:',opts:['Ordine dorico','Ordine ionico','Ordine corinzio','Ordine tuscanico'],c:1,expl:'L\'ordine ionico ha fregio continuo (narrativo), mentre il dorico ha fregio articolato in triglifi e metope.'},
+  {q:'Il Philippeion a Olimpia è stato iniziato da:',opts:['Alessandro Magno','Filippo II di Macedonia','Pericle','Eumene II'],c:1,expl:'Filippo II di Macedonia iniziò il Philippeion ca. 336 a.C., fu completato da Alessandro. Prima struttura dedicata a un mortale nel santuario.'},
+  {q:'Qual è l\'altezza totale del Mausoleo di Alicarnasso?',opts:['29 m','41,50 m','55 m','18 m'],c:1,expl:'Il Mausoleo di Alicarnasso raggiungeva 41,50 m: alto podio + colonnato ionico (36 colonne) + piramide 24 gradini + quadriga.'},
+  {q:'Chi è l\'architetto del Tempio di Atena Polias a Priene?',opts:['Ermogene','Piteo (Pytheos)','Paionios di Efeso','Teodoro'],c:1,expl:'Piteo (Pytheos) costruì il Tempio di Atena Polias a Priene (334 a.C.), dedicato da Alessandro Magno. Periptero ionico 6×11.'},
+  {q:'L\'Altare di Zeus di Pergamo fu commissionato da:',opts:['Attalo I','Eumene II','Attalo II','Filippo V'],c:1,expl:'Eumene II degli Attalidi (197-159 a.C.) commissionò l\'Altare di Zeus dopo la vittoria sui Galati. Il fregio della Gigantomachia è lungo 120 m.'},
+  {q:'La Stoà di Attalo ad Atene fu costruita da:',opts:['Attalo I di Pergamo','Attalo II di Pergamo','Eumene II','Antigono'],c:1,expl:'Attalo II di Pergamo (159-138 a.C.) donò la stoà ad Atene. 115 m di lunghezza, 2 piani (dorico + ionico), 21 negozi. Ricostruita nel 1953-56.'},
+  {q:'Nel teatro greco, come si chiama l\'area circolare dove agisce il coro?',opts:['Skené','Koilon','Orchestra','Parodos'],c:2,expl:'L\'orchestra è l\'area circolare centrale dove agisce il coro. Al centro c\'è la thymele (altare). La skené è l\'edificio scenico retrostante.'},
+  {q:'Cos\'è la tecnica crisoelefantina?',opts:['Bronzo e avorio','Avorio e oro su struttura lignea','Marmo colorato e bronzo','Terracotta e oro'],c:1,expl:'Crisoelefantina = avorio (parti carnee) + lamina d\'oro (vesti) su struttura lignea. Usata da Fidia per Zeus a Olimpia e Atena Parthenos.'},
+  {q:'Quante colonne ha il Tempio di Zeus a Olimpia?',opts:['6×11','6×13','8×17','6×15'],c:1,expl:'6×13 colonne (esastilo). Architetto Libone di Elide, 468-460 a.C. La statua di Zeus di Fidia era una delle 7 Meraviglie.'},
+  {q:'Chi ha attribuito a Callimaco l\'invenzione del capitello corinzio?',opts:['Pericle','Vitruvio','Pausania','Plinio il Vecchio'],c:1,expl:'Vitruvio narra che Callimaco si ispirò a un canestro con foglie d\'acanto su una tomba di fanciulla per inventare il capitello corinzio.'},
+  {q:'Il Bouleuterion di Priene risale a circa:',opts:['500 a.C.','334 a.C.','200 a.C.','100 a.C.'],c:2,expl:'Il Bouleuterion di Priene è datato ca. 200 a.C. — sala del Consiglio (boulè) con pianta quadrata e gradinate su 3 lati, capienza ca. 640.'},
+  {q:'In quale tipo templare la naos è a cielo aperto?',opts:['Periptero','Diptero','Ipetro','Pseudodiptero'],c:2,expl:'L\'ipetro ha la naos (sekos) priva di copertura. Esempio: Tempio di Apollo a Didyma, con il naiskos interno scoperto.'},
+];
+
+const DOMANDE=[
+  {prio:'hot',q:'Descrivi il Partenone: date, architetti, tipologia, raffinamenti ottici.',a:'447-432 a.C. (inaug. 438 Panatenee). Arch. Ictino + Callicrate; sculture Fidia. Periptero dorico ottastilo, 8×17 colonne, stilobate 30,88×69,54 m. Naos: statua Atena Parthenos crisoelefantina (Fidia). Camera ovest: tesoreria Lega. Raffinamenti: curvatura stilobate, entasi colonne, inclinazione colonne (0,07m angolari), trabeazione inclinata, colonne angolari più tozze. Policromia: ricostruzione Hittorff (rosso/blu/oro).'},
+  {prio:'hot',q:'Quali edifici compongono l\'Acropoli di Atene nel periodo classico?',a:'Partenone (447-432, Ictino+Callicrate, dorico); Propilei (437-432, Mnesicle, dorico+ionico); Tempio Athena Nike (427-424, Callicrate, ionico anfiprostilo tetrastilo); Eretteo (421-405, ionico, Loggia Korai/Cariatidi). Acropoli: rocca 156 m slm, pianoro 140×280 m. Distruzione persiana 480 a.C. – ricostruzione periclea.'},
+  {prio:'hot',q:'Descrivi le differenze tra ordine dorico e ionico.',a:'Dorico: colonna senza base, capitello echino+abaco, fusto 20 scanalature con spigolo vivo, fregio con triglifi+metope, proporzioni tozzo→slanciato nel tempo. Ionico: colonna con base, capitello a volute, fusto 24 scanalature con listello, fregio continuo figurato, proporzioni più slanciate, 3 varianti (attico/asiatico/ellenistico).'},
+  {prio:'hot',q:'Dove e quando compare la prima colonna corinzia? Descrivi il contesto.',a:'Tempio di Apollo Epicurio a Bassae (450-425 a.C., attr. Ictino). Una singola colonna corinzia isolata separa naos e adyton. Legenda Vitruviana: Callimaco inventore, ispirato da canestro con acanto su tomba di fanciulla. Il corinzio inizialmente usato solo in interni.'},
+  {prio:'hot',q:'Descrivi il Mausoleo di Alicarnasso: committente, architetti, sculture, struttura.',a:'Committente: Mausolo, satrapo di Caria (377-351 a.C.). Architetti: Pytheos + Satyros. Scultori 4 lati: Skopas (E), Bryaxis (N), Timotheos (S), Leochares (O). Struttura: alto podio → 36 colonne ioniche → piramide 24 gradini → quadriga bronzea. H: 41,50 m. Una delle 7 Meraviglie. Oggi distrutto; frammenti British Museum.'},
+  {prio:'hot',q:'Descrivi l\'anatomia del teatro greco elencando tutti gli elementi.',a:'Koilon/cavea: gradinate scavate nel pendio. Orchestra: area circolare centrale, coro + thymele (altare). Pàrodoi: corridoi laterali d\'accesso. Skené: edificio scenico retrostante. Proskenion: colonnato frontale alla skené (sfondo). Teatro di Epidauro (ca. 300 a.C., Policleto il Giovane): cavea 82m, orchestra 26,53m, 17.000 spettatori.'},
+  {prio:'hot',q:'Elenca le tipologie templari di Vitruvio con una breve descrizione.',a:'In antis: colonne tra ante. Prostilo: portico frontale. Anfiprostilo: portici su entrambe le fronti (es. Athena Nike). Periptero: colonnato su tutti i lati 1 fila (es. Partenone). Pseudodiptero: come diptero ma senza fila interna (es. Magnesia/Ermogene). Diptero: doppio colonnato su tutti i lati (es. Didyma). Ipetro: naos a cielo aperto (es. Didyma).'},
+  {prio:'mid',q:'Cos\'è il Philippeion a Olimpia e perché è significativo?',a:'Ca. 336 a.C., iniziato da Filippo II, completato da Alessandro. Tholos ionico con 18 colonne ioniche, 9 semicolonne corinzie interne. Sculture crisoelefantine di Leochares (Filippo II con famiglia). Primo edificio dedicato a un mortale nel santuario panellenico di Olimpia → atto politico di autocelebrazione macedone.'},
+  {prio:'mid',q:'Descrivi l\'urbanistica di Priene e il Tempio di Atena Polias.',a:'Città fondata ca. 350 a.C. in Ionia. Piano ippodameo a griglia: isolati 120×150 piedi (35×45 m). Terrazze su pendio. Tempio Atena Polias (334 a.C., Piteo): periptero ionico 6×11, dedicato da Alessandro Magno, canone dell\'ionico asiatico secondo Vitruvio.'},
+  {prio:'mid',q:'Cos\'è la Stoà? Descrivi la Stoà di Attalo ad Atene.',a:'Stoà = portico colonnato coperto, elemento urbano centrale dell\'agorà greca (commercio, incontro, filosofia). Stoà di Attalo (159-138 a.C.): donata da Attalo II di Pergamo, 115 m, 2 piani (piano terra dorico, superiore ionico), 21 negozi. Oggi museo Agorà di Atene (ricostruzione 1953-56).'},
+  {prio:'mid',q:'Descrivi il Tempio di Apollo a Didyma.',a:'Ca. 300 a.C., arch. Paionios di Efeso + Daphnis di Mileto. Diptero ionico ipetro (10×21 colonne ca.), naos a cielo aperto con naiskos interno. Basi colonne decorate con rilievi figurati (eccezionale). Stilobate ~51×109 m. Oracolo di Apollo. Mai completato in antico.'},
+  {prio:'ok',q:'Che cos\'è la sezione aurea e come si applica in architettura?',a:'φ = 1,618034... = (1+√5)/2. Serie Fibonacci: 1,1,2,3,5,8,13,21,34... Rapporto tra termini consecutivi tende a φ. Applicata nel Partenone (rapporto facciata ≈ φ). Le Corbusier sviluppò il Modulor (1948) basato su φ + proporzioni corpo umano.'},
+  {prio:'ok',q:'Descrivi l\'Altare di Zeus di Pergamo.',a:'197-159 a.C., comm. Eumene II degli Attalidi. Pianta a U su alto podio con scalinata frontale. Fregio esterno Gigantomachia: 120 m lineari, altissima qualità narrativa. Fregio interno Telefo. Oggi Pergamonmuseum di Berlino. Contesto: acropoli di Pergamo terrazzata con teatro, Tempio di Athena, biblioteca (200.000 volumi).'},
+];
+
+// ── PERCORSI DATA ────────────────────────────────────────────────────
+const P_ARCH=[
+{id:'pa1',icon:'🏛️',title:'Acropoli di Atene',desc:'Dalla distruzione persiana al cantiere pericleo — tutti gli edifici passo per passo.',color:'c1',steps:[
+  {type:'info',title:'480 a.C. — La distruzione persiana',content:'<div class="phbox blue"><strong>Contesto storico:</strong> Seconde guerre persiane. Serse occupa Atene e distrugge l\'Acropoli (480 a.C.). Gli Ateniesi avevano già evacuato la città per combattere a Salamina.<br>Dopo la vittoria greca, gli Ateniesi giurarono di non ricostruire i templi distrutti — un "monumento" alla barbarie persiana. Il giuramento fu mantenuto per 30 anni.</div><div class="phbox"><strong>L\'Acropoli prima della distruzione:</strong><br>• Rocca alta 156 m s.l.m., pianoro 140 × 280 m<br>• Fase micenea: palazzo + mura ciclopiche (II mill. a.C.)<br>• Fase arcaica: primo Partenone (Hekatompedon), Propilei arcaici, Tempio di Atena Polias<br>• Tutto distrutto dai Persiani nel 480 a.C.</div>'},
+  {type:'concept',title:'461-429 a.C. — Pericle e il grande cantiere',content:'<div class="phbox green"><strong>Pericle</strong> (stratega di Atene 461-429 a.C.) avvia la ricostruzione con un programma ambizioso: usare le rendite della Lega Delio-Attica per trasformare l\'Acropoli nel simbolo del potere ateniese.<br><strong>Supervisore artistico generale: Fidia</strong> (scultore, amico di Pericle)</div><div class="phbox"><strong>Ordine di costruzione:</strong><br>1. <strong>Partenone</strong> (447-432): primo e più grande<br>2. <strong>Propilei</strong> (437-432): ingresso monumentale<br>3. <strong>Tempio Athena Nike</strong> (427-424): sul bastione SW<br>4. <strong>Eretteo</strong> (421-405): il più tardo, il più complesso</div>'},
+  {type:'check',title:'Verifica — Acropoli',q:'Chi era il supervisore artistico del cantiere pericleo sull\'Acropoli?',opts:['Ictino','Mnesicle','Fidia','Callicrate'],correct:2,expl:'Fidia era il supervisore artistico generale voluto da Pericle. Ictino e Callicrate erano gli architetti del Partenone, Mnesicle dei Propilei.'},
+  {type:'concept',title:'Il Partenone — misure e raffinamenti ottici',content:'<div class="phbox blue"><strong>Dati fondamentali:</strong> 447-432 a.C. · Ictino + Callicrate · Periptero dorico ottastilo · 8 × 17 colonne · Stilobate 30,88 × 69,54 m</div><div class="phbox green"><strong>5 raffinamenti ottici — DA MEMORIZZARE:</strong><br>1. <strong>Curvatura stilobate</strong>: non è piatto, è convesso (salita al centro)<br>2. <strong>Entasi colonne</strong>: rigonfiamento nel terzo inferiore<br>3. <strong>Inclinazione colonne</strong>: le colonne angolari pendono verso il centro (0,07 m)<br>4. <strong>Trabeazione inclinata</strong>: piega leggermente verso l\'interno<br>5. <strong>Colonne angolari più tozze</strong>: compensano l\'effetto di "assottigliamento" visto in controluce<br>→ Tutto per correggere le distorsioni ottiche della visione umana</div>'},
+  {type:'check',title:'Verifica — Partenone',q:'Quante colonne ha il Partenone sui lati lunghi?',opts:['13','15','17','19'],correct:2,expl:'Il Partenone ha 8 × 17 colonne. Il numero 17 = 2×8+1 (formula comune per peripteri ottastili). Lato corto: 8 (ottastilo).'},
+  {type:'concept',title:'Eretteo e Tempio di Athena Nike',content:'<div class="phbox"><strong>Tempio Athena Nike</strong> (427-424, Callicrate):<br>• Anfiprostilo tetrastilo ionico — piccolo, sul Pyrgos SW<br>• Balaustra con Nike: ca. 420 a.C.</div><div class="phbox"><strong>Eretteo</strong> (421-405):<br>• Pianta irregolare su più livelli (terreno sacro con più culti)<br>• 3 portici: est esastilo, nord tetrastilo, sud = Loggia delle Korai<br>• <strong>Cariatidi</strong>: 6 figure femminili come colonne portanti sul lato sud<br>• Ospita: tomba Erittonio, segno tridente Poseidone, ulivo Atena</div>'},
+  {type:'recap',title:'Recap — Acropoli di Atene',content:'<div class="phbox green">✅ 480 a.C. = distruzione persiana | Ricostruzione periclea da 447 a.C.<br>✅ Partenone: 447-432 · Ictino+Callicrate · 8×17 col. · dorico ottastilo<br>✅ 5 raffinamenti ottici: stilobate curvo, entasi, inclinazione col., trabeazione, col. angolari tozze<br>✅ Propilei: 437-432 · Mnesicle · dorico+ionico<br>✅ Athena Nike: 427-424 · Callicrate · anfiprostilo tetrastilo ionico<br>✅ Eretteo: 421-405 · ionico · Cariatidi sul lato sud</div>'}
+]},
+{id:'pa2',icon:'📐',title:'Ordini Architettonici',desc:'Dorico, ionico, corinzio — riconoscerli, descriverli, confrontarli.',color:'c2',steps:[
+  {type:'info',title:'Cos\'è un ordine architettonico',content:'<div class="phbox blue"><strong>Ordine architettonico</strong> = sistema proporzionale che regola i rapporti tra colonna e trabeazione. Definisce l\'aspetto complessivo dell\'edificio.<br>Componenti: <strong>basamento → colonna → trabeazione</strong><br>Colonna: base (non sempre) + fusto + capitello<br>Trabeazione: architrave + fregio + cornicione</div><div class="phbox">Gli ordini greci principali sono 3: <strong>Dorico · Ionico · Corinzio</strong><br>I Romani aggiunsero Tuscanico e Composito.</div>'},
+  {type:'concept',title:'Ordine Dorico — caratteristiche',content:'<div class="phbox green"><strong>DORICO:</strong><br>• Colonna <strong>senza base</strong> — parte direttamente dallo stilobate<br>• Capitello: echino (cuscino) + abaco (lastra quadrata)<br>• Fusto: 20 scanalature con <strong>spigolo vivo</strong> (arris)<br>• Proporzioni: h ≈ 4-6 × Ø (tozzo in arcaico, slanciato in classico)<br>• Trabeazione: architrave liscio · fregio con <strong>triglifi e metope</strong> · cornicione con mutuli<br>• Elementi: triglifo (3 bande) / metopa (pannello decorato) / guttae (gocce) / regula</div><div class="phbox">Uso: Grecia continentale e <strong>Magna Grecia</strong> (Paestum, Agrigento, Siracusa)</div>'},
+  {type:'concept',title:'Ordine Ionico — 3 varianti',content:'<div class="phbox blue"><strong>IONICO:</strong><br>• Colonna <strong>con base</strong> (toro-trochilo-toro in variante attica)<br>• Capitello: <strong>volute</strong> laterali (spirali)<br>• Fusto: 24 scanalature con <strong>listello</strong> (non spigolo vivo)<br>• Trabeazione: architrave a 3 fasce · <strong>fregio continuo figurato</strong> · cornicione con dentelli<br>• Proporzioni più slanciate del dorico</div><table class="stbl"><thead><tr><th>Variante</th><th>Base</th><th>Uso</th></tr></thead><tbody><tr><td>Ionico Attico</td><td>toro/trochilo/toro</td><td>Eretteo, Propilei interni</td></tr><tr><td>Ionico Asiatico</td><td>base elaborata con kyma</td><td>Efeso, Samo, Priene</td></tr><tr><td>Ionico Ellenistico</td><td>base ancora più ricca</td><td>Didyma, Magnesia</td></tr></tbody></table>'},
+  {type:'check',title:'Verifica — Ordini',q:'Quale elemento distingue il fregio dorico da quello ionico?',opts:['Il dorico ha fregio liscio, l\'ionico figurato','Il dorico ha triglifi e metope, l\'ionico ha fregio continuo figurato','Il dorico è in marmo, l\'ionico in tufo','Non c\'è differenza'],correct:1,expl:'Dorico: fregio articolato in triglifi (3 bande verticali) e metope (pannelli scultorei alternati). Ionico: fregio continuo narrativo senza interruzioni (es. fregio interno del Partenone, 160 m).'},
+  {type:'concept',title:'Ordine Corinzio — origine e diffusione',content:'<div class="phbox green"><strong>CORINZIO:</strong><br>• Capitello a <strong>foglie d\'acanto</strong> + caulicoli + volute angolari<br>• Uguale da tutti i lati (a differenza dello ionico con volute frontali)<br>• Base analoga all\'ionico<br>• Prima attestazione: <strong>Bassae</strong> (450-425 a.C.) — una sola colonna isolata<br>• Leggenda Vitruviana: <strong>Callimaco</strong> inventore, ispirato da acanto su tomba di fanciulla</div><div class="phbox">Uso progressivo:<br>• Greco: solo in interni (Bassae, Tholos Delfi, Tholos Epidauro, Tegea)<br>• Ellenismo: appare anche in esterni<br>• Roma: ordine preferito — usato in esterni monumentali</div>'},
+  {type:'check',title:'Verifica — Corinzio',q:'Dove compare la prima colonna corinzia nella storia dell\'architettura?',opts:['Partenone, Atene','Tempio Zeus, Olimpia','Tempio Apollo Epicurio, Bassae','Tholos di Epidauro'],correct:2,expl:'Bassae (450-425 a.C., attr. Ictino): una singola colonna corinzia isolata separa naos e adyton. È la prima attestazione conosciuta del capitello corinzio.'},
+  {type:'recap',title:'Recap — Ordini',content:'<div class="phbox green">✅ Dorico: NO base · echino+abaco · triglifi+metope · 20 scanalature spigolo vivo<br>✅ Ionico: SÌ base · volute · fregio continuo · 24 scanalature con listello · 3 varianti<br>✅ Corinzio: foglie acanto · inventore Callimaco · prima att. Bassae<br>✅ Dorico = Grecia cont. e Magna Grecia | Ionico = Ionia, Asia Minore | Corinzio = prima interni poi Roma</div>'}
+]},
+{id:'pa3',icon:'🌍',title:'Ellenismo — Città e Monumenti',desc:'Urbanistica ippodamea, edifici civili, Pergamo, Mausoleo.',color:'c3',steps:[
+  {type:'info',title:'Il mondo ellenistico — contesto',content:'<div class="phbox blue"><strong>Ellenismo</strong> (termine di Droysen, XIX sec.): 323-31 a.C.<br>Quattro regni successori: <strong>Antigonidi</strong> (Macedonia) · <strong>Tolomei</strong> (Egitto) · <strong>Seleucidi</strong> (Siria/Asia) · <strong>Attalidi</strong> (Pergamo)<br>Carattere: koinè culturale greca diffusa in tutto il Mediterraneo orientale; grandi capitali di nuova fondazione o rifondazione.</div><div class="phbox">Novità architettoniche:<br>• Urbanistica pianificata su grande scala (Priene, Mileto, Alessandria)<br>• Monumentalità scenografica (Pergamo, Altare di Zeus)<br>• Nuove tipologie civili: stoà, bouleuterion, odeion<br>• Teatro come elemento urbano integrato nella topografia</div>'},
+  {type:'concept',title:'Urbanistica ippodamea — Priene e Mileto',content:'<div class="phbox"><strong>Ippodamo di Mileto</strong> (V sec. a.C.) teorizza la città a griglia ortogonale con suddivisione funzionale in aree.<br><strong>Priene</strong> (fond. ca. 350 a.C.): griglia adattata al pendio · isolati <strong>120 × 150 piedi</strong> (35 × 45 m) · agorà, santuario Zeus, bouleuterion, teatro, stoài<br><strong>Mileto</strong> (rifond. post 479 a.C.): tre aree — commerciale (nord), civica (centro), religiosa (sud) · porti integrati</div><div class="phbox green"><strong>Tempio di Atena Polias, Priene</strong> (334 a.C., <strong>Piteo/Pytheos</strong>):<br>• Periptero ionico 6 × 11 · dedicato da Alessandro Magno (iscrizione originale)<br>• Canone dell\'ionico asiatico per Vitruvio</div>'},
+  {type:'check',title:'Verifica — Urbanistica',q:'Quali sono le dimensioni degli isolati urbani di Priene?',opts:['80 × 120 piedi','120 × 150 piedi (ca. 35 × 45 m)','200 × 200 piedi','100 × 100 m'],correct:1,expl:'Gli isolati di Priene misurano 120 × 150 piedi atici, corrispondenti a circa 35 × 45 m. La griglia ippodamea è adattata al terreno in forte pendenza.'},
+  {type:'concept',title:'Mausoleo di Alicarnasso e Pergamo',content:'<div class="phbox"><strong>Mausoleo di Alicarnasso</strong> (377-351 a.C.):<br>• Committente: Mausolo, satrapo di Caria · Arch.: Pytheos + Satyros<br>• 36 colonne ioniche · H 41,50 m · piramide 24 gradini · quadriga bronzea<br>• 4 scultori: Skopas (E) · Bryaxis (N) · Timotheos (S) · Leochares (O)<br>• 7a Meraviglia del mondo antico</div><div class="phbox blue"><strong>Pergamo</strong> — acropoli terrazzata degli Attalidi:<br>• Teatro · Tempio Athena · Biblioteca (200.000 vol.) · Agorà<br>• <strong>Altare di Zeus</strong> (197-159, Eumene II): pianta a U · fregio Gigantomachia 120 m<br>• Oggi al Pergamonmuseum di Berlino</div>'},
+  {type:'check',title:'Verifica — Mausoleo',q:'Chi sono i 4 scultori del Mausoleo di Alicarnasso e quale lato aveva ciascuno?',opts:['Fidia(E), Prassitele(N), Skopas(S), Lisippo(O)','Skopas(E), Bryaxis(N), Timotheos(S), Leochares(O)','Leochares(E), Skopas(N), Bryaxis(S), Timotheos(O)','Prassitele(E), Skopas(N), Lisippo(S), Bryaxis(O)'],correct:1,expl:'Skopas (lato est), Bryaxis (nord), Timotheos (sud), Leochares (ovest). I progettisti architettonici erano invece Pytheos e Satyros.'},
+  {type:'recap',title:'Recap — Ellenismo',content:'<div class="phbox green">✅ 323-31 a.C. · 4 regni: Antigonidi/Tolomei/Seleucidi/Attalidi · Droysen<br>✅ Priene: griglia ippodamea, isolati 120×150 piedi, Tempio Atena (Piteo, 334)<br>✅ Mausoleo: Mausolo, Pytheos+Satyros, 36 col., 41,50m, 4 scultori, 7 Meraviglie<br>✅ Pergamo: acropoli terrazzata · Altare Zeus (Eumene II) · Gigantomachia 120m · Berlino<br>✅ Teatro Epidauro: ca. 300 a.C. · Policleto il Giovane · 82m · 17.000 sp.</div>'}
+]},
+{id:'pa4',icon:'🏟️',title:'Tipologie Edilizie Greche',desc:'Tempio, teatro, stoà, tholos, bouleuterion — definizioni e esempi.',color:'c4',steps:[
+  {type:'info',title:'Le tipologie della città greca',content:'<div class="phbox blue">La città greca (polis) organizza lo spazio attorno a due poli:<br>• <strong>Agorà</strong>: spazio civico, politico, commerciale (con stoài, bouleuterion, stoà dei giudici)<br>• <strong>Santuario/Acropoli</strong>: spazio sacro (con templi, tholoi, tesori, altari)</div><div class="phbox">Tipologie principali:<br>Tempio · Stoà · Teatro · Tholos · Bouleuterion · Odeion</div>'},
+  {type:'concept',title:'Il Tempio greco — tipologie Vitruvio',content:'<table class="stbl"><thead><tr><th>Tipo</th><th>Schema</th><th>Esempio</th></tr></thead><tbody><tr><td><strong>In antis</strong></td><td>Col. tra ante muri lat.</td><td>Tesoro Sifni</td></tr><tr><td><strong>Anfiprostilo</strong></td><td>Portici su 2 fronti</td><td>Athena Nike</td></tr><tr><td><strong>Periptero</strong></td><td>1 fila col. su tutti i lati</td><td>Partenone, Zeus Olimpia</td></tr><tr><td><strong>Pseudodiptero</strong></td><td>Come diptero ma senza fila int.</td><td>Magnesia (Ermogene)</td></tr><tr><td><strong>Diptero</strong></td><td>2 file col. su tutti i lati</td><td>Didyma, Artemision Efeso</td></tr><tr><td><strong>Ipetro</strong></td><td>Naos a cielo aperto</td><td>Didyma</td></tr></tbody></table><div class="phbox">Intercolumni Vitruvio: picnostilo (1,5 mod.) · sistilo (2) · <strong>eustilo</strong> (2,25 — ottimale) · diastilo (3) · areostilo (4+)</div>'},
+  {type:'concept',title:'Teatro, Stoà, Tholos, Bouleuterion',content:'<div class="phbox"><strong>Teatro greco:</strong> koilon/cavea (gradinate) · orchestra circolare (coro + thymele) · skené (edificio scenico) · proskenion (colonnato) · pàrodoi (corridoi laterali)<br>Epidauro (ca. 300, Policleto il Giovane): cavea 82m · orchestra 26,53m · 17.000 spettatori</div><div class="phbox"><strong>Stoà:</strong> portico colonnato coperto — funzione commerciale, filosofica, politica. Stoà di Attalo (159-138, Attalo II): 115m · 2 piani · dorico+ionico · 21 negozi</div><div class="phbox"><strong>Tholos:</strong> edificio circolare · funzione incerta (heroon, culto ctonio) · es. Delfi (380, Teodoro di Focea) e Epidauro (365-335)</div><div class="phbox"><strong>Bouleuterion:</strong> sede del Consiglio (boulè) · pianta quadrata con gradinate su 3 lati · es. Priene (200 a.C.), ca. 640 posti</div>'},
+  {type:'check',title:'Verifica — Tipologie',q:'Cos\'è il pseudodiptero e chi lo teorizza come tipo ideale?',opts:['Tempio circolare — Vitruvio','Tempio con doppio col. esterno ma senza fila interna — Ermogene','Tempio senza copertura — Ictino','Tempio con 4 portici — Mnesicle'],correct:1,expl:'Il pseudodiptero elimina la fila interna di colonne del diptero → ampio spazio coperto tra colonnato e muri del naos (pteron). Teorizzato da Ermogene (Magnesia al Meandro, ca. 175 a.C.) e descritto da Vitruvio come il migliore per l\'ordine ionico.'},
+  {type:'recap',title:'Recap — Tipologie',content:'<div class="phbox green">✅ Tipologie Vitruvio: in antis · prostilo · anfiprostilo · periptero · pseudodiptero · diptero · ipetro<br>✅ Intercolumni: eustilo = ottimale (2,25 mod.)<br>✅ Teatro: cavea + orchestra + skené + proskenion + pàrodoi<br>✅ Stoà: portico multifunzione · Stoà Attalo 115m/2 piani<br>✅ Tholos: circolare · Delfi (Teodoro 380) · Epidauro (365-335)<br>✅ Bouleuterion: consiglio civico · Priene ca. 200 a.C.</div>'}
+]},
+{id:'pa5',icon:'🏺',title:'Età Tardoclassica',desc:'IV sec. a.C. — Bassae, Tegea, Tholos di Delfi e Epidauro, evoluzione del Dorico.',color:'c1',steps:[
+  {type:'info',title:'Contesto — IV sec. a.C.',content:'<div class="phbox blue"><strong>Tardoclassico</strong> = IV sec. a.C. Periodo di sperimentazione dopo il "canone" classico del V sec.<br>Novità fondamentali:<br>• Prima apparizione del <strong>capitello corinzio</strong> (Bassae)<br>• Ordini misti/tripartiti in un unico edificio (Tegea)<br>• Sviluppo della <strong>tholos</strong> come tipo architettonico<br>• Colonne doriche sempre più slanciate</div>'},
+  {type:'concept',title:'Bassae — la prima colonna corinzia',content:'<div class="phbox blue"><strong>Tempio di Apollo Epicurio, Bassae</strong> (450-425 a.C., attr. Ictino)<br>• 6 × 15 colonne doriche · stilobate 14,56 × 38,31 m<br>• Orientamento eccezionale N-S (porta laterale est per illuminare l\'adyton)</div><div class="phbox green"><strong>La rivoluzione corinzia:</strong><br>Una singola colonna corinzia isolata separa naos e adyton — <strong>prima attestazione conosciuta</strong> del capitello corinzio nell\'architettura greca.<br>Secondo Vitruvio, inventore = <strong>Callimaco</strong>, ispirato da un canestro con foglie d\'acanto visto su una tomba di fanciulla.</div><div class="phbox">Fregio ionico continuo interno (centauromachia + amazzonomachia) → oggi al British Museum.</div>'},
+  {type:'check',title:'Verifica — Bassae',q:'Come è orientato il Tempio di Apollo Epicurio a Bassae rispetto alla norma?',opts:['Est-Ovest come tutti i templi greci','Nord-Sud — orientamento eccezionale','Ovest-Est, invertito','In diagonale rispetto ai punti cardinali'],correct:1,expl:'Bassae è orientato N-S, insolito per i templi greci normalmente orientati E-O. Per garantire comunque la luce sull\'adyton, l\'architetto aprì una porta sul lato est dell\'adyton.'},
+  {type:'concept',title:'Tegea — ordine tripartito. Tholoi.',content:'<div class="phbox"><strong>Tempio di Athena Alea, Tegea</strong> (ca. 360, Skopas di Paros):<br>• Stilobate 19,16 × 47,52 m · ricostruzione post-incendio 395 a.C.<br>• Ordine tripartito: <strong>dorico esterno / corinzio interno / ionico in alto</strong></div><div class="phbox"><strong>Tholos di Delfi</strong> (380, Teodoro di Focea): 20 col. doriche / diam. 13,50 m / 10 col. corinzie interne<br><strong>Tholos di Epidauro</strong> (365-335): dorico tufo esterno / corinzio marmo interno / labirinto sotterraneo</div>'},
+  {type:'check',title:'Verifica — Tegea',q:'Chi è l\'architetto del Tempio di Athena Alea a Tegea e qual è la sequenza dell\'ordine tripartito (esterno→interno→alto)?',opts:['Ictino — Ionico/Dorico/Corinzio','Ermogene — Dorico/Ionico/Corinzio','Skopas di Paros — Dorico/Corinzio/Ionico','Teodoro di Focea — Dorico/Ionico/Corinzio'],correct:2,expl:'Skopas di Paros (ca. 360 a.C.): ordine tripartito Dorico (esterno) / Corinzio (interno naos) / Ionico (in alto). Skopas fu anche scultore dei frontoni (Caccia al cinghiale caledonio / Achilleide).'},
+  {type:'recap',title:'Recap — Tardoclassico',content:'<div class="phbox green">✅ Bassae (450-425, Ictino?): 6×15, orientam. N-S, prima colonna corinzia, fregio ionico interno<br>✅ Callimaco = inventore capitello corinzio (Vitruvio)<br>✅ Tegea (360, Skopas): ordine tripartito Dorico/Corinzio/Ionico<br>✅ Tholos Delfi (380, Teodoro): 20 dor. / 13,50m / 10 cor.<br>✅ Tholos Epidauro (365-335): dor. tufo / cor. marmo / labirinto<br>✅ Evoluzione dorico h/d: arcaico ≈4,0 → Partenone ≈5,5 → Nemea ≈6,3</div>'}
+]},
+{id:'pa6',icon:'📐',title:'Proporzioni e Sezione Aurea',desc:'φ=1,618, Fibonacci, Modulor di Le Corbusier, proporzioni del tempio.',color:'c2',steps:[
+  {type:'info',title:'La sezione aurea — definizione',content:'<div class="phbox blue"><strong>Sezione Aurea:</strong> φ = (1 + √5) / 2 = <strong>1,618034...</strong><br>Rapporto in cui una retta AB è divisa in C tale che AB/AC = AC/CB = φ.</div><div class="phbox green"><strong>Serie di Fibonacci:</strong> 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144...<br>Regola: ogni numero = somma dei due precedenti.<br>Rapporto tra termini consecutivi → φ: 89/55=1,618... 144/89=1,617...</div>'},
+  {type:'concept',title:'φ nel Partenone e il Modulor',content:'<div class="phbox"><strong>Partenone (447-432):</strong> rapporto largh./alt. facciata ≈ φ · proporzioni stilobate, colonna, trabeazione seguono rapporti aurei.</div><div class="phbox blue"><strong>Modulor di Le Corbusier</strong> (1948): sistema proporzionale basato su φ + corpo umano (h=1,83m, ombelico a 1,13m). Genera due serie di Fibonacci scalate su misura umana. Usato nell\'Unité d\'Habitation di Marsiglia (1952).</div>'},
+  {type:'check',title:'Verifica',q:'Quanto vale approssimativamente φ?',opts:['1,333','1,414','1,618','1,732'],correct:2,expl:'φ = (1+√5)/2 = 1,618034... √2=1,414, 4/3=1,333, √3=1,732. La serie Fibonacci lo approssima con crescente precisione.'},
+  {type:'check',title:'Verifica — Fibonacci',q:'Quali sono i due termini successivi a 13 nella serie di Fibonacci?',opts:['18, 29','20, 33','21, 34','24, 38'],correct:2,expl:'13+8=21, 21+13=34. Serie: ...8, 13, 21, 34, 55, 89... Il rapporto 34/21=1,619 approssima φ=1,618.'},
+  {type:'recap',title:'Recap — Proporzioni',content:'<div class="phbox green">✅ φ = 1,618034 = (1+√5)/2<br>✅ Fibonacci: ogni termine = somma dei due precedenti; rapporto → φ<br>✅ Partenone: facciata largh./alt. ≈ φ<br>✅ Modulor Le Corbusier (1948): φ + corpo umano, Unité Marsiglia<br>✅ Vitruvio: corpo umano come modulo del tempio (stesso principio)</div>'}
+]},
+{id:'pa7',icon:'🗿',title:'Scultura e Policromia',desc:'Fidia, sculture del Partenone, tecnica crisoelefantina, policromia e Hittorff.',color:'c3',steps:[
+  {type:'info',title:'Fidia e il programma scultoreo del Partenone',content:'<div class="phbox blue"><strong>Fidia</strong> (ca. 490-430 a.C.): supervisore artistico dell\'Acropoli periclea. Autore di Atena Parthenos e Zeus Olimpio.<br>Posizioni della scultura nel tempio: frontone (triangolare, sculture a tutto tondo) · metope (rilievi) · fregio (rilievo continuo) · acroteri (apici)</div><div class="phbox"><strong>Metope esterne del Partenone</strong> (92 tot.):<br>• Est: Gigantomachia · Ovest: Amazzonomachia<br>• Nord: Guerra di Troia · Sud: Centauromachia<br><strong>Fregio ionico interno</strong> (160 m): Processione Panatenee, 378 figure<br><strong>Frontoni</strong>: est = Nascita Atena / ovest = Contesa Atena-Poseidone</div>'},
+  {type:'concept',title:'Tecnica crisoelefantina e policromia',content:'<div class="phbox green"><strong>Crisoelefantina</strong> (chrysos=oro, elephantinos=avorio):<br>• Parti carnee: lastre di avorio · Vesti: lamina d\'oro · Struttura: legno<br>→ Atena Parthenos (h≈12m, Partenone) + Zeus Olimpio (h≈13m, Olimpia)</div><div class="phbox blue"><strong>Policromia greca</strong> — ricostruzione di <strong>Hittorff</strong> (XIX sec.):<br>Triglifi blu · metope rosse · acroteri dorati · sculture dipinte<br>Il "marmo bianco" è un\'invenzione neoclassica. I templi greci erano vivacemente colorati.</div>'},
+  {type:'check',title:'Verifica — Metope',q:'Qual è il soggetto delle metope sul lato sud del Partenone?',opts:['Gigantomachia','Amazzonomachia','Guerra di Troia','Centauromachia'],correct:3,expl:'Sud = Centauromachia (lotta tra Lapiti e Centauri). Est = Gigantomachia, Ovest = Amazzonomachia, Nord = Guerra di Troia. Il programma allegorizza la vittoria dei Greci sui Persiani.'},
+  {type:'check',title:'Verifica — Policromia',q:'Chi ha realizzato la più famosa ricostruzione della policromia dei templi greci nel XIX sec.?',opts:['Winckelmann','Viollet-le-Duc','Hittorff','Semper'],correct:2,expl:'Jacques-Ignace Hittorff (1792-1867) studiò i templi siciliani e greci e propose ricostruzioni cromatiche vivaci. La sua opera suscitò scandalo nell\'ambiente neoclassico che immaginava i Greci tutto in bianco.'},
+  {type:'recap',title:'Recap — Scultura',content:'<div class="phbox green">✅ Fidia: supervisore Acropoli, Atena Parthenos (12m) + Zeus Olimpio (13m) entrambe crisoelefantine<br>✅ 92 metope: Gigantomachia(E)/Amazzonomachia(O)/Troia(N)/Centauromachia(S)<br>✅ Fregio ionico interno: 160m, Panatenee, 378 figure<br>✅ Crisoelefantina: avorio+oro+legno<br>✅ Policromia: ricostruzione Hittorff · i templi erano colorati, non bianchi</div>'}
+]},
+{id:'pa8',icon:'🌊',title:'Santuari Panellenici',desc:'Olimpia, Delfi, Epidauro — struttura dei santuari e edifici principali.',color:'c4',steps:[
+  {type:'info',title:'I santuari panellenici',content:'<div class="phbox blue"><strong>Santuari panellenici:</strong> luoghi di culto condivisi da tutte le poleis greche.<br>• <strong>Olimpia</strong>: Zeus, Giochi Olimpici (dal 776 a.C., ogni 4 anni)<br>• <strong>Delfi</strong>: Apollo, oracolo + Giochi Pitici<br>• <strong>Epidauro</strong>: Asclepio, medicina<br>• <strong>Istmia e Nemea</strong>: Poseidone e Zeus</div>'},
+  {type:'concept',title:'Olimpia — l\'Altis',content:'<div class="phbox"><strong>Altis</strong> (recinto sacro di Olimpia):<br>• <strong>Tempio Zeus</strong> (468-460, Libone di Elide): 6×13 col., stilobate 27,68×64,12m, statua Zeus di Fidia crisoelefantina ~13m = 7a Meraviglia<br>• <strong>Heraion</strong>: il più antico, arcaico<br>• <strong>Philippeion</strong> (ca. 336, Filippo II): tholos ionico, 18 col., primo edificio per un mortale, sculture crisoelefantine di Leochares</div><div class="phbox green">Frontoni Tempio Zeus: est = Preparativi gara Pelope-Enomaos · ovest = Centauromachia</div>'},
+  {type:'concept',title:'Delfi e Epidauro',content:'<div class="phbox"><strong>Delfi</strong>: "ombelico del mondo" (omphalos).<br>• Via Sacra con Tesori delle città · Tempio Apollo (330, 6×15) · Teatro · Stadio<br>• <strong>Tholos Marmarià</strong> (380, Teodoro di Focea): 20 col. doriche, diam. 13,50m, 10 col. corinzie — nel santuario di Atena Pronaia</div><div class="phbox"><strong>Epidauro</strong>: santuario di Asclepio, dio della medicina.<br>• <strong>Teatro</strong> (ca. 300, Policleto il Giovane): cavea 82m, orchestra 26,53m, 17.000 sp., acustica prodigiosa<br>• <strong>Tholos</strong> (365-335): dorico tufo / corinzio marmo / labirinto sotterraneo</div>'},
+  {type:'check',title:'Verifica — Olimpia',q:'Quale edificio a Olimpia fu il primo dedicato a un mortale?',opts:['Tempio di Zeus','Heraion','Philippeion','Bouleuterion'],correct:2,expl:'Il Philippeion (ca. 336 a.C., Filippo II di Macedonia): tholos ionico con sculture crisoelefantine della famiglia reale macedone di Leochares. Primo edificio nell\'Altis di Olimpia dedicato a un mortale — gesto politico senza precedenti.'},
+  {type:'recap',title:'Recap — Santuari',content:'<div class="phbox green">✅ Olimpia: Zeus · Heraion · Philippeion (336, Filippo II, primo mortal)<br>✅ Zeus Olimpia (468-460, Libone): 6×13 · statua Zeus Fidia (7a Meravi., ~13m)<br>✅ Delfi: Apollo · oracolo · Tholos Marmarià (380, Teodoro, 20col/13,50m)<br>✅ Epidauro: Teatro (Policleto il Giovane, 82m/17.000) · Tholos (365-335)<br>✅ Giochi panellenici: Olimpia (Zeus, 4 anni) · Delfi (Apollo, Pitici)</div>'}
+]}
+];
+
+// ── ARGOMENTI DATA ────────────────────────────────────────────────────
+const ACC_DATA=[
+{icon:'🏛️',title:'Acropoli di Atene — tutti gli edifici',body:`
+<div class="phbox blue"><strong>Rocca:</strong> 156 m slm · pianoro 140×280 m · accesso unico NW · fasi micenea→arcaica→classica→ellenistica</div>
+<div class="sec-lbl">Edifici del periodo classico</div>
+<table class="stbl"><thead><tr><th>Edificio</th><th>Date</th><th>Architetto</th><th>Tipo</th></tr></thead><tbody>
+<tr><td><strong>Partenone</strong></td><td>447-432 a.C.</td><td>Ictino + Callicrate</td><td>Periptero dorico ottastilo</td></tr>
+<tr><td><strong>Propilei</strong></td><td>437-432 a.C.</td><td>Mnesicle</td><td>Dorico + ionico interno</td></tr>
+<tr><td><strong>Tempio Athena Nike</strong></td><td>427-424 a.C.</td><td>Callicrate</td><td>Anfiprostilo tetrastilo ionico</td></tr>
+<tr><td><strong>Eretteo</strong></td><td>421-405 a.C.</td><td>sconosciuto</td><td>Ionico, pianta irregolare</td></tr>
+</tbody></table>
+<div class="sec-lbl">Raffinamenti ottici del Partenone</div>
+<ul><li>Curvatura stilobate (convesso al centro)</li><li>Entasi delle colonne (rigonfiamento terzo inferiore)</li><li>Inclinazione colonne angolari (0,07 m verso il centro)</li><li>Trabeazione inclinata verso l\'interno</li><li>Colonne angolari più tozze per compensare controsole</li></ul>`},
+{icon:'📐',title:'Ordini Architettonici — tabella comparativa',body:`
+<table class="stbl"><thead><tr><th>Elemento</th><th>Dorico</th><th>Ionico</th><th>Corinzio</th></tr></thead><tbody>
+<tr><td>Base</td><td><strong>No</strong></td><td>Sì (toro/trochilo)</td><td>Sì (come ionico)</td></tr>
+<tr><td>Capitello</td><td>Echino + abaco</td><td>Volute</td><td>Foglie acanto</td></tr>
+<tr><td>Scanalature</td><td>20, spigolo vivo</td><td>24, con listello</td><td>24, con listello</td></tr>
+<tr><td>Fregio</td><td>Triglifi + metope</td><td>Continuo figurato</td><td>Continuo figurato</td></tr>
+<tr><td>Proporzioni</td><td>Tozze→slanciate</td><td>Slanciate</td><td>Molto slanciate</td></tr>
+<tr><td>Area uso</td><td>Grecia cont./Magna Gr.</td><td>Ionia/Asia Min.</td><td>Prima interni, poi Roma</td></tr>
+<tr><td>Prima att.</td><td>VII sec. a.C.</td><td>VI sec. a.C.</td><td>Bassae (450-425 a.C.)</td></tr>
+</tbody></table>
+<div class="sec-lbl">Varianti ioniche</div>
+<ul><li><strong>Attico:</strong> base toro-trochilo-toro · Eretteo, Propilei</li><li><strong>Asiatico:</strong> base con kyma, volute a 45° · Efeso, Samo, Priene</li><li><strong>Ellenistico:</strong> base elaborata, frontale = posteriore · Didyma, Magnesia</li></ul>`},
+{icon:'🏺',title:'Età Tardoclassica — edifici e novità',body:`
+<div class="sec-lbl">Edifici principali</div>
+<table class="stbl"><thead><tr><th>Edificio</th><th>Date</th><th>Arch./Comm.</th><th>Novità</th></tr></thead><tbody>
+<tr><td><strong>Apollo Epicurio, Bassae</strong></td><td>450-425 a.C.</td><td>Ictino (?)</td><td>Prima colonna corinzia</td></tr>
+<tr><td><strong>Athena Alea, Tegea</strong></td><td>ca. 360 a.C.</td><td>Skopas</td><td>Ordine tripartito Dor/Cor/Ion</td></tr>
+<tr><td><strong>Tholos, Delfi</strong></td><td>ca. 380 a.C.</td><td>Teodoro di Focea</td><td>Dor. est. / Cor. int. circolare</td></tr>
+<tr><td><strong>Tholos, Epidauro</strong></td><td>365-335 a.C.</td><td>—</td><td>Labirinto sotterraneo</td></tr>
+<tr><td><strong>Zeus, Nemea</strong></td><td>ca. 330 a.C.</td><td>—</td><td>Col. doriche slanciate h/d≈6,3</td></tr>
+</tbody></table>
+<div class="sec-lbl">Evoluzione proporzioni colonna dorica</div>
+<ul><li>Arcaico (600 a.C.): h/d ≈ 4,0 — molto tozzo</li><li>Classico precoce (Zeus Olimpia): h/d ≈ 4,6</li><li>Classico maturo (Partenone): h/d ≈ 5,5</li><li>Tardoclassico (Nemea): h/d ≈ 6,3</li><li>Ellenistico-romano (Cori): h/d ≈ 7,0</li></ul>`},
+{icon:'🌍',title:'Ellenismo — cronologia e edifici chiave',body:`
+<div class="phbox blue">323-31 a.C. · termine di J.G. Droysen · 4 regni: Antigonidi / Tolomei / Seleucidi / Attalidi</div>
+<div class="sec-lbl">Edifici fondamentali</div>
+<table class="stbl"><thead><tr><th>Edificio</th><th>Date</th><th>Architetto</th><th>Tipo</th></tr></thead><tbody>
+<tr><td>Philippeion, Olimpia</td><td>ca. 336 a.C.</td><td>—</td><td>Tholos ionico</td></tr>
+<tr><td>Mausoleo, Alicarnasso</td><td>377-351 a.C.</td><td>Pytheos+Satyros</td><td>Tomba monumentale ionica</td></tr>
+<tr><td>Tempio Atena Polias, Priene</td><td>334 a.C.</td><td>Piteo (Pytheos)</td><td>Periptero ionico 6×11</td></tr>
+<tr><td>Tempio Apollo, Didyma</td><td>ca. 300 a.C.</td><td>Paionios+Daphnis</td><td>Diptero ionico ipetro</td></tr>
+<tr><td>Teatro Epidauro</td><td>ca. 300 a.C.</td><td>Policleto il Giovane</td><td>Cavea 82m · 17.000 sp.</td></tr>
+<tr><td>Altare Zeus, Pergamo</td><td>197-159 a.C.</td><td>— (comm. Eumene II)</td><td>Pianta a U · fregi 120m</td></tr>
+<tr><td>Stoà di Attalo, Atene</td><td>159-138 a.C.</td><td>— (comm. Attalo II)</td><td>2 piani · 115m · dorico+ionico</td></tr>
+<tr><td>Artemide Leukofriene, Magnesia</td><td>ca. 175 a.C.</td><td>Ermogene</td><td>Pseudodiptero ionico</td></tr>
+</tbody></table>`},
+{icon:'🏙️',title:'Urbanistica ellenistica — Priene, Mileto, Pergamo',body:`
+<div class="sec-lbl">Principi del piano ippodameo</div>
+<ul><li>Griglia ortogonale di strade e isolati</li><li>Suddivisione funzionale in aree (commerciale / civica / religiosa)</li><li>Agorà come centro civico con stoài perimetrali</li></ul>
+<div class="sec-lbl">Priene (fond. ca. 350 a.C.)</div>
+<ul><li>Griglia adattata al forte pendio · isolati 120×150 piedi (35×45 m)</li><li>Agorà con portico nord (stoà) · Santuario di Zeus Olimpio · Bouleuterion · Teatro · Tempio Atena</li></ul>
+<div class="sec-lbl">Mileto (rifond. post 479 a.C.)</div>
+<ul><li>Tre aree: commerciale (nord) / civica (centro) / religiosa (sud)</li><li>Agorà nord: stoà a L + bouleuterion · Agorà sud: più monumentale</li></ul>
+<div class="sec-lbl">Pergamo</div>
+<ul><li>Acropoli terrazzata non a griglia — adattata alla morfologia collinare</li><li>Livelli: teatro · Tempio Athena · biblioteca · Altare Zeus · agorà superiore</li></ul>`},
+{icon:'🎭',title:'Teatro greco — anatomia e evoluzione',body:`
+<div class="sec-lbl">Elementi anatomici (da memorizzare)</div>
+<ul><li><strong>Koilon / Cavea:</strong> gradinate scavate nel pendio collinare</li><li><strong>Orchestra:</strong> area circolare centrale — coro + thymele (altare)</li><li><strong>Skené:</strong> edificio scenico retrostante (prima ligneo, poi permanente)</li><li><strong>Proskenion:</strong> colonnato frontale alla skené = sfondo scenico</li><li><strong>Pàrodoi:</strong> corridoi laterali di accesso per coro e pubblico</li></ul>
+<div class="sec-lbl">Edifici da sapere</div>
+<table class="stbl"><thead><tr><th>Teatro</th><th>Data</th><th>Dati</th></tr></thead><tbody>
+<tr><td>Dioniso, Atene</td><td>inizio IV sec.</td><td>Il più antico — costruzione licourgea, cavea su Acropoli sud</td></tr>
+<tr><td><strong>Epidauro</strong></td><td>ca. 300 a.C.</td><td>Policleto il Giovane · cavea 82m · orchestra 26,53m · 17.000 sp.</td></tr>
+</tbody></table>
+<div class="phbox green"><strong>Odeion:</strong> sala coperta per musica · Odeion di Pericle (metà V sec.) a pianta quadrata</div>`},
+];
+
+// ── QUIZ EXTRA ────────────────────────────────────────────────────────
+const QUIZ_EXTRA=[
+  {q:'Quale scultore realizzò le sculture dei frontoni del Tempio di Athena Alea a Tegea?',opts:['Fidia','Prassitele','Skopas','Lisippo'],c:2,expl:'Skopas di Paros fu sia l\'architetto del Tempio di Athena Alea a Tegea (ca. 360 a.C.) che l\'autore delle sculture dei frontoni (Caccia al cinghiale caledonio / Achilleide).'},
+  {q:'Il Tempio di Apollo a Bassae è orientato in modo insolito. Come?',opts:['Est-Ovest come tutti','Nord-Sud (eccezionale!)','Inclinato a 45°','Orientato verso il solstizio'],c:1,expl:'Bassae è orientato N-S anziché E-O (normale per i templi greci). Per garantire l\'illuminazione della statua cultuale, l\'adyton ha una porta laterale sul lato est.'},
+  {q:'Quante colonne ha la Tholos di Delfi all\'esterno?',opts:['10','14','20','24'],c:2,expl:'La Tholos di Delfi (380 a.C., Teodoro di Focea) ha 20 colonne doriche esterne e 10 colonne corinzie interne, diametro 13,50 m.'},
+  {q:'Cosa si intende per "eustilo"?',opts:['Colonne molto ravvicinate (1,5 moduli)','Intercolumnio ottimale di 2,25 moduli (Ermogene)','Colonne molto distanziate (4+ moduli)','Colonne di altezza variabile'],c:1,expl:'Eustilo = intercolumnio di 2,25 moduli. Ermogene lo considera il migliore: abbastanza largo da passare, abbastanza stretto da reggere la trabeazione in pietra senza architravi troppo lunghi.'},
+  {q:'Cosa distingue il "diptero" dal "pseudodiptero"?',opts:['Il diptero ha la copertura, il pseudodiptero no','Il diptero ha due file di colonne esterne, il pseudodiptero elimina la fila interna','Il diptero è dorico, il pseudodiptero ionico','Non c\'è differenza pratica'],c:1,expl:'Diptero: due file di colonne su tutti i lati (esempio: Artemision di Efeso, Didyma). Pseudodiptero: elimina la fila interna mantenendo l\'ampio spazio del pteron (Magnesia, teorizzato da Ermogene).'},
+  {q:'Qual è il diametro dell\'orchestra del Teatro di Epidauro?',opts:['13,50 m','19,5 m','26,53 m','34 m'],c:2,expl:'L\'orchestra del Teatro di Epidauro misura 26,53 m di diametro. La cavea (koilon) ha invece 82 m di diametro. Capacità: circa 17.000 spettatori.'},
+  {q:'In quale museo si trovano oggi i fregi dell\'Altare di Zeus di Pergamo?',opts:['Museo dell\'Acropoli, Atene','British Museum, Londra','Pergamonmuseum, Berlino','Louvre, Parigi'],c:2,expl:'L\'Altare di Zeus di Pergamo (197-159 a.C., comm. Eumene II) con il suo fregio della Gigantomachia (120 m lineari) si trova al Pergamonmuseum di Berlino, dove è ricostruito.'},
+  {q:'Qual era la funzione del "thymele" nell\'orchestra del teatro greco?',opts:['Sedile riservato al sacerdote','Altare centrale nell\'orchestra','Porta di accesso dalla skené','Macchina teatrale per volare'],c:1,expl:'Il thymele era l\'altare di Dioniso collocato al centro dell\'orchestra. Ricordava l\'origine religiosa e cultuale del teatro greco, nato dalle feste dionisiache.'},
+  {q:'Chi commissionò il Tempio di Atena Polias a Priene?',opts:['Attalo II','Eumene II','Alessandro Magno','Filippo II'],c:2,expl:'Alessandro Magno commissionò (e dedicò) il Tempio di Atena Polias a Priene nel 334 a.C., come testimonia l\'iscrizione originale conservata al British Museum.'},
+  {q:'Qual è la principale caratteristica architettonica del Tempio di Apollo a Didyma?',opts:['È il più piccolo tempio ionico','Ha naos a cielo aperto (ipetro) con naiskos interno','Ha 3 navate interne','È realizzato in tufo locale'],c:1,expl:'Didyma (ca. 300 a.C.) è un diptero ionico ipetro: il grande naos non ha tetto ed è aperto al cielo. Al suo interno si trova un piccolo naiskos dell\'oracolo. Le basi delle colonne sono decorate con rilievi figurati.'},
+];
+// Unisco quiz
+QUIZ_DATA.push(...QUIZ_EXTRA);
+
+// ── DOMANDE EXTRA ─────────────────────────────────────────────────────
+const DOMANDE_EXTRA=[
+  {prio:'hot',q:'Descrivi la Tholos nel santuario di Atena alla Marmarià a Delfi.',a:'Ca. 380 a.C., arch. Teodoro di Focea. Edificio a pianta circolare: 20 colonne doriche esterne in marmo pentelico (diam. 13,50 m), 10 colonne corinzie interne su podio circolare. Pavimento a opus sectile. Funzione incerta: possibile heroon. Tra le tholoi più eleganti della Grecia classica.'},
+  {prio:'hot',q:'Cos\'è la sezione aurea e dove si applica nel Partenone?',a:'φ = 1,618034 = (1+√5)/2. Serie Fibonacci: 1,1,2,3,5,8,13,21,34... (ogni numero = somma dei due precedenti; il rapporto tende a φ). Nel Partenone il rapporto larghezza/altezza della facciata ≈ φ; anche le proporzioni colonna/trabeazione seguono rapporti aurei. Le Corbusier sviluppò il Modulor (1948) basandosi su φ applicato al corpo umano.'},
+  {prio:'mid',q:'Descrivi il Tempio di Athena Alea a Tegea (Skopas) e il suo ordine tripartito.',a:'Ca. 360 a.C., arch. Skopas di Paros. Ricostruzione dopo incendio del 395 a.C. Stilobate 19,16×47,52 m. Ordine tripartito: dorico esterno / corinzio nell\'interno del naos / ionico in alto — progressione verso il basso della complessità dell\'ordine. Sculture frontoni di Skopas stesso. Tra i maggiori templi del Peloponneso nel IV sec.'},
+  {prio:'mid',q:'Descrivi la Stoà come tipologia e i suoi usi nella città greca.',a:'Stoà = portico colonnato coperto, aperto su un lato. Elemento fondamentale dell\'agorà greca: funzione commerciale (negozi sul retro), filosofica (Stoa Poikile → Stoici di Zenone), politica (consiglio, tribunali), sociale. Stoà di Attalo (159-138 a.C.): donata da Attalo II di Pergamo, 115 m, 2 piani (piano terra dorico, superiore ionico), 21 negozi. Ricostruita 1953-56, oggi museo Agorà Atene.'},
+  {prio:'mid',q:'Quali sono gli intercolumni di Vitruvio? Qual è il tipo ottimale?',a:'Picnostilo (1,5 moduli), sistilo (2), eustilo (2,25 — ottimale secondo Ermogene), diastilo (3), areostilo (4+ — solo in legno). L\'eustilo è il migliore: abbastanza largo per passare, abbastanza stretto per la trabeazione lapidea. Ermogene preferisce l\'eustilo per il suo pseudodiptero di Magnesia al Meandro.'},
+  {prio:'ok',q:'Descrivi le operae murarie di Vitruvio.',a:'Vitruvio classifica le tecniche costruttive murarie: Opus incertum (scaglie irregolari in malta), Opus reticolatum (blocchetti a losanga disposti a rete, tipicamente romano), Opus isodomon (filari di blocchi tutti uguali in altezza), Opus pseudoisodomon (filari alternati di altezze diverse), Muratura a riempimento con diatoni (blocchi passanti come legame, con o senza nucleo).'},
+];
+DOMANDE.push(...DOMANDE_EXTRA);
+
+// ── LOGIC ──────────────────────────────────────────────────────────────
+
+function showSection(btn, id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const main=document.getElementById('mainContent');
+  main.innerHTML=`<div class="section active" id="sec_${id}">${SH[id]||'<p>Sezione in costruzione.</p>'}</div>`;
+  if(id==='home') renderHome();
+  if(id==='percorsi') renderPercorsi();
+  if(id==='argomenti') renderArgomenti();
+  if(id==='flashcard') initFC();
+  if(id==='quiz') initQuiz();
+  if(id==='domande') renderDomande();
+  updateProgress();
+}
+
+function renderHome(){
+  const tl=document.getElementById('topicList');
+  if(!tl) return;
+  tl.innerHTML='';
+  TOPICS.forEach(t=>{
+    const done=LS.getItem('topic_'+t.id)==='1';
+    const tagClass='tag-'+(t.tag==='hot'?'hot':t.tag==='mid'?'mid':'ok');
+    const tagLabel=t.tag==='hot'?'❗ Alta':'⚡ Media';
+    const div=document.createElement('div');
+    div.className='topic-item'+(done?' done':'');
+    div.dataset.id=t.id;
+    div.innerHTML=`<div class="topic-check">${done?'✓':''}</div><div class="topic-name">${t.name}</div><div class="topic-tag ${tagClass}">${tagLabel}</div>`;
+    div.onclick=()=>toggleTopic(t.id, div);
+    tl.appendChild(div);
+  });
+  document.getElementById('s-done').textContent=TOPICS.filter(t=>LS.getItem('topic_'+t.id)==='1').length;
+}
+
+function renderPercorsi(){
+  const grid=document.getElementById('percorsiGrid');
+  if(!grid) return;
+  grid.innerHTML='';
+  P_ARCH.forEach(p=>{
+    const div=document.createElement('div');
+    div.className='percorso-card '+p.color;
+    div.innerHTML=`<div class="p-icon">${p.icon}</div><div class="p-title">${p.title}</div><div class="p-desc">${p.desc}</div><div class="p-meta"><span class="p-steps">${p.steps.length} step</span></div>`;
+    div.onclick=()=>openPlayer(p);
+    grid.appendChild(div);
+  });
+}
+
+let curPlayer=null, curStep=0, stepScore=0, stepCorrect=0;
+function openPlayer(p){
+  curPlayer=p; curStep=0; stepScore=0; stepCorrect=0;
+  document.getElementById('percorsiGrid').style.display='none';
+  const pl=document.getElementById('player');
+  pl.style.display='block';
+  document.getElementById('playerTitle').textContent=p.title;
+  renderStep();
+}
+function closePlayer(){
+  document.getElementById('percorsiGrid').style.display='grid';
+  document.getElementById('player').style.display='none';
+}
+function renderStep(){
+  const s=curPlayer.steps[curStep];
+  const total=curPlayer.steps.length;
+  document.getElementById('playerProgBar').style.width=Math.round(curStep/total*100)+'%';
+  document.getElementById('playerStepNum').textContent=(curStep+1)+'/'+total;
+  document.getElementById('stepScore').textContent='Corrette: '+stepCorrect+'/'+stepScore;
+  document.getElementById('btnPrev').disabled=curStep===0;
+  document.getElementById('btnNext').textContent=curStep===total-1?'Fine ✓':'Avanti →';
+  const typeLabels={info:'lbl-info',concept:'lbl-concept',check:'lbl-check',recap:'lbl-recap'};
+  const typeNames={info:'INFO',concept:'CONCETTO',check:'VERIFICA',recap:'RECAP'};
+  let html=`<div class="step-type-label ${typeLabels[s.type]||'lbl-info'}">${typeNames[s.type]||s.type.toUpperCase()}</div><div class="step-content">`;
+  if(s.type==='check'){
+    html+=`<div class="step-h">${s.title}</div><div class="check-q">${s.q}</div><div class="check-opts">`;
+    s.opts.forEach((o,i)=>{ html+=`<button class="check-opt" onclick="answerStep(${i})">${o}</button>`; });
+    html+=`</div><div class="check-fb" id="stepFb"></div>`;
+  } else {
+    html+=`<div class="step-h">${s.title}</div><div class="step-body">${s.content}</div>`;
+  }
+  html+='</div>';
+  document.getElementById('playerSteps').innerHTML=html;
+}
+function answerStep(i){
+  const s=curPlayer.steps[curStep];
+  stepScore++;
+  document.querySelectorAll('.check-opt').forEach((b,j)=>{
+    b.classList.add('locked');
+    if(j===s.correct) b.classList.add('correct');
+    else if(j===i) b.classList.add('wrong');
+  });
+  if(i===s.correct) stepCorrect++;
+  const fb=document.getElementById('stepFb');
+  fb.className='check-fb show '+(i===s.correct?'ok':'ko');
+  fb.textContent=(i===s.correct?'✓ Corretto! ':'✗ Sbagliato. ')+s.expl;
+  document.getElementById('stepScore').textContent='Corrette: '+stepCorrect+'/'+stepScore;
+}
+function nextStep(){
+  if(curStep<curPlayer.steps.length-1){curStep++; renderStep();}
+  else closePlayer();
+}
+function prevStep(){if(curStep>0){curStep--; renderStep();}}
+
+function renderArgomenti(){
+  const c=document.getElementById('accContainer');
+  if(!c) return;
+  c.innerHTML='';
+  ACC_DATA.forEach((a,i)=>{
+    const div=document.createElement('div');
+    div.className='acc-item';
+    div.innerHTML=`<div class="acc-header" onclick="toggleAcc(this)"><span style="font-size:18px">${a.icon}</span><span class="acc-title">${a.title}</span><span class="acc-chev">▼</span></div><div class="acc-body"><div class="acc-inner">${a.body}</div></div>`;
+    c.appendChild(div);
+  });
+}
+
+function toggleFonte(header){
+  const item=header.parentElement;
+  item.classList.toggle('open');
+}
+
+function toggleTopic(id, el){
+  const done=LS.getItem('topic_'+id)==='1';
+  LS.setItem('topic_'+id, done?'0':'1');
+  el.classList.toggle('done');
+  el.querySelector('.topic-check').textContent=done?'':'✓';
+  document.getElementById('s-done').textContent=TOPICS.filter(t=>LS.getItem('topic_'+t.id)==='1').length;
+  updateProgress();
+}
+
+function updateProgress(){
+  const done=TOPICS.filter(t=>LS.getItem('topic_'+t.id)==='1').length;
+  const pct=Math.round(done/TOPICS.length*100);
+  const bar=document.getElementById('mainProgressBar');
+  const pctEl=document.getElementById('mainProgressPct');
+  if(bar) bar.style.width=pct+'%';
+  if(pctEl) pctEl.textContent=pct+'%';
+  const hp=document.getElementById('headerProgress');
+  if(hp) hp.innerHTML=`<span style="color:var(--accent);font-weight:700;">${pct}%</span><span style="color:var(--border);">|</span><span>${done}/${TOPICS.length} argomenti</span>`;
+}
+
+function toggleAcc(header){
+  const item=header.parentElement;
+  const wasOpen=item.classList.contains('open');
+  item.classList.toggle('open',!wasOpen);
+}
+
+// ── FLASHCARD ──────────────────────────────────────────────────────────
+let fcCards=[], fcIdx=0, fcFilter='Tutti';
+
+function initFC(){
+  fcCards=[...FLASHCARDS];
+  fcIdx=0;
+  renderCard();
+}
+
+function setFCFilter(f, btn){
+  fcFilter=f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  fcCards=f==='Tutti'?[...FLASHCARDS]:FLASHCARDS.filter(c=>c.cat===f);
+  fcIdx=0;
+  renderCard();
+}
+
+function renderCard(){
+  if(!fcCards.length) return;
+  const c=fcCards[fcIdx];
+  const fc=document.getElementById('flashcard');
+  if(fc) fc.classList.remove('flipped');
+  const q=document.getElementById('fcQuestion');
+  const a=document.getElementById('fcAnswer');
+  const counter=document.getElementById('fcCounter');
+  const cat=document.getElementById('fcCat');
+  if(q) q.textContent=c.q;
+  if(a) a.innerHTML=c.a;
+  if(counter) counter.textContent=(fcIdx+1)+'/'+fcCards.length;
+  if(cat) cat.textContent=c.cat;
+}
+
+function flipCard(){
+  const fc=document.getElementById('flashcard');
+  if(fc) fc.classList.toggle('flipped');
+}
+
+function nextCard(){fcIdx=(fcIdx+1)%fcCards.length; renderCard();}
+function prevCard(){fcIdx=(fcIdx-1+fcCards.length)%fcCards.length; renderCard();}
+function shuffleFC(){
+  for(let i=fcCards.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[fcCards[i],fcCards[j]]=[fcCards[j],fcCards[i]];}
+  fcIdx=0; renderCard();
+}
+function rateCard(r){
+  LS.setItem('fc_'+fcCards[fcIdx].q.slice(0,20), r);
+  nextCard();
+}
+
+// ── QUIZ ──────────────────────────────────────────────────────────────
+let quizQ=[], quizIdx=0, quizScore=0;
+
+function initQuiz(){
+  quizQ=[...QUIZ_DATA].sort(()=>Math.random()-.5);
+  quizIdx=0; quizScore=0;
+  renderQuiz();
+}
+
+function renderQuiz(){
+  const wrap=document.getElementById('quizWrap');
+  if(!wrap) return;
+  if(quizIdx>=quizQ.length){
+    const pct=Math.round(quizScore/quizQ.length*100);
+    const emoji=pct>=80?'🏆':pct>=60?'👍':'📚';
+    wrap.innerHTML=`<div class="quiz-result"><div class="big-score" style="color:${pct>=80?'var(--accent)':pct>=60?'var(--accent3)':'var(--danger)'}">
+      ${quizScore}/${quizQ.length}</div>
+      <div style="font-size:32px;margin:10px 0">${emoji}</div>
+      <div style="color:var(--muted2);margin-bottom:20px">${pct}% corretto</div>
+      <button class="btn primary" onclick="initQuiz()">🔄 Riprova</button></div>`;
+    LS.setItem('quizScore', quizScore);
+    return;
+  }
+  const d=quizQ[quizIdx];
+  const pct=Math.round(quizIdx/quizQ.length*100);
+  wrap.innerHTML=`<div class="quiz-prog"><div class="quiz-prog-bar" style="width:${pct}%"></div></div>
+    <div class="quiz-score-bar">Domanda ${quizIdx+1}/${quizQ.length} · Corrette: ${quizScore}</div>
+    <div class="quiz-q">${d.q}</div>
+    <div class="quiz-options">${d.opts.map((o,i)=>`<button class="quiz-opt" onclick="answerQuiz(${i})">${o}</button>`).join('')}</div>
+    <div class="quiz-expl" id="quizExpl">${d.expl}</div>`;
+}
+
+function answerQuiz(i){
+  const d=quizQ[quizIdx];
+  document.querySelectorAll('.quiz-opt').forEach((b,j)=>{
+    b.classList.add('locked');
+    if(j===d.c) b.classList.add('correct');
+    else if(j===i) b.classList.add('wrong');
+  });
+  if(i===d.c) quizScore++;
+  document.getElementById('quizExpl').classList.add('show');
+  setTimeout(()=>{quizIdx++; renderQuiz();}, 2200);
+}
+
+function renderDomande(){
+  const c=document.getElementById('domandeContainer');
+  if(!c) return;
+  c.innerHTML='';
+  DOMANDE.forEach((d,i)=>{
+    const div=document.createElement('div');
+    div.className='domanda-item '+(d.prio||'');
+    div.innerHTML=`<strong>${d.prio==='hot'?'❗ ':'⚡ '}${d.q}</strong><div class="domanda-ans">${d.a}</div>`;
+    div.onclick=()=>div.classList.toggle('open');
+    c.appendChild(div);
+  });
+}
+
+// ── COUNTDOWN ──────────────────────────────────────────────────────────
+(function(){
+  const target=new Date('2026-09-15T09:00:00');
+  function tick(){
+    const diff=target-new Date();
+    const el=document.getElementById('countdown');
+    if(!el) return;
+    if(diff<=0){el.textContent='Oggi!'; return;}
+    const d=Math.floor(diff/864e5);
+    const h=Math.floor((diff%864e5)/36e5);
+    const m=Math.floor((diff%36e5)/6e4);
+    el.textContent=d+'g '+h+'h '+m+'m';
+  }
+  tick(); setInterval(tick,60000);
+})();
+
+// ── INIT ──────────────────────────────────────────────────────────────
+(function(){
+  const homeBtn=document.querySelector('.tab.active');
+  if(homeBtn) showSection(homeBtn,'home');
+  updateProgress();
+})();
+
+// ── AUTH LOGIN ────────────────────────────────────────────────────────
+// Credenziali hardcoded — aggiungere utenti qui sotto
+const USERS=[
+  {username:'Admin',password:'_CasaorsiniStartup2026'}
+];
+
+function doLogin(){
+  const u=document.getElementById('loginUser').value.trim();
+  const p=document.getElementById('loginPass').value;
+  const errEl=document.getElementById('loginError');
+  errEl.style.display='none';
+  if(!u||!p){errEl.style.display='block';errEl.textContent='Inserisci username e password.';return;}
+  const match=USERS.find(x=>x.username===u&&x.password===p);
+  if(match){
+    const ov=document.getElementById('loginOverlay');
+    ov.style.animation='loginFadeOut .3s ease forwards';
+    setTimeout(()=>{ov.style.display='none';},300);
+    sessionStorage.setItem('atrium_auth','1');
+  }else{
+    errEl.style.display='block';
+    errEl.textContent='Credenziali non valide. Riprova.';
+    document.getElementById('loginPass').value='';
+    document.getElementById('loginPass').focus();
+  }
+}
+// Se già autenticato in questa sessione, nascondi overlay
+(function(){
+  if(sessionStorage.getItem('atrium_auth')==='1'){
+    document.getElementById('loginOverlay').style.display='none';
+  }
+  ['loginUser','loginPass'].forEach(id=>{
+    document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+  });
+})();
+</script>
+<footer style="position:fixed;bottom:0;left:0;right:0;z-index:200;background:#12161f;border-top:1px solid #2a3050;padding:11px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px;box-shadow:0 -4px 20px rgba(0,0,0,.6);">
+  <div style="display:flex;align-items:center;gap:12px;white-space:nowrap;">
+    <!-- Logo Atrium Edu reale nel footer -->
+    <div style="display:flex;align-items:center;gap:8px;background:#1a1e2e;border:1px solid #252d47;border-radius:7px;padding:5px 11px;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" width="18" height="18" style="border-radius:4px;flex-shrink:0;">
+        <defs>
+          <radialGradient id="fibg" cx="0.5" cy="0" r="1.15">
+            <stop offset="0" stop-color="#2b3149"/>
+            <stop offset="0.46" stop-color="#161924"/>
+            <stop offset="1" stop-color="#0a0b11"/>
+          </radialGradient>
+          <linearGradient id="fiacc" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#bcafff"/>
+            <stop offset="1" stop-color="#7d6bf0"/>
+          </linearGradient>
+        </defs>
+        <rect x="0" y="0" width="512" height="512" rx="116" fill="url(#fibg)"/>
+        <g transform="translate(155 88) scale(2.197)" fill="none">
+          <path d="M14 80 L46 14 L78 80" stroke="#f4f5fb" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="30" y="55" width="22" height="9" rx="4.5" fill="url(#fiacc)"/>
+        </g>
+      </svg>
+      <span style="font-size:12px;font-weight:800;color:#d4d8f0;letter-spacing:.3px;font-family:'IBM Plex Sans',sans-serif;">ATRIUM</span><span style="font-size:11px;font-weight:700;color:#9b8ff5;margin-left:3px;font-family:'IBM Plex Sans',sans-serif;">EDU</span>
+    </div>
+    <span style="color:#2a3050;">|</span>
+    <span style="font-size:12px;color:#94a3b8;">© 2026 Federico Orsini, Pisa</span>
+  </div>
+  <div style="font-size:11px;color:#94a3b8;text-align:center;line-height:1.5;">
+    Elaborato personale a uso esclusivamente didattico e privato &nbsp;·&nbsp; Vietata la riproduzione o distribuzione senza consenso scritto dell'autore
+  </div>
+  <div style="font-size:11px;color:#64748b;white-space:nowrap;">
+    Tutti i diritti riservati &nbsp;·&nbsp; Art. 70 L. 633/1941
+  </div>
+</footer>
+<div style="height:60px"></div>
+</body>
+</html>
