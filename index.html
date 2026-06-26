@@ -57,7 +57,54 @@ table{width:100%;border-collapse:collapse;font-size:12px;}th{background:var(--su
 .warn-badge{display:flex;align-items:center;gap:5px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.35);border-radius:6px;padding:4px 10px;font-size:11px;font-weight:600;color:var(--accent3);cursor:pointer;transition:background .15s;white-space:nowrap;}.warn-badge:hover{background:rgba(245,158,11,.22);}
 .warn-overlay{display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.6);backdrop-filter:blur(3px);align-items:center;justify-content:center;}.warn-overlay.open{display:flex;}.warn-modal{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;max-width:520px;width:90%;box-shadow:0 24px 60px rgba(0,0,0,.6);}.warn-modal-title{font-size:16px;font-weight:700;color:var(--accent3);margin-bottom:12px;}.warn-modal-body{font-size:13px;color:var(--muted2);line-height:1.7;}.warn-source-list{list-style:none;margin-top:12px;}.warn-source-list li{padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;}.warn-source-list li:last-child{border-bottom:none;}.warn-source-list .icon{margin-right:6px;}.warn-modal-close{margin-top:16px;display:flex;justify-content:flex-end;}
 .fonte-acc{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden;}.fonte-header{padding:12px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s;border-left:4px solid var(--accent3);}.fonte-header:hover{background:var(--surface2);}.fonte-header.pdf-color{border-left-color:var(--danger);}.fonte-header.book-color{border-left-color:var(--accent2);}.fonte-header.web-color{border-left-color:var(--accent);}.fonte-title{font-size:13px;font-weight:600;flex:1;}.fonte-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;}.badge-pdf{background:rgba(248,113,113,.15);color:var(--danger);}.badge-libro{background:rgba(96,165,250,.15);color:var(--accent2);}.badge-web{background:rgba(74,222,128,.15);color:var(--accent);}.fonte-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}.fonte-acc.open .fonte-body{max-height:2000px;}.fonte-inner{padding:0 16px 14px;}
-@media(max-width:600px){main{padding:14px;}header{padding:11px 14px;}.timer-bar{display:none;}}
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  /* Header */
+  header{box-shadow:0 1px 10px rgba(0,0,0,.5);}
+  .header-top{padding:6px 14px;gap:8px;}
+  .header-main{padding:9px 14px;}
+  .logo{gap:8px;}
+  .logo-icon{width:30px;height:30px;font-size:15px;border-radius:7px;}
+  .logo-text{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;}
+  .logo-sub{display:none;}
+  #headerProgress{display:none!important;}
+  /* Tabs */
+  .tabs{padding:0 10px;gap:0;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab{padding:10px 11px;font-size:12px;}
+  /* Main */
+  main{padding:14px 12px;}
+  /* Cards */
+  .stat-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
+  .stat-num{font-size:24px;}
+  /* Flashcard */
+  .flashcard{max-width:100%;}
+  .fc-question{font-size:15px;}
+  /* Quiz */
+  .quiz-wrap{max-width:100%;}
+  /* Player */
+  .player{max-width:100%;}
+  .step-h{font-size:15px;}
+  /* Percorsi grid */
+  .percorsi-grid{grid-template-columns:1fr 1fr;gap:10px;}
+  /* Tables */
+  table{font-size:11px;display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  /* Chip e badge */
+  .chip{font-size:9px;}
+  /* Domande */
+  .domanda-item{font-size:12px;}
+  /* Timer bar */
+  .timer-bar{display:none;}
+}
+
+@media(max-width:480px){
+  .logo-text{max-width:150px;font-size:13px;}
+  .tab{padding:9px 9px;font-size:11px;}
+  .percorsi-grid{grid-template-columns:1fr;}
+  .stat-grid{grid-template-columns:repeat(2,1fr);}
+  .player-header{gap:8px;}
+  .step-content{padding:16px;}
+}
 
 /* ── LOGIN OVERLAY ── */
 @keyframes loginFadeIn{from{opacity:0;transform:scale(1.01)}to{opacity:1;transform:scale(1)}}
@@ -93,12 +140,21 @@ table{width:100%;border-collapse:collapse;font-size:12px;}th{background:var(--su
 .login-btn:active{transform:translateY(0);}
 .login-footer-note{font-size:11px;color:#2a3050;text-align:center;line-height:1.6;}
 .login-mobile-brand{display:none;}
-@media(max-width:700px){
+@media(max-width:768px){
   .login-left{display:none;}
-  .login-right{width:100%;border-left:none;background:#07090f;padding:28px 20px 80px;}
+  .login-right{width:100%;border-left:none;background:#07090f;padding:32px 24px 80px;display:flex;align-items:flex-start;justify-content:center;padding-top:40px;}
+  .login-form-card{max-width:100%;width:100%;}
   .login-mobile-brand{display:block;}
-  .login-form-card{max-width:100%;}
-  .login-split{overflow-y:auto;}
+  .login-split{overflow-y:auto;min-height:100vh;}
+  .login-tagline{font-size:26px;}
+  /* Footer login su mobile: stack verticale */
+  .login-page-footer{flex-direction:column!important;align-items:flex-start!important;gap:4px!important;padding:10px 16px!important;}
+  .login-page-footer .lf-center{display:none!important;}
+  .login-page-footer .lf-right{display:none!important;}
+}
+@media(max-width:480px){
+  .login-right{padding:28px 18px 80px;}
+  .login-form-card h2{font-size:18px;}
 }
 </style>
 </head>
@@ -216,20 +272,16 @@ table{width:100%;border-collapse:collapse;font-size:12px;}th{background:var(--su
         <div id="loginError" class="login-error">Credenziali non valide. Riprova.</div>
 
         <button class="login-btn" onclick="doLogin()">Accedi →</button>
-
-        <div class="login-footer-note">
-          Powered by Atrium Edu &nbsp;·&nbsp; Uso didattico privato<br>
-          © 2026 Federico Orsini
-        </div>
       </div>
     </div>
 
     </div>
   <!-- footer nella login -->
-  <div style="position:absolute;bottom:0;left:0;right:0;background:#07090f;border-top:1px solid #1a1f35;padding:9px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px;font-family:'IBM Plex Sans',sans-serif;">
-    <div style="display:flex;align-items:center;gap:12px;white-space:nowrap;">
-      <div style="display:flex;align-items:center;gap:8px;background:#1a1e2e;border:1px solid #252d47;border-radius:7px;padding:4px 10px;">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" width="16" height="16" style="border-radius:3px;flex-shrink:0;">
+  <!-- footer identico a quello della dashboard -->
+  <div class="login-page-footer" style="position:absolute;bottom:0;left:0;right:0;z-index:10;background:#12161f;border-top:1px solid #2a3050;padding:11px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;box-shadow:0 -4px 20px rgba(0,0,0,.6);font-family:'IBM Plex Sans',sans-serif;">
+    <div style="display:flex;align-items:center;gap:10px;white-space:nowrap;flex-shrink:0;">
+      <div style="display:flex;align-items:center;gap:8px;background:#1a1e2e;border:1px solid #252d47;border-radius:7px;padding:5px 11px;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" width="18" height="18" style="border-radius:4px;flex-shrink:0;">
           <defs>
             <radialGradient id="lfbg2" cx="0.5" cy="0" r="1.15"><stop offset="0" stop-color="#2b3149"/><stop offset="0.46" stop-color="#161924"/><stop offset="1" stop-color="#0a0b11"/></radialGradient>
             <linearGradient id="lfacc2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#bcafff"/><stop offset="1" stop-color="#7d6bf0"/></linearGradient>
@@ -240,15 +292,15 @@ table{width:100%;border-collapse:collapse;font-size:12px;}th{background:var(--su
             <rect x="30" y="55" width="22" height="9" rx="4.5" fill="url(#lfacc2)"/>
           </g>
         </svg>
-        <span style="font-size:11px;font-weight:800;color:#d4d8f0;letter-spacing:.3px;">ATRIUM</span><span style="font-size:10px;font-weight:700;color:#9b8ff5;margin-left:3px;">EDU</span>
+        <span style="font-size:12px;font-weight:800;color:#d4d8f0;letter-spacing:.3px;">ATRIUM</span><span style="font-size:11px;font-weight:700;color:#9b8ff5;margin-left:3px;">EDU</span>
       </div>
       <span style="color:#2a3050;">|</span>
-      <span style="font-size:11px;color:#94a3b8;">© 2026 Federico Orsini, Pisa</span>
+      <span style="font-size:12px;color:#94a3b8;">© 2026 Federico Orsini, Pisa</span>
     </div>
-    <div style="font-size:11px;color:#64748b;text-align:center;line-height:1.5;">
+    <div class="lf-center" style="font-size:11px;color:#94a3b8;text-align:center;line-height:1.5;">
       Elaborato personale a uso esclusivamente didattico e privato &nbsp;·&nbsp; Vietata la riproduzione o distribuzione senza consenso scritto dell'autore
     </div>
-    <div style="font-size:11px;color:#3d4f70;white-space:nowrap;">
+    <div class="lf-right" style="font-size:11px;color:#64748b;white-space:nowrap;">
       Tutti i diritti riservati &nbsp;·&nbsp; Art. 70 L. 633/1941
     </div>
   </div>
