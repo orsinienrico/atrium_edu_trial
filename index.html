@@ -414,7 +414,22 @@ var LS=(function(){try{var t='__t';window.localStorage.setItem(t,'1');window.loc
 
 const SH={};
 
-SH.home=`<div class="stat-grid">
+const MORALE=[
+  {e:"🏛️", t:"Oggi si studia l'Acropoli", b:"Perché andarci in vacanza quando puoi studiarla alle 2 di notte?"},
+  {e:"😤", t:"Il Partenone non si costruì in un giorno", b:"Ma l'esame sì. Cioè no. Comunque, in bocca al lupo."},
+  {e:"🐌", t:"Piano piano si va lontano", b:"Anche Fidia ci mise anni. Tu hai meno tempo, però lui non aveva Netflix."},
+  {e:"🫠", t:"La sezione aurea non mente mai", b:"Purtroppo non può aiutarti con le date. Quelle devi impararle tu."},
+  {e:"☕", t:"Un caffè, un colonnato, un sogno", b:"Gli ordini architettonici sono solo 5. Il tuo caffè è già il terzo. Equilibrio."},
+  {e:"🎯", t:"Mira al capitello, non al fusto", b:"Ovvero: studia i dettagli che fa domande sui dettagli."},
+  {e:"🤌", t:"Gli antichi greci studiavano senza Notion", b:"E guarda com'è andata. Imita il metodo, non l'abbigliamento."},
+  {e:"😅", t:"L'Ellenismo fu un periodo di diffusione culturale", b:"Anche tu stai diffondendo cultura. Nel panico pre-esame."},
+  {e:"🏺", t:"Ogni edificio ha una storia", b:"La tua storia è: apertura app → studio → crollo → ripeti. Nobile percorso."},
+  {e:"🧱", t:"Mattone dopo mattone", b:"Così costruivano i Romani. Così studi tu. Lentamente ma (forse) solidamente."},
+  {e:"🌅", t:"L'alba della civiltà occidentale ti aspetta", b:"E anche la prof.ssa Ulivieri. Con un registro."},
+  {e:"📐", t:"La proporzione è tutto", b:"Anche tra ore di studio e ore di sonno. Attualmente il rapporto non è aureo."},
+];
+
+SH.home=`<div id="moraleBox"></div><div class="stat-grid">
   <div class="stat-card"><div class="stat-num green" id="s-done">0</div><div class="stat-label">Topic completati</div></div>
   <div class="stat-card"><div class="stat-num yellow">3</div><div class="stat-label">Periodi storici</div></div>
   <div class="stat-card"><div class="stat-num blue">18</div><div class="stat-label">Edifici chiave</div></div>
@@ -1263,6 +1278,8 @@ function showSection(btn, id){
 }
 
 function renderHome(){
+  const mb=document.getElementById('moraleBox');
+  if(mb){const m=MORALE[Math.floor(Math.random()*MORALE.length)];mb.innerHTML=`<div class="morale-box"><div class="morale-emoji">${m.e}</div><div><div class="morale-title">${m.t}</div><div class="morale-text">${m.b}</div></div></div>`;}
   const tl=document.getElementById('topicList');
   if(!tl) return;
   tl.innerHTML='';
